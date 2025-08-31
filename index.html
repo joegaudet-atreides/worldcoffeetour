@@ -1,0 +1,629 @@
+---
+layout: default
+title: World Coffee Tour Map
+---
+
+<div class="background-slideshow">
+    {% for post in site.coffee_posts %}
+        {% if post.image_url %}
+        <div class="slide" style="background-image: url('{{ post.image_url }}')"></div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+<div class="hero-section">
+    <h1 class="hero-title">{{ site.title }}</h1>
+    <p class="hero-subtitle">{{ site.description }}</p>
+</div>
+
+<div id="map" class="main-map"></div>
+<div id="sticky-map" class="sticky-map" style="display: none;">
+    <div class="sticky-map-header">
+        <div class="mobile-handle"></div>
+        <div class="map-title">Interactive Map</div>
+    </div>
+    <div id="sticky-map-container"></div>
+</div>
+
+<div class="filter-controls">
+    <button class="filter-btn active" data-continent="all">All Continents</button>
+    <button class="filter-btn" data-continent="north-america">North America</button>
+    <button class="filter-btn" data-continent="south-america">South America</button>
+    <button class="filter-btn" data-continent="europe">Europe</button>
+    <button class="filter-btn" data-continent="asia">Asia</button>
+    <button class="filter-btn" data-continent="africa">Africa</button>
+    <button class="filter-btn" data-continent="oceania">Oceania</button>
+</div>
+
+{% assign posts_by_continent = site.coffee_posts | group_by: 'continent' | sort: 'name' %}
+
+<div class="content-wrapper">
+    <div class="posts-content">
+        {% for continent in posts_by_continent %}
+        <section class="continent-section" data-continent="{{ continent.name | downcase | replace: ' ', '-' }}">
+            <h1 class="continent-title">{{ continent.name }}</h1>
+    
+    {% assign posts_by_country = continent.items | group_by: 'country' | sort: 'name' %}
+    
+    {% for country in posts_by_country %}
+    <div class="country-section">
+        <h2 class="country-title">{{ country.name }}</h2>
+        
+        {% assign posts_by_city = country.items | group_by: 'city' | sort: 'name' %}
+        
+        {% for city in posts_by_city %}
+        <div class="city-section">
+            <h3 class="city-title">📍 {{ city.name }}</h3>
+            
+            <div class="coffee-grid">
+                {% assign sorted_posts = city.items | sort: 'date' | reverse %}
+                {% for post in sorted_posts %}
+                <a href="{{ post.url | relative_url }}" class="coffee-card" data-lat="{{ post.latitude }}" data-lng="{{ post.longitude }}">
+                    {% if post.image_url %}
+                    <img src="{{ post.image_url }}" alt="{{ post.title }}" class="coffee-card-image" loading="lazy">
+                    {% else %}
+                    <div class="coffee-card-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; font-size: 3rem;">☕</div>
+                    {% endif %}
+                    <div class="coffee-card-content">
+                        {% if post.cafe_name %}
+                        <h3 class="coffee-card-title">{{ post.cafe_name }}</h3>
+                        {% if post.title %}
+                        <p class="coffee-card-description">{{ post.title }}</p>
+                        {% endif %}
+                        {% else %}
+                        <h3 class="coffee-card-title">{{ post.title }}</h3>
+                        {% endif %}
+                        <div class="coffee-card-meta">
+                            {% if post.latitude and post.longitude %}
+                            <span class="coffee-card-location">🌍 {{ post.latitude | round: 4 }}, {{ post.longitude | round: 4 }}</span>
+                            {% endif %}
+                            <span>{{ post.date | date: "%b %Y" }}</span>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+        
+    </div>
+    {% endfor %}
+        
+        </section>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- If no posts yet, show placeholder -->
+{% if site.coffee_posts.size == 0 %}
+<div class="no-posts">
+    <h2>Coffee adventures coming soon...</h2>
+    <p>Posts tagged with #worldcoffeetour will appear here</p>
+</div>
+{% endif %}
+
+<script>
+// Pass coffee posts data to JavaScript
+const coffeePostsData = [
+    {% for post in site.coffee_posts %}
+    {
+        title: "{{ post.title | escape }}",
+        url: "{{ post.url | relative_url }}",
+        city: "{{ post.city | escape }}",
+        country: "{{ post.country | escape }}",
+        continent: "{{ post.continent | escape }}",
+        latitude: {{ post.latitude | default: 'null' }},
+        longitude: {{ post.longitude | default: 'null' }}
+    }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+];
+
+// Split pane and map functionality
+let mainMap, stickyMap;
+let isSticky = false;
+let currentHoveredCard = null;
+
+document.addEventListener('DOMContentLoaded', function() {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const continentSections = document.querySelectorAll('.continent-section');
+    const mainMapEl = document.getElementById('map');
+    const stickyMapEl = document.getElementById('sticky-map');
+    const contentWrapper = document.querySelector('.content-wrapper');
+    
+    // Initialize intersection observer for sticky map
+    const mapObserver = new IntersectionObserver(
+        (entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting && !isSticky) {
+                    // Main map is out of view, show sticky map
+                    showStickyMap();
+                } else if (entry.isIntersecting && isSticky) {
+                    // Main map is back in view, hide sticky map
+                    hideStickyMap();
+                }
+            });
+        },
+        { threshold: 0.1 }
+    );
+    
+    mapObserver.observe(mainMapEl);
+    
+    // Initialize intersection observer for auto-zooming to regions
+    const sectionObserver = new IntersectionObserver(
+        (entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && entry.intersectionRatio > 0.5 && isSticky) {
+                    const section = entry.target;
+                    const continent = section.dataset.continent;
+                    zoomToRegion(continent);
+                }
+            });
+        },
+        { threshold: 0.5, rootMargin: '-20% 0px -20% 0px' }
+    );
+    
+    continentSections.forEach(section => {
+        sectionObserver.observe(section);
+    });
+    
+    // Card hover functionality
+    document.addEventListener('mouseover', function(e) {
+        const card = e.target.closest('.coffee-card');
+        if (card && isSticky) {
+            const latitude = parseFloat(card.dataset.lat);
+            const longitude = parseFloat(card.dataset.lng);
+            if (latitude && longitude && stickyMap) {
+                currentHoveredCard = { lat: latitude, lng: longitude };
+                stickyMap.setView([latitude, longitude], 15);
+            }
+        }
+    });
+    
+    document.addEventListener('mouseout', function(e) {
+        const card = e.target.closest('.coffee-card');
+        if (card && currentHoveredCard) {
+            currentHoveredCard = null;
+            // Return to region view after a delay
+            setTimeout(() => {
+                if (!currentHoveredCard && isSticky) {
+                    const visibleSection = getVisibleSection();
+                    if (visibleSection) {
+                        zoomToRegion(visibleSection.dataset.continent);
+                    }
+                }
+            }, 500);
+        }
+    });
+    
+    // Filter functionality
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const continent = this.dataset.continent;
+            
+            // Update active button
+            filterBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Show/hide continents
+            if (continent === 'all') {
+                continentSections.forEach(section => {
+                    section.style.display = 'block';
+                });
+            } else {
+                continentSections.forEach(section => {
+                    if (section.dataset.continent === continent) {
+                        section.style.display = 'block';
+                    } else {
+                        section.style.display = 'none';
+                    }
+                });
+            }
+        });
+    });
+    
+    // Resize handler
+    window.addEventListener('resize', function() {
+        if (isSticky && stickyMap) {
+            // Invalidate map size when switching between desktop/mobile
+            setTimeout(() => {
+                stickyMap.invalidateSize();
+            }, 100);
+        }
+    });
+});
+
+function showStickyMap() {
+    if (isSticky) return;
+    
+    const stickyMapEl = document.getElementById('sticky-map');
+    const contentWrapper = document.querySelector('.content-wrapper');
+    
+    stickyMapEl.style.display = 'block';
+    contentWrapper.classList.add('split-pane');
+    
+    // Initialize sticky map
+    setTimeout(() => {
+        if (!stickyMap) {
+            stickyMap = L.map('sticky-map-container').setView([20, 0], 2);
+            
+            // Use same dark tiles as main map
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                subdomains: 'abcd',
+                maxZoom: 20
+            }).addTo(stickyMap);
+            
+            // Create custom coffee icon to match main map
+            const coffeeIcon = L.divIcon({
+                html: '<div style="background: #d4a574; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #0a0a0a; font-size: 16px; box-shadow: 0 2px 6px rgba(212, 165, 116, 0.4);">☕</div>',
+                iconSize: [30, 30],
+                className: 'coffee-marker'
+            });
+            
+            // Add all coffee posts to sticky map
+            coffeePostsData.forEach(post => {
+                if (post.latitude && post.longitude) {
+                    const marker = L.marker([post.latitude, post.longitude], { icon: coffeeIcon }).addTo(stickyMap);
+                    marker.bindPopup(`
+                        <div style="text-align: center; min-width: 150px; color: #fff;">
+                            <strong>${post.title}</strong><br>
+                            ${post.city}, ${post.country}<br>
+                            <a href="${post.url}" style="color: #d4a574;">View Post →</a>
+                        </div>
+                    `);
+                }
+            });
+        }
+        
+        stickyMap.invalidateSize();
+        isSticky = true;
+        
+        // Zoom to current visible section
+        const visibleSection = getVisibleSection();
+        if (visibleSection) {
+            zoomToRegion(visibleSection.dataset.continent);
+        }
+    }, 100);
+}
+
+function hideStickyMap() {
+    if (!isSticky) return;
+    
+    const stickyMapEl = document.getElementById('sticky-map');
+    const contentWrapper = document.querySelector('.content-wrapper');
+    
+    stickyMapEl.style.display = 'none';
+    contentWrapper.classList.remove('split-pane');
+    isSticky = false;
+}
+
+function getVisibleSection() {
+    const sections = document.querySelectorAll('.continent-section');
+    for (const section of sections) {
+        const rect = section.getBoundingClientRect();
+        if (rect.top < window.innerHeight * 0.6 && rect.bottom > window.innerHeight * 0.4) {
+            return section;
+        }
+    }
+    return null;
+}
+
+function zoomToRegion(continent) {
+    if (!stickyMap || currentHoveredCard) return;
+    
+    const regionPosts = coffeePostsData.filter(post => 
+        post.continent.toLowerCase().replace(/\s/g, '-') === continent && 
+        post.latitude && post.longitude
+    );
+    
+    if (regionPosts.length > 0) {
+        const group = new L.featureGroup(regionPosts.map(post => 
+            L.marker([post.latitude, post.longitude])
+        ));
+        stickyMap.fitBounds(group.getBounds().pad(0.1));
+    }
+}
+</script>
+
+<style>
+/* Split Pane Layout */
+.content-wrapper {
+    width: 100%;
+}
+
+.content-wrapper.split-pane {
+    display: flex;
+    gap: 2rem;
+    max-width: none;
+    margin: 0;
+    padding: 2rem;
+}
+
+.content-wrapper.split-pane .posts-content {
+    flex: 1;
+    max-width: 60%;
+    overflow-y: auto;
+}
+
+.sticky-map {
+    position: fixed;
+    top: 120px;
+    right: 2rem;
+    width: 35%;
+    height: calc(100vh - 140px);
+    z-index: 100;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow-hover);
+    border: 1px solid var(--border-color);
+}
+
+#sticky-map-container {
+    width: 100%;
+    height: calc(100% - 40px);
+}
+
+.sticky-map-header {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(26, 26, 26, 0.95);
+    border-bottom: 1px solid var(--border-color);
+    position: relative;
+}
+
+.mobile-handle {
+    width: 40px;
+    height: 4px;
+    background: var(--border-color);
+    border-radius: 2px;
+    display: none;
+}
+
+.map-title {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+    .sticky-map {
+        position: fixed;
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 40vh;
+        border-radius: 12px 12px 0 0;
+        box-shadow: 0 -4px 16px rgba(0,0,0,0.6);
+    }
+    
+    .content-wrapper.split-pane {
+        display: block;
+        padding-bottom: 40vh;
+    }
+    
+    .content-wrapper.split-pane .posts-content {
+        max-width: 100%;
+    }
+    
+    .mobile-handle {
+        display: block;
+        position: absolute;
+        top: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .map-title {
+        display: none;
+    }
+    
+    .sticky-map-header {
+        height: 24px;
+        background: rgba(26, 26, 26, 0.95);
+        backdrop-filter: blur(10px);
+    }
+    
+    #sticky-map-container {
+        height: calc(100% - 24px);
+    }
+}
+
+/* Background Slideshow */
+.background-slideshow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    animation: slideshow 30s infinite;
+    will-change: opacity;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+{% assign total_posts = site.coffee_posts | size %}
+{% if total_posts > 0 %}
+    {% for i in (1..total_posts) %}
+    .slide:nth-child({{ i }}) {
+        animation-delay: {{ i | minus: 1 | times: 30 | divided_by: total_posts }}s;
+    }
+    {% endfor %}
+{% endif %}
+
+@keyframes slideshow {
+    0% { opacity: 0; }
+    8% { opacity: 0.3; }
+    25% { opacity: 0.3; }
+    33% { opacity: 0; }
+    100% { opacity: 0; }
+}
+
+.slide::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, 
+        rgba(10, 10, 10, 0.4) 0%, 
+        rgba(10, 10, 10, 0.6) 50%, 
+        rgba(10, 10, 10, 0.8) 100%);
+}
+
+.hero-section {
+    text-align: center;
+    padding: 3rem 0;
+    position: relative;
+    z-index: 1;
+}
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: 300;
+    letter-spacing: -1px;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.hero-subtitle {
+    color: var(--text-light);
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+#map {
+    opacity: 0.95;
+    border: 1px solid var(--border-color);
+}
+
+.coffee-grid {
+    position: relative;
+    z-index: 1;
+}
+
+.region-section {
+    position: relative;
+    z-index: 1;
+}
+
+.filter-controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 3rem 0;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 0.5rem 1.5rem;
+    background: rgba(26, 26, 26, 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    border-radius: 25px;
+    color: var(--primary-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+.filter-btn:hover {
+    background: rgba(212, 165, 116, 0.2);
+    border-color: var(--accent-color);
+}
+
+.filter-btn.active {
+    background: var(--accent-color);
+    color: var(--bg-color);
+    border-color: var(--accent-color);
+}
+
+.no-posts {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--text-light);
+}
+
+.no-posts h2 {
+    font-weight: 300;
+    margin-bottom: 1rem;
+}
+
+.continent-title {
+    font-size: 2.2rem;
+    font-weight: 300;
+    color: var(--accent-color);
+    margin: 3rem 0 2rem 0;
+    text-align: center;
+    letter-spacing: -0.5px;
+}
+
+.country-section {
+    margin: 2rem 0;
+    border-left: 3px solid var(--accent-color);
+    padding-left: 2rem;
+}
+
+.country-title {
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: var(--primary-color);
+    margin: 1.5rem 0 1rem 0;
+    opacity: 0.9;
+}
+
+.city-section {
+    margin: 1.5rem 0;
+    padding-left: 1rem;
+    border-left: 2px solid var(--border-color);
+}
+
+.city-title {
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: var(--text-light);
+    margin: 1rem 0 1rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .filter-controls {
+        padding: 0 1rem;
+    }
+    
+    .filter-btn {
+        font-size: 0.85rem;
+        padding: 0.4rem 1rem;
+    }
+}
+</style>

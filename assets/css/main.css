@@ -1,0 +1,462 @@
+:root {
+    --primary-color: #ffffff;
+    --accent-color: #d4a574;
+    --bg-color: #0a0a0a;
+    --card-bg: #1a1a1a;
+    --text-light: #a0a0a0;
+    --border-color: #2a2a2a;
+    --shadow: 0 2px 8px rgba(0,0,0,0.4);
+    --shadow-hover: 0 4px 16px rgba(0,0,0,0.6);
+    --overlay-dark: rgba(0, 0, 0, 0.7);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: var(--primary-color);
+    background: var(--bg-color);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+.site-header {
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    background: rgba(26, 26, 26, 0.95);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.site-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: var(--primary-color);
+    font-weight: 500;
+    font-size: 1.25rem;
+    transition: opacity 0.3s ease;
+}
+
+.site-title:hover {
+    opacity: 0.7;
+}
+
+.coffee-icon {
+    font-size: 1.5rem;
+    filter: brightness(1.2) sepia(1) saturate(1.5) hue-rotate(10deg);
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-links a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 400;
+    transition: color 0.3s ease;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+}
+
+.nav-links a:hover {
+    color: var(--accent-color);
+}
+
+.instagram-icon {
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    width: 100%;
+}
+
+/* Map */
+#map {
+    height: 400px;
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    margin-bottom: 3rem;
+    border: 1px solid var(--border-color);
+    position: relative;
+}
+
+#map::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    border-radius: 12px;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Region Sections */
+.region-section {
+    margin-bottom: 4rem;
+}
+
+.region-title {
+    font-size: 1.75rem;
+    font-weight: 300;
+    margin-bottom: 2rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--border-color);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Coffee Grid */
+.coffee-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.coffee-card {
+    background: var(--card-bg);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: var(--shadow);
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.coffee-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+}
+
+.coffee-card-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.coffee-card-content {
+    padding: 1.5rem;
+}
+
+.coffee-card-title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+}
+
+.coffee-card-description {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin: 0.5rem 0;
+    line-height: 1.4;
+    opacity: 0.9;
+}
+
+.coffee-card-meta {
+    display: flex;
+    justify-content: space-between;
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin-top: 0.75rem;
+}
+
+.coffee-card-location {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+/* Post Page */
+.coffee-post {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.post-header {
+    margin-bottom: 2rem;
+}
+
+.back-link {
+    color: var(--text-light);
+    text-decoration: none;
+    font-size: 0.95rem;
+    display: inline-block;
+    margin-bottom: 1rem;
+    transition: color 0.3s ease;
+}
+
+.back-link:hover {
+    color: var(--accent-color);
+}
+
+.post-title {
+    font-size: 2.5rem;
+    font-weight: 300;
+    margin-bottom: 1rem;
+    letter-spacing: -0.5px;
+}
+
+.post-meta {
+    display: flex;
+    gap: 2rem;
+    color: var(--text-light);
+    font-size: 0.95rem;
+}
+
+.post-image {
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.post-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Image gallery for multiple photos */
+.post-images-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.gallery-image {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.gallery-image img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.gallery-image:hover img {
+    transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+    .post-images-gallery {
+        grid-template-columns: 1fr;
+    }
+    
+    .gallery-image img {
+        height: 300px;
+    }
+}
+
+.instagram-embed {
+    margin: 2rem 0;
+    display: flex;
+    justify-content: center;
+}
+
+.post-details {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    border: 1px solid var(--border-color);
+}
+
+.detail-item {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+}
+
+.detail-item:last-child {
+    margin-bottom: 0;
+}
+
+.detail-item strong {
+    font-weight: 500;
+    min-width: 100px;
+    color: var(--text-light);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Cafe name specific styling */
+.detail-item.cafe-name {
+    margin-bottom: 1.5rem;
+}
+
+.detail-item.cafe-name strong {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--accent-color);
+    text-transform: none;
+    letter-spacing: normal;
+    min-width: unset;
+    display: block;
+}
+
+.rating {
+    filter: sepia(1) saturate(2) hue-rotate(25deg);
+    letter-spacing: 2px;
+}
+
+.notes p {
+    margin-top: 0.5rem;
+    line-height: 1.8;
+    color: var(--primary-color);
+}
+
+#post-map {
+    height: 300px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+    position: relative;
+}
+
+#post-map::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    border-radius: 12px;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Leaflet popup styling for dark mode */
+.leaflet-popup-content-wrapper {
+    background: var(--card-bg);
+    color: var(--primary-color);
+    border-radius: 8px;
+    box-shadow: 0 3px 14px rgba(0,0,0,0.6);
+}
+
+.leaflet-popup-tip {
+    background: var(--card-bg);
+}
+
+.leaflet-popup-close-button {
+    color: var(--text-light) !important;
+}
+
+.leaflet-popup-close-button:hover {
+    color: var(--primary-color) !important;
+}
+
+/* Footer */
+.site-footer {
+    background: var(--card-bg);
+    border-top: 1px solid var(--border-color);
+    padding: 2rem;
+    text-align: center;
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin-top: 4rem;
+}
+
+/* Loading State */
+.loading {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-light);
+}
+
+.loading:after {
+    content: '☕';
+    display: inline-block;
+    animation: spin 2s linear infinite;
+    font-size: 2rem;
+    margin-top: 1rem;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .nav-container {
+        padding: 1rem;
+    }
+    
+    .site-title {
+        font-size: 1.1rem;
+    }
+    
+    .nav-links {
+        gap: 1.5rem;
+    }
+    
+    .main-content {
+        padding: 1rem;
+    }
+    
+    #map {
+        height: 300px;
+    }
+    
+    .coffee-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .post-title {
+        font-size: 2rem;
+    }
+    
+    .post-meta {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .detail-item {
+        flex-direction: column;
+    }
+}

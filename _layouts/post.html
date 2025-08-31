@@ -1,0 +1,67 @@
+---
+layout: default
+---
+
+<article class="coffee-post">
+    <div class="post-header">
+        <a href="{{ '/' | relative_url }}" class="back-link">← Back to Map</a>
+        {% if page.cafe_name %}
+        <h1 class="post-title cafe-title">{{ page.cafe_name }}</h1>
+        {% else %}
+        <h1 class="post-title">{{ page.title }}</h1>
+        {% endif %}
+        <div class="post-meta">
+            <span class="location">📍 {{ page.city }}, {{ page.country }}</span>
+            <span class="date">{{ page.date | date: "%B %d, %Y" }}</span>
+        </div>
+    </div>
+
+    <div class="post-content">
+        {% if page.instagram_url %}
+        <div class="instagram-embed">
+            <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="{{ page.instagram_url }}" data-instgrm-version="14">
+            </blockquote>
+        </div>
+        {% endif %}
+
+        {% if page.images and page.images.size > 1 %}
+        <div class="post-images-gallery">
+            {% for image in page.images %}
+            <div class="gallery-image">
+                <img src="{{ image }}" alt="{{ page.title }}" loading="lazy">
+            </div>
+            {% endfor %}
+        </div>
+        {% elsif page.image_url %}
+        <div class="post-image">
+            <img src="{{ page.image_url }}" alt="{{ page.title }}" loading="lazy">
+        </div>
+        {% endif %}
+
+        <!-- Description -->
+        {% if page.notes %}
+        <div class="post-description">
+            <p>{{ page.notes }}</p>
+        </div>
+        {% endif %}
+
+        <!-- Map -->
+        <div class="post-map" id="post-map" data-lat="{{ page.latitude }}" data-lng="{{ page.longitude }}" data-title="{{ page.title }}"></div>
+        
+        <!-- Additional Details -->
+        <div class="post-details">
+            {% if page.rating %}
+            <div class="detail-item">
+                <strong>Rating:</strong> 
+                <span class="rating">
+                    {% for i in (1..5) %}
+                        {% if i <= page.rating %}☕{% else %}☕{% endif %}
+                    {% endfor %}
+                </span>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</article>
+
+<script async src="//www.instagram.com/embed.js"></script>

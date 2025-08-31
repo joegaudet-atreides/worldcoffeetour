@@ -1,0 +1,19 @@
+{
+  "_readme": "This file contains manual corrections for coffee posts. The processing script will apply these corrections and not overwrite them.",
+  "_format": "The keys are post URLs (without leading/trailing slashes), values are correction objects with any post fields to override.",
+  "_example": {
+    "coffee/2024-11-16-example-post": {
+      "cafe_name": "Manual Cafe Name",
+      "city": "Corrected City",
+      "country": "Corrected Country",
+      "continent": "Corrected Continent",
+      "latitude": 43.6532,
+      "longitude": -79.3832,
+      "notes": "Manually corrected description",
+      "rating": 4
+    }
+  },
+  "coffee/2025-08-21-latergram-post-from-our-last-d-1755822235": {
+    "cafe_name": "Pace Coffee"
+  }
+}

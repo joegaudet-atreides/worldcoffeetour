@@ -1,0 +1,33 @@
+title: World Coffee Tour
+author: Joe Gaudet
+email: 
+description: >-
+  A minimalist journey through the world's coffee culture, 
+  one cup at a time.
+baseurl: ""
+url: "https://worldcoffeetour.joegaudet.com"
+instagram_username: joegaudet
+
+# Build settings
+markdown: kramdown
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Collections
+collections:
+  coffee_posts:
+    output: true
+    permalink: /coffee/:path/
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - README.md
+  - CLAUDE.md
