@@ -12,7 +12,7 @@ permalink: /about/
         <p>
             Years ago, my friend <a href="https://www.instagram.com/jamesgolick" target="_blank" rel="noopener">James Golick</a> 
             passed away tragically. Among the many things that James was, he was a lover of coffee. 
-            What started as a way to honor a friend who passed away, became a way to explore the world, one cup of coffee at a time. As the song says, these are a few of my favorite things.
+            What started as a way to honor a friend, became a way to explore the world, one cup of coffee at a time. As the song says, these are a few of my favorite things.
         </p>
         <p>&nbsp;</p> 
         <p>

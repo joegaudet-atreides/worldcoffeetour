@@ -73,16 +73,22 @@
         const closeMobileNav = document.getElementById('close-mobile-nav');
         const body = document.body;
         
+        let scrollPosition = 0;
+        
         if (burgerMenu && mobileNav) {
             burgerMenu.addEventListener('click', function() {
+                scrollPosition = window.pageYOffset;
                 mobileNav.classList.add('open');
                 body.classList.add('mobile-scroll-disabled');
+                body.style.top = `-${scrollPosition}px`;
             });
             
             if (closeMobileNav) {
                 closeMobileNav.addEventListener('click', function() {
                     mobileNav.classList.remove('open');
                     body.classList.remove('mobile-scroll-disabled');
+                    body.style.top = '';
+                    window.scrollTo(0, scrollPosition);
                 });
             }
             
@@ -91,6 +97,8 @@
                 if (!mobileNav.contains(e.target) && !burgerMenu.contains(e.target) && mobileNav.classList.contains('open')) {
                     mobileNav.classList.remove('open');
                     body.classList.remove('mobile-scroll-disabled');
+                    body.style.top = '';
+                    window.scrollTo(0, scrollPosition);
                 }
             });
             

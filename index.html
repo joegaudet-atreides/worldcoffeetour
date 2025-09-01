@@ -21,15 +21,8 @@ title: World Coffee Tour Map
     <button class="filter-btn" data-continent="oceania">Oceania</button>
 </div>
 
-{% comment %} Filter posts with valid location data {% endcomment %}
+{% comment %} Show all posts, even with Unknown locations {% endcomment %}
 {% assign valid_posts = site.coffee_posts %}
-{% assign filtered_posts = "" | split: "" %}
-{% for post in valid_posts %}
-  {% if post.latitude and post.longitude and post.city != "Unknown" and post.country != "Unknown" and post.continent != "World" %}
-    {% assign filtered_posts = filtered_posts | push: post %}
-  {% endif %}
-{% endfor %}
-{% assign valid_posts = filtered_posts %}
 {% assign posts_by_continent = valid_posts | group_by: 'continent' | sort: 'name' %}
 
 <div class="content-wrapper">
@@ -184,7 +177,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize state based on current scroll position (for page refresh)
     setTimeout(() => {
-        updateMapAnimation();
+        if (!isMobileDevice()) {
+            updateMapAnimation();
+        }
     }, 100);
     
     // Mobile detection
@@ -203,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!ticking) {
             requestAnimationFrame(() => {
                 if (isMobileDevice()) {
-                    updateMapAnimationMobile();
+                    // On mobile, map stays as hero - no animation
                 } else {
                     updateMapAnimation();
                 }
@@ -218,7 +213,7 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('resize', () => {
         updateScrollThreshold();
         if (isMobileDevice()) {
-            updateMapAnimationMobile();
+            // On mobile, map stays as hero - no animation
         } else {
             updateMapAnimation();
         }
@@ -424,103 +419,7 @@ function updateMapAnimation() {
     }
 }
 
-function updateMapAnimationMobile() {
-    const mapContainer = document.getElementById('map-container');
-    if (!mapContainer) return;
-    
-    const scrollY = window.scrollY;
-    const scrollThreshold = mapOriginalRect.top - headerHeight - targetPadding;
-    
-    console.log('Mobile scroll animation - scrollY:', scrollY, 'threshold:', scrollThreshold);
-    
-    if (scrollY >= scrollThreshold) {
-        // Fix map under toolbar
-        if (!isSticky) {
-            isSticky = true;
-            mapContainer.classList.add('mobile-fixed');
-            
-            // Add stow button if not exists
-            if (!document.getElementById('mobile-map-stow')) {
-                const stowButton = document.createElement('button');
-                stowButton.id = 'mobile-map-stow';
-                stowButton.innerHTML = '▼';
-                stowButton.className = 'mobile-stow-btn';
-                stowButton.onclick = toggleMobileMap;
-                mapContainer.appendChild(stowButton);
-            }
-            
-            // Set map to fixed position under toolbar
-            mapContainer.style.position = 'fixed';
-            mapContainer.style.top = `${headerHeight}px`;
-            mapContainer.style.left = '50%';
-            mapContainer.style.transform = 'translateX(-50%)';
-            mapContainer.style.width = '90%';
-            mapContainer.style.maxWidth = '500px';
-            mapContainer.style.height = '300px';
-            mapContainer.style.zIndex = '100';
-            mapContainer.style.borderRadius = '12px';
-            mapContainer.style.boxShadow = '0 4px 20px rgba(0,0,0,0.3)';
-            mapContainer.style.border = '2px solid var(--border-color)';
-            mapContainer.style.background = 'var(--card-bg)';
-            
-            // Invalidate map size after position change
-            if (mainMap) {
-                setTimeout(() => mainMap.invalidateSize(), 100);
-            }
-        }
-    } else {
-        // Unfix map
-        if (isSticky) {
-            isSticky = false;
-            mapContainer.classList.remove('mobile-fixed', 'mobile-stowed');
-            
-            // Remove stow button
-            const stowButton = document.getElementById('mobile-map-stow');
-            if (stowButton) {
-                stowButton.remove();
-            }
-            
-            // Reset styles
-            mapContainer.style.position = '';
-            mapContainer.style.top = '';
-            mapContainer.style.left = '';
-            mapContainer.style.transform = '';
-            mapContainer.style.width = '';
-            mapContainer.style.maxWidth = '';
-            mapContainer.style.height = '';
-            mapContainer.style.zIndex = '';
-            mapContainer.style.borderRadius = '';
-            mapContainer.style.boxShadow = '';
-            mapContainer.style.border = '';
-            mapContainer.style.background = '';
-            
-            if (mainMap) {
-                setTimeout(() => mainMap.invalidateSize(), 100);
-            }
-        }
-    }
-}
-
-function toggleMobileMap() {
-    const mapContainer = document.getElementById('map-container');
-    const stowButton = document.getElementById('mobile-map-stow');
-    const isStowed = mapContainer.classList.contains('mobile-stowed');
-    
-    if (isStowed) {
-        // Show map
-        mapContainer.classList.remove('mobile-stowed');
-        mapContainer.style.height = '300px';
-        stowButton.innerHTML = '▼';
-        if (mainMap) {
-            setTimeout(() => mainMap.invalidateSize(), 300);
-        }
-    } else {
-        // Stow map
-        mapContainer.classList.add('mobile-stowed');
-        mapContainer.style.height = '40px';
-        stowButton.innerHTML = '▲';
-    }
-}
+// Mobile map animation removed - map stays as hero on mobile
 
 function updateBreadcrumb() {
     const visibleSection = getMostVisibleSection();
@@ -920,58 +819,13 @@ function zoomToCity(cityName) {
 @media (max-width: 768px) {
     .content-wrapper {
         width: 100%;
-        padding-bottom: 40vh;
     }
     
-    #map.sticky-right {
-        position: fixed;
-        top: auto;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
-        height: 40vh;
-        max-height: 40vh;
-        border-radius: 12px 12px 0 0;
-        box-shadow: 0 -4px 16px rgba(0,0,0,0.6);
+    #map {
+        /* Map stays in hero position on mobile */
+        height: 300px !important;
+        margin: 1.5rem !important;
     }
-}
-
-/* Mobile map styles */
-.mobile-stow-btn {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background: var(--accent-color);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    font-size: 12px;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-    z-index: 101;
-    transition: all 0.2s ease;
-}
-
-.mobile-stow-btn:hover {
-    background: var(--accent-hover);
-    transform: scale(1.1);
-}
-
-.mobile-fixed {
-    transition: height 0.3s ease, transform 0.3s ease;
-}
-
-.mobile-stowed {
-    overflow: hidden;
-}
-
-.mobile-stowed #map {
-    height: 0 !important;
-    opacity: 0;
-    transition: opacity 0.3s ease;
 }
 
 /* Mobile responsive section styling */
