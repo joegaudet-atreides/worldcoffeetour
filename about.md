@@ -117,6 +117,10 @@ permalink: /about/
 }
 
 @media (max-width: 768px) {
+    .about-page {
+        padding: 2rem 1.5rem;
+    }
+    
     .about-page h1 {
         font-size: 2rem;
     }
@@ -128,6 +132,8 @@ permalink: /about/
     .coffee-stats {
         grid-template-columns: 1fr;
         gap: 1.5rem;
+        margin-left: -0.5rem;
+        margin-right: -0.5rem;
     }
 }
 </style>

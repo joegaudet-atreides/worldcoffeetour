@@ -561,6 +561,7 @@ body {
     }
     
     .mobile-nav {
+        display: flex;
         position: fixed;
         top: 0;
         right: -100%;
@@ -571,7 +572,6 @@ body {
         padding: 2rem 1.5rem;
         transition: right 0.3s ease;
         z-index: 1001;
-        display: flex;
         flex-direction: column;
         gap: 2rem;
     }

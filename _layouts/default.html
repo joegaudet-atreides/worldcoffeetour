@@ -26,7 +26,7 @@
                 </div>
             </a>
             <div class="nav-links">
-                <a href="{{ '/' | relative_url }}">Map</a>
+                <a href="{{ '/' | relative_url }}">The Tour</a>
                 {% if jekyll.environment == "development" %}
                 <a href="{{ '/admin.html' | relative_url }}">Admin</a>
                 {% endif %}
@@ -45,7 +45,7 @@
         <!-- Mobile Navigation -->
         <nav class="mobile-nav" id="mobile-nav">
             <button class="close-btn" id="close-mobile-nav">×</button>
-            <a href="{{ '/' | relative_url }}">Map</a>
+            <a href="{{ '/' | relative_url }}">The Tour</a>
             {% if jekyll.environment == "development" %}
             <a href="{{ '/admin.html' | relative_url }}">Admin</a>
             {% endif %}
@@ -64,5 +64,45 @@
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+    
+    <script>
+    // Mobile menu functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const burgerMenu = document.getElementById('burger-menu');
+        const mobileNav = document.getElementById('mobile-nav');
+        const closeMobileNav = document.getElementById('close-mobile-nav');
+        const body = document.body;
+        
+        if (burgerMenu && mobileNav) {
+            burgerMenu.addEventListener('click', function() {
+                mobileNav.classList.add('open');
+                body.classList.add('mobile-scroll-disabled');
+            });
+            
+            if (closeMobileNav) {
+                closeMobileNav.addEventListener('click', function() {
+                    mobileNav.classList.remove('open');
+                    body.classList.remove('mobile-scroll-disabled');
+                });
+            }
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!mobileNav.contains(e.target) && !burgerMenu.contains(e.target) && mobileNav.classList.contains('open')) {
+                    mobileNav.classList.remove('open');
+                    body.classList.remove('mobile-scroll-disabled');
+                }
+            });
+            
+            // Close menu when clicking a nav link
+            mobileNav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileNav.classList.remove('open');
+                    body.classList.remove('mobile-scroll-disabled');
+                });
+            });
+        }
+    });
+    </script>
 </body>
 </html>
