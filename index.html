@@ -4,11 +4,6 @@ title: World Coffee Tour Map
 ---
 
 
-<div class="hero-section">
-    <h1 class="hero-title">{{ site.title }}</h1>
-    <p class="hero-subtitle">{{ site.description }}</p>
-</div>
-
 <div id="map" class="main-map"></div>
 
 <div class="filter-controls">
@@ -117,9 +112,13 @@ let currentHoveredCard = null;
 let mapContainer = null;
 let animationId = null;
 let mapOriginalRect = null;
-let heroSection = null;
 let scrollThreshold = 0;
 let scrollEventCount = 0;
+
+// Mobile detection
+function isMobileDevice() {
+    return window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     // Wait for main.js to initialize the map
@@ -138,18 +137,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const countrySections = document.querySelectorAll('.country-section');
     const contentWrapper = document.querySelector('.content-wrapper');
     
-    // Get the main map element and hero section
+    // Get the main map element
     mapContainer = document.getElementById('map');
-    heroSection = document.querySelector('.hero-section');
     
-    // Calculate scroll threshold (when hero section goes out of view)
+    // Calculate scroll threshold
     function updateScrollThreshold() {
-        if (!heroSection || !mapContainer) {
-            console.log('updateScrollThreshold early return:', { heroSection: !!heroSection, mapContainer: !!mapContainer });
+        if (!mapContainer) {
+            console.log('updateScrollThreshold early return:', { mapContainer: !!mapContainer });
             return;
         }
         
-        const heroRect = heroSection.getBoundingClientRect();
         const mapRect = mapContainer.getBoundingClientRect();
         
         // First calculate the map's original position
@@ -181,11 +178,6 @@ document.addEventListener('DOMContentLoaded', function() {
             updateMapAnimation();
         }
     }, 100);
-    
-    // Mobile detection
-    function isMobileDevice() {
-        return window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    }
     
     // Listen for scroll events
     let ticking = false;
@@ -223,7 +215,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const sectionObserver = new IntersectionObserver(
         (entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting && entry.intersectionRatio > 0.3 && isSticky) {
+                // On mobile, map is always visible. On desktop, only when sticky
+                const shouldZoom = isMobileDevice() || isSticky;
+                if (entry.isIntersecting && entry.intersectionRatio > 0.3 && shouldZoom) {
                     zoomToVisibleSection(entry.target);
                 }
             });
@@ -249,7 +243,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Card hover functionality - zoom to individual cafe
     document.addEventListener('mouseover', function(e) {
         const card = e.target.closest('.coffee-card');
-        if (card && isSticky) {
+        const shouldZoom = isMobileDevice() || isSticky;
+        if (card && shouldZoom) {
             const latitude = parseFloat(card.dataset.lat);
             const longitude = parseFloat(card.dataset.lng);
             if (latitude && longitude && mainMap) {
@@ -265,7 +260,8 @@ document.addEventListener('DOMContentLoaded', function() {
             currentHoveredCard = null;
             // Return to appropriate section view after a delay
             setTimeout(() => {
-                if (!currentHoveredCard && isSticky) {
+                const shouldZoom = isMobileDevice() || isSticky;
+                if (!currentHoveredCard && shouldZoom) {
                     const visibleSection = getMostVisibleSection();
                     if (visibleSection) {
                         if (visibleSection.classList.contains('city-section')) {
@@ -686,9 +682,10 @@ function getMostVisibleSection() {
 }
 
 function zoomToRegion(continent) {
-    console.log('zoomToRegion called:', { continent, hasMainMap: !!mainMap, isSticky, currentHoveredCard });
+    const shouldZoom = isMobileDevice() || isSticky;
+    console.log('zoomToRegion called:', { continent, hasMainMap: !!mainMap, shouldZoom, currentHoveredCard });
     
-    if (!mainMap || !isSticky || currentHoveredCard) return;
+    if (!mainMap || !shouldZoom || currentHoveredCard) return;
     
     const regionPosts = coffeePostsData.filter(post => 
         post.continent.toLowerCase().replace(/\s/g, '-') === continent && 
@@ -711,9 +708,10 @@ function zoomToRegion(continent) {
 }
 
 function zoomToCountry(country) {
-    console.log('zoomToCountry called:', { country, hasMainMap: !!mainMap, isSticky, currentHoveredCard });
+    const shouldZoom = isMobileDevice() || isSticky;
+    console.log('zoomToCountry called:', { country, hasMainMap: !!mainMap, shouldZoom, currentHoveredCard });
     
-    if (!mainMap || !isSticky || currentHoveredCard) return;
+    if (!mainMap || !shouldZoom || currentHoveredCard) return;
     
     const countryPosts = coffeePostsData.filter(post => 
         post.country === country && 
@@ -736,14 +734,15 @@ function zoomToCountry(country) {
 }
 
 function zoomToCity(cityName) {
-    console.log('zoomToCity called:', { cityName, hasMainMap: !!mainMap, isSticky, currentHoveredCard });
+    const shouldZoom = isMobileDevice() || isSticky;
+    console.log('zoomToCity called:', { cityName, hasMainMap: !!mainMap, shouldZoom, currentHoveredCard });
     
     if (!mainMap) {
         console.log('No mainMap - aborting zoom');
         return;
     }
-    if (!isSticky) {
-        console.log('Not sticky - aborting zoom');
+    if (!shouldZoom) {
+        console.log('Should not zoom - aborting');
         return;
     }
     if (currentHoveredCard) {
@@ -823,10 +822,6 @@ function zoomToCity(cityName) {
 }
 
 @media (max-width: 768px) {
-    .hero-section {
-        display: none;
-    }
-    
     .filter-controls {
         margin-top: 330px; /* Push below fixed map (70px top + 250px height + 10px) */
     }
@@ -954,33 +949,6 @@ function zoomToCity(cityName) {
     }
 }
 
-.hero-section {
-    text-align: center;
-    padding: 4rem 2rem 3rem 2rem;
-    margin: 0 -2rem;
-    position: relative;
-    z-index: 1;
-    background: var(--bg-color);
-    width: calc(100% + 4rem);
-}
-
-.hero-title {
-    font-size: 3rem;
-    font-weight: 300;
-    letter-spacing: -1px;
-    margin-bottom: 1rem;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
-}
-
-.hero-subtitle {
-    color: var(--text-light);
-    font-size: 1.1rem;
-    max-width: 600px;
-    margin: 0 auto;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
-}
-
-
 .coffee-grid {
     position: relative;
     z-index: 1;
@@ -1075,10 +1043,6 @@ function zoomToCity(cityName) {
 }
 
 @media (max-width: 768px) {
-    .hero-title {
-        font-size: 2rem;
-    }
-    
     .filter-controls {
         padding: 0 1rem;
     }
