@@ -21,7 +21,9 @@ title: World Coffee Tour Map
     <button class="filter-btn" data-continent="oceania">Oceania</button>
 </div>
 
-{% assign posts_by_continent = site.coffee_posts | group_by: 'continent' | sort: 'name' %}
+{% assign all_posts = site.coffee_posts %}
+{% assign valid_posts = all_posts | where_exp: "item", "item.latitude" %}
+{% assign posts_by_continent = valid_posts | group_by: 'continent' | sort: 'name' %}
 
 <div class="content-wrapper">
     <div class="posts-content">
@@ -95,7 +97,7 @@ title: World Coffee Tour Map
 <script>
 // Pass coffee posts data to JavaScript
 const coffeePostsData = [
-    {% for post in site.coffee_posts %}
+    {% for post in valid_posts %}
     {
         title: "{{ post.title | escape }}",
         url: "{{ post.url | relative_url }}",
@@ -893,6 +895,42 @@ function zoomToCity(cityName) {
     } else {
         console.log('No posts found for city:', cityName);
     }
+}
+
+// Mobile menu functionality
+const burgerMenu = document.getElementById('burger-menu');
+const mobileNav = document.getElementById('mobile-nav');
+const closeMobileNav = document.getElementById('close-mobile-nav');
+const body = document.body;
+
+if (burgerMenu && mobileNav) {
+    burgerMenu.addEventListener('click', function() {
+        mobileNav.classList.add('open');
+        body.classList.add('mobile-scroll-disabled');
+    });
+    
+    if (closeMobileNav) {
+        closeMobileNav.addEventListener('click', function() {
+            mobileNav.classList.remove('open');
+            body.classList.remove('mobile-scroll-disabled');
+        });
+    }
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!mobileNav.contains(e.target) && !burgerMenu.contains(e.target) && mobileNav.classList.contains('open')) {
+            mobileNav.classList.remove('open');
+            body.classList.remove('mobile-scroll-disabled');
+        }
+    });
+    
+    // Close menu when clicking a nav link
+    mobileNav.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', function() {
+            mobileNav.classList.remove('open');
+            body.classList.remove('mobile-scroll-disabled');
+        });
+    });
 }
 </script>
 

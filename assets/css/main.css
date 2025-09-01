@@ -40,7 +40,7 @@ body {
 .nav-container {
     max-width: none;
     margin: 0;
-    padding: 1.5rem 2rem;
+    padding: 1.5rem 2.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -70,7 +70,7 @@ body {
     flex-direction: column;
     align-items: flex-start;
     flex: 1;
-    padding-left: 0.5rem;
+    padding-left: 1rem;
 }
 
 .main-title {
@@ -126,6 +126,15 @@ body {
 .breadcrumb-separator {
     color: var(--text-light);
     opacity: 0.6;
+}
+
+/* Hide burger menu and mobile nav on desktop */
+.burger-menu {
+    display: none;
+}
+
+.mobile-nav {
+    display: none;
 }
 
 .nav-links {
@@ -516,20 +525,113 @@ body {
 
 /* Responsive */
 @media (max-width: 768px) {
+    /* Disable body scroll on mobile */
+    body.mobile-scroll-disabled {
+        overflow: hidden;
+    }
+    
     .nav-container {
         padding: 1rem;
+        position: relative;
     }
     
     .site-title {
         font-size: 1.1rem;
     }
     
+    /* Smaller title font when no breadcrumbs */
+    .title-content.no-breadcrumb .main-title {
+        font-size: 1.1rem !important;
+    }
+    
+    /* Hide regular nav links on mobile */
     .nav-links {
-        gap: 1.5rem;
+        display: none;
+    }
+    
+    /* Burger menu */
+    .burger-menu {
+        display: block;
+        background: none;
+        border: none;
+        color: var(--primary-color);
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 0.5rem;
+    }
+    
+    .mobile-nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 250px;
+        height: 100vh;
+        background: var(--card-bg);
+        border-left: 1px solid var(--border-color);
+        padding: 2rem 1.5rem;
+        transition: right 0.3s ease;
+        z-index: 1001;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+    
+    .mobile-nav.open {
+        right: 0;
+    }
+    
+    .mobile-nav a {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-size: 1.2rem;
+        padding: 1rem 0;
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .mobile-nav .close-btn {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: none;
+        border: none;
+        color: var(--primary-color);
+        font-size: 1.5rem;
+        cursor: pointer;
     }
     
     .main-content {
+        padding: 0;
+    }
+    
+    /* Full-bleed feed, remove all borders on mobile */
+    .content-wrapper {
+        margin: 0;
+        padding: 0;
+    }
+    
+    .posts-content {
+        margin: 0;
+        padding: 0;
+    }
+    
+    .continent-section,
+    .country-section,
+    .city-section {
+        border: none;
         padding: 1rem;
+        margin: 0;
+    }
+    
+    .continent-title,
+    .country-title,
+    .city-title {
+        border: none;
+        padding: 0.5rem 0;
+    }
+    
+    .coffee-card {
+        border: none;
+        box-shadow: none;
     }
     
     #map {

@@ -12,8 +12,7 @@ permalink: /about/
         <p>
             Years ago, my friend <a href="https://www.instagram.com/jamesgolick" target="_blank" rel="noopener">James Golick</a> 
             passed away tragically. Among the many things that James was, he was a lover of coffee. 
-            What started out as a way to remember him (he would tag things #worldcoffeetour on Instagram) 
-            turned into a way for me to explore cities, one cup of coffee at a time.
+            What started as a way to honor a friend who passed away, became a way to explore the world, one cup of coffee at a time. As the song says, these are a few of my favorite things.
         </p>
         <p>&nbsp;</p> 
         <p>
@@ -21,17 +20,19 @@ permalink: /about/
             easier way to give them than by pointing them at my Instagram. 
         </p>
 
+        {% assign all_posts = site.coffee_posts %}
+        {% assign valid_posts = all_posts | where_exp: "item", "item.latitude" %}
         <div class="coffee-stats">
             <div class="stat">
-                <span class="stat-number">{{ site.coffee_posts.size }}</span>
+                <span class="stat-number">{{ valid_posts.size }}</span>
                 <span class="stat-label">Coffee Stops</span>
             </div>
             <div class="stat">
-                <span class="stat-number">{{ site.coffee_posts | map: 'country' | uniq | size }}</span>
+                <span class="stat-number">{{ valid_posts | map: 'country' | uniq | size }}</span>
                 <span class="stat-label">Countries</span>
             </div>
             <div class="stat">
-                <span class="stat-number">{{ site.coffee_posts | map: 'city' | uniq | size }}</span>
+                <span class="stat-number">{{ valid_posts | map: 'city' | uniq | size }}</span>
                 <span class="stat-label">Cities</span>
             </div>
         </div>

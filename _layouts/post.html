@@ -4,8 +4,9 @@ layout: default
 
 <article class="coffee-post">
     <!-- Map at the top -->
-    <div class="post-map" id="post-map" data-lat="{{ page.latitude }}" data-lng="{{ page.longitude }}" data-title="{{ page.title }}"></div>
-    
+    <div class="post-map" id="post-map" data-lat="{{ page.latitude }}" data-lng="{{ page.longitude }}"
+         data-title="{{ page.title }}"></div>
+
     <div class="post-header">
         <a href="{{ '/' | relative_url }}" class="back-link">← Back to Map</a>
         {% if page.cafe_name %}
@@ -16,6 +17,13 @@ layout: default
         <div class="post-meta">
             <span class="location">📍 {{ page.city }}, {{ page.country }}</span>
             <span class="date">{{ page.date | date: "%B %d, %Y" }}</span>
+            {% if page.rating %}
+            <span class="rating">
+                {% for i in (1..5) %}
+                    {% if i <= page.rating %}☕{% else %}☕{% endif %}
+                {% endfor %}
+            </span>
+            {% endif %}
         </div>
     </div>
 
@@ -29,7 +37,8 @@ layout: default
 
         {% if page.instagram_url %}
         <div class="instagram-embed">
-            <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="{{ page.instagram_url }}" data-instgrm-version="14">
+            <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="{{ page.instagram_url }}"
+                        data-instgrm-version="14">
             </blockquote>
         </div>
         {% endif %}
@@ -47,20 +56,7 @@ layout: default
             <img src="{{ page.image_url }}" alt="{{ page.title }}" loading="lazy">
         </div>
         {% endif %}
-        
-        <!-- Additional Details -->
-        <div class="post-details">
-            {% if page.rating %}
-            <div class="detail-item">
-                <strong>Rating:</strong> 
-                <span class="rating">
-                    {% for i in (1..5) %}
-                        {% if i <= page.rating %}☕{% else %}☕{% endif %}
-                    {% endfor %}
-                </span>
-            </div>
-            {% endif %}
-        </div>
+
     </div>
 </article>
 
