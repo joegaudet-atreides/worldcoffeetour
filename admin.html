@@ -902,6 +902,9 @@ function filterPosts() {
     const country = document.getElementById('country-filter').value;
     const showProblematicOnly = document.getElementById('show-problematic').checked;
     
+    // Save filter settings to localStorage
+    saveFilterSettings();
+    
     console.log('Filtering posts with:', { search, continent, country, showProblematicOnly });
     console.log('Total posts before filtering:', allPosts.length);
     
