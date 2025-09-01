@@ -21,8 +21,15 @@ title: World Coffee Tour Map
     <button class="filter-btn" data-continent="oceania">Oceania</button>
 </div>
 
-{% assign all_posts = site.coffee_posts %}
-{% assign valid_posts = all_posts | where_exp: "item", "item.latitude" %}
+{% comment %} Filter posts with valid location data {% endcomment %}
+{% assign valid_posts = site.coffee_posts %}
+{% assign filtered_posts = "" | split: "" %}
+{% for post in valid_posts %}
+  {% if post.latitude and post.longitude and post.city != "Unknown" and post.country != "Unknown" and post.continent != "World" %}
+    {% assign filtered_posts = filtered_posts | push: post %}
+  {% endif %}
+{% endfor %}
+{% assign valid_posts = filtered_posts %}
 {% assign posts_by_continent = valid_posts | group_by: 'continent' | sort: 'name' %}
 
 <div class="content-wrapper">

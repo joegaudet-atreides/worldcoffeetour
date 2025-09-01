@@ -20,8 +20,15 @@ permalink: /about/
             easier way to give them than by pointing them at my Instagram. 
         </p>
 
-        {% assign all_posts = site.coffee_posts %}
-        {% assign valid_posts = all_posts | where_exp: "item", "item.latitude" %}
+        {% comment %} Filter posts with valid location data {% endcomment %}
+        {% assign valid_posts = site.coffee_posts %}
+        {% assign filtered_posts = "" | split: "" %}
+        {% for post in valid_posts %}
+          {% if post.latitude and post.longitude and post.city != "Unknown" and post.country != "Unknown" and post.continent != "World" %}
+            {% assign filtered_posts = filtered_posts | push: post %}
+          {% endif %}
+        {% endfor %}
+        {% assign valid_posts = filtered_posts %}
         <div class="coffee-stats">
             <div class="stat">
                 <span class="stat-number">{{ valid_posts.size }}</span>
