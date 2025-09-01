@@ -5,8 +5,8 @@ date: 2024-12-17
 city: "Mexico City"
 country: "Mexico"
 continent: "North America"
-latitude: 19.4326
-longitude: -99.1332
+latitude: 
+longitude: 
 cafe_name: ""
 rating: 
 notes: "Probably the best stop on the in CDMX so far, brown caffeine lab, they roast their own beans and are clearly Star Wars fans. Drink is a cold brew and tonic with a squeeze of orange, incredible."

@@ -1,15 +1,15 @@
 ---
 layout: post
-title: "SEY Cafe in Bushwick, highly recommend by all the coffee dorks I've met on this"
+title: "SEY Cafe in Bushwick, highly recommend by all the coffee dorks I-'ve met on thi"
 date: 2024-11-29
 city: "Brooklyn"
 country: "United States"
 continent: "North America"
-latitude: 40.6975
-longitude: -73.9156
+latitude: 
+longitude: 
 cafe_name: ""
 rating: 
-notes: "SEY Cafe in Bushwick, highly recommend by all the coffee dorks I've met on this trip."
+notes: "SEY Cafe in Bushwick, highly recommend by all the coffee dorks I-'ve met on this trip."
 image_url: "/media/posts/202411/468779371_18480834556001623_2405314565451333850_n_18067094689734968.jpg"
 images:
   - "/media/posts/202411/468779371_18480834556001623_2405314565451333850_n_18067094689734968.jpg"

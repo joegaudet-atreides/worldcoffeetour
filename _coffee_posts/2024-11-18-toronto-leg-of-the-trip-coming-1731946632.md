@@ -5,8 +5,8 @@ date: 2024-11-18
 city: "Toronto"
 country: "Canada"
 continent: "North America"
-latitude: 43.6532
-longitude: -79.3832
+latitude: 
+longitude: 
 cafe_name: ""
 rating: 
 notes: "Toronto leg of the trip coming to a close, one last stop on the , Made Rite, a super cool new cafe with a Lego espresso machine that some one obviously needs to buy for me."

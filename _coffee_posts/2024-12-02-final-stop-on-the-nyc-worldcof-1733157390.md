@@ -5,8 +5,8 @@ date: 2024-12-02
 city: "New York"
 country: "United States"
 continent: "North America"
-latitude: 40.7128
-longitude: -74.006
+latitude: 
+longitude: 
 cafe_name: ""
 rating: 
 notes: "Final stop on the nyc amazing breakfast sammich"

@@ -2,12 +2,12 @@
 layout: post
 title: "Fahrenheit Coffee #worldcoffeetour"
 date: 2024-11-13
-city: "Toronto"
-country: "Canada"
-continent: "North America"
-latitude: 43.6524168
-longitude: -79.3728949
-cafe_name: "Fahrenheit Coffee"
+city: "Unknown"
+country: "Unknown"
+continent: "World"
+latitude: 
+longitude: 
+cafe_name: ""
 rating: 
 notes: "Fahrenheit Coffee"
 image_url: "/media/posts/202411/466143413_18477838255001623_1679697298149666972_n_18126711916391368.jpg"

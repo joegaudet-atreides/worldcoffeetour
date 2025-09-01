@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Been a lil silent on socials this week as I've been busy getting after it, great"
+title: "Been a lil silent on socials this week as I-'ve been busy getting after it, gre"
 date: 2025-03-17
 city: "Revelstoke"
 country: "Canada"
@@ -9,7 +9,7 @@ latitude: 50.9981
 longitude: -118.1957
 cafe_name: "The Modern Bakeshop & Cafe"
 rating: 
-notes: "Been a lil silent on socials this week as I've been busy getting after it, great stop on the in revelstoke, @dosecoffeerevelstoke fantastic sammmiches, and it turns into a stellar Italian spot at night."
+notes: "Been a lil silent on socials this week as I-'ve been busy getting after it, great stop on the in revelstoke, @dosecoffeerevelstoke fantastic sammmiches, and it turns into a stellar Italian spot at night."
 image_url: "/media/posts/202503/485210521_18501298204001623_7592888767024126389_n_17925660777029027.jpg"
 images:
   - "/media/posts/202503/485210521_18501298204001623_7592888767024126389_n_17925660777029027.jpg"

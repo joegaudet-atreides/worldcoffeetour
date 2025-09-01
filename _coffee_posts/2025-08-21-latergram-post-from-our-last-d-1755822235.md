@@ -1,18 +1,15 @@
 ---
-cafe_name: Pace Coffee
----
----
 layout: post
 title: "Latergram post from our last day in Santiago @pacecoffeecl was the top rated caf"
 date: 2025-08-21
 city: "Santiago"
 country: "Chile"
 continent: "South America"
-latitude: -33.4489
-longitude: -70.6693
+latitude: 
+longitude: 
 cafe_name: ""
 rating: 
-notes: "Latergram post from our last day in Santiago @pacecoffeecl was the top rated cafe in \"little Italy\" (in no way Italian). They are a testament to the care and love that coffee culture can have when filled with intention. The owners made us this delicious pour over and then sat and chatted for 30 minutes while we enjoyed it, and gave us an espresso blend made with robusto beans that was absolutely fantastic (and floored me for an hour). All in all a magnificent stop on the"
+notes: "Latergram post from our last day in Santiago @pacecoffeecl was the top rated cafe in -\"little Italy-\" (in no way Italian). They are a testament to the care and love that coffee culture can have when filled with intention. The owners made us this delicious pour over and then sat and chatted for 30 minutes while we enjoyed it, and gave us an espresso blend made with robusto beans that was absolutely fantastic (and floored me for an hour). All in all a magnificent stop on the"
 image_url: "/media/posts/202508/537510042_18531003256001623_1853575412937138340_n_18049420856637802.jpg"
 images:
   - "/media/posts/202508/537510042_18531003256001623_1853575412937138340_n_18049420856637802.jpg"

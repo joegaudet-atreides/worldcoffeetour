@@ -1,15 +1,15 @@
 ---
 layout: post
-title: "Just cause I'm home doesn't mean the coffee posts will stop, incredible pour ove"
+title: "Just cause I-'m home doesn-'t mean the coffee posts will stop, incredible pour"
 date: 2025-01-07
 city: "Unknown"
 country: "Unknown"
 continent: "World"
-latitude: null
-longitude: null
+latitude: 
+longitude: 
 cafe_name: ""
 rating: 
-notes: "Just cause I'm home doesn't mean the coffee posts will stop, incredible pour over and sweet treats at @fifebakery in mount pleasant."
+notes: "Just cause I-'m home doesn-'t mean the coffee posts will stop, incredible pour over and sweet treats at @fifebakery in mount pleasant."
 image_url: "/media/posts/202501/473035143_18488539756001623_5904283115140631792_n_18044187770021675.jpg"
 images:
   - "/media/posts/202501/473035143_18488539756001623_5904283115140631792_n_18044187770021675.jpg"

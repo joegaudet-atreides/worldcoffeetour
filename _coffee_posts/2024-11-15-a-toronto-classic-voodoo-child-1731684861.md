@@ -5,8 +5,8 @@ date: 2024-11-15
 city: "Toronto"
 country: "Canada"
 continent: "North America"
-latitude: 43.6532
-longitude: -79.3832
+latitude: 
+longitude: 
 cafe_name: ""
 rating: 
 notes: "A Toronto classic, Voodoo Child on College, the last time I was in this cafe was in much less happy circumstances for the funeral of @jamesgolick, incidentally the person I lifted the habit from. Gone but never forgotten."

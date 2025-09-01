@@ -9,7 +9,7 @@ latitude: 37.8117
 longitude: -107.6645
 cafe_name: ""
 rating: 
-notes: "Morning cup of joe before our _massive_ day at silverton, the adorable @coffeebearsilverton, everyone on our day recognized @sarahkaysmith's breakfast burrito. The dark star was fantastic."
+notes: "Morning cup of joe before our _massive_ day at silverton, the adorable @coffeebearsilverton, everyone on our day recognized @sarahkaysmith-'s breakfast burrito. The dark star was fantastic."
 image_url: "/media/posts/202503/482814319_18498884575001623_998988731654304764_n_18022986932439237.jpg"
 images:
   - "/media/posts/202503/482814319_18498884575001623_998988731654304764_n_18022986932439237.jpg"

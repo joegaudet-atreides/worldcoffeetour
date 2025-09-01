@@ -2,11 +2,11 @@
 layout: post
 title: "K found some more good coffee in FIDI, black fox. #worldcoffeetour"
 date: 2024-11-29
-city: "City of New York"
-country: "United States"
-continent: "North America"
-latitude: 40.7127281
-longitude: -74.0060152
+city: "Unknown"
+country: "Unknown"
+continent: "World"
+latitude: 
+longitude: 
 cafe_name: ""
 rating: 
 notes: "K found some more good coffee in FIDI, black fox."

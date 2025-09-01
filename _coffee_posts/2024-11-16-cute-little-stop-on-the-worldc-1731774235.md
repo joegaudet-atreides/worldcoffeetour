@@ -5,11 +5,11 @@ date: 2024-11-16
 city: "Unknown"
 country: "Unknown"
 continent: "World"
-latitude: null
-longitude: null
+latitude: 
+longitude: 
 cafe_name: ""
 rating: 
-notes: "Cute little stop on the neighbourhood spot of my gracious hosts Milky's - espresso was very much on point"
+notes: "Cute little stop on the neighbourhood spot of my gracious hosts Milky-'s - espresso was very much on point"
 image_url: "/media/posts/202411/467167622_18478380619001623_8156972620978474810_n_18432464845079650.jpg"
 images:
   - "/media/posts/202411/467167622_18478380619001623_8156972620978474810_n_18432464845079650.jpg"

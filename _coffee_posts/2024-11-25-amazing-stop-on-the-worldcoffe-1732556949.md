@@ -2,12 +2,12 @@
 layout: post
 title: "Amazing stop on the #worldcoffeetour in Dumbo BK % arabica."
 date: 2024-11-25
-city: "City of New York"
-country: "United States"
-continent: "North America"
-latitude: 40.7029052
-longitude: -73.990118
-cafe_name: "Front Street Pizza"
+city: "Unknown"
+country: "Unknown"
+continent: "World"
+latitude: 
+longitude: 
+cafe_name: ""
 rating: 
 notes: "Amazing stop on the in Dumbo BK % arabica."
 image_url: "/media/posts/202411/467585689_18480081442001623_3475315804096665779_n_18061138462829026.jpg"

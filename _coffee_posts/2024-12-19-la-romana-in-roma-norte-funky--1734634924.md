@@ -2,11 +2,11 @@
 layout: post
 title: "La Romana in Roma Norte - funky like cafe I found while @tinaaluu recovers from"
 date: 2024-12-19
-city: "Roma Norte"
-country: "Philippines"
+city: "Unknown"
+country: "Unknown"
 continent: "World"
-latitude: 17.5259771
-longitude: 121.6882655
+latitude: 
+longitude: 
 cafe_name: ""
 rating: 
 notes: "La Romana in Roma Norte - funky like cafe I found while @tinaaluu recovers from last nice"

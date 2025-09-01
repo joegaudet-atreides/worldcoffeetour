@@ -2,12 +2,12 @@
 layout: post
 title: "Unreal stop on the #worldcoffeetour @bklynmacs in the east village. The best ice"
 date: 2024-11-23
-city: "Budapest"
-country: "Magyarorszg"
+city: "Unknown"
+country: "Unknown"
 continent: "World"
-latitude: 47.4947629
-longitude: 19.0533791
-cafe_name: "Brooklyn Macs"
+latitude: 
+longitude: 
+cafe_name: ""
 rating: 
 notes: "Unreal stop on the @bklynmacs in the east village. The best ice cream sandwich I have ever had in my life, and superb espresso."
 image_url: "/media/posts/202411/468083066_18479670898001623_1971078050762592931_n_18068291914726602.jpg"

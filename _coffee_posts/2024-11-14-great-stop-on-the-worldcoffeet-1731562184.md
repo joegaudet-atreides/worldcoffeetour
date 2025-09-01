@@ -2,12 +2,12 @@
 layout: post
 title: "Great stop on the #worldcoffeetour in Kensington Market, YYZ continues to be ama"
 date: 2024-11-14
-city: "Toronto"
-country: "Canada"
-continent: "North America"
-latitude: 43.6552136
-longitude: -79.4022604
-cafe_name: "Legenda"
+city: "Unknown"
+country: "Unknown"
+continent: "World"
+latitude: 
+longitude: 
+cafe_name: ""
 rating: 
 notes: "Great stop on the in Kensington Market, YYZ continues to be amazing."
 image_url: "/media/posts/202411/466828829_18477917515001623_7609018574565622836_n_17846119977334634.jpg"

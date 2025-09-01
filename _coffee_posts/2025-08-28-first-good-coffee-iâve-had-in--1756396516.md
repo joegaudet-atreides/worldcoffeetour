@@ -1,15 +1,15 @@
 ---
 layout: post
-title: "First good coffee I've had in a hot minute, @goodnickbar in Vina del Mar, @tina"
+title: "First good coffee I-'ve had in a hot minute, @goodnickbar in Vina del Mar, @ti"
 date: 2025-08-28
-city: "Via del Mar"
-country: "Chile"
-continent: "South America"
-latitude: -33.0244535
-longitude: -71.5517636
-cafe_name: "Good Nick Bar"
+city: "Unknown"
+country: "Unknown"
+continent: "World"
+latitude: 
+longitude: 
+cafe_name: ""
 rating: 
-notes: "First good coffee I've had in a hot minute, @goodnickbar in Vina del Mar, @tinaaluu is doing a spot of work so I decided to get back on my shit and hunt down a good cafe for a stop on the (neither dog is named nick)"
+notes: "First good coffee I-'ve had in a hot minute, @goodnickbar in Vina del Mar, @tinaaluu is doing a spot of work so I decided to get back on my shit and hunt down a good cafe for a stop on the (neither dog is named nick)"
 image_url: "/media/posts/202508/540002731_18532165042001623_9222496751397690357_n_18077193815002841.jpg"
 images:
   - "/media/posts/202508/540002731_18532165042001623_9222496751397690357_n_18077193815002841.jpg"

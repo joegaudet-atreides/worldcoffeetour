@@ -5,8 +5,8 @@ date: 2025-04-19
 city: "Unknown"
 country: "Unknown"
 continent: "World"
-latitude: null
-longitude: null
+latitude: 
+longitude: 
 cafe_name: ""
 rating: 
 notes: "As a man that loves a good saunter this cafe caught my eye, checks all the Gastown hipster cafe boxes, and has a super cool back courtyard to boot. @saunter.coffee"

@@ -5,8 +5,8 @@ date: 2025-01-08
 city: "Unknown"
 country: "Unknown"
 continent: "World"
-latitude: null
-longitude: null
+latitude: 
+longitude: 
 cafe_name: ""
 rating: 
 notes: "The OG and undisputed champion of the @revolvercoffee"

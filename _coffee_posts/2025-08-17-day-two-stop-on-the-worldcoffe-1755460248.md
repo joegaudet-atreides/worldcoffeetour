@@ -2,14 +2,14 @@
 layout: post
 title: "Day two stop on the #worldcoffeetour the excellently name @cafeblackmamba. I for"
 date: 2025-08-17
-city: "Cambridge"
-country: "United States"
-continent: "North America"
-latitude: 42.3739168
-longitude: -71.1106677
-cafe_name: "Cafe Black Mamba"
+city: "Unknown"
+country: "Unknown"
+continent: "World"
+latitude: 
+longitude: 
+cafe_name: ""
 rating: 
-notes: "Day two stop on the the excellently name @cafeblackmamba. I forgot the absolute delight of orange espresso tonics that seem to be prevalent in Latin America, and this hot banana bread is perhaps the best banana bread I've had not made by a mother. Humorous aside: I've managed to get good enough at the first few exchanges that it gives the impression I know Spanish, which is very much not the case."
+notes: "Day two stop on the the excellently name @cafeblackmamba. I forgot the absolute delight of orange espresso tonics that seem to be prevalent in Latin America, and this hot banana bread is perhaps the best banana bread I-'ve had not made by a mother. Humorous aside: I-'ve managed to get good enough at the first few exchanges that it gives the impression I know Spanish, which is very much not the case."
 image_url: "/media/posts/202508/533379695_18530310286001623_1013732217697870311_n_18493281931069534.jpg"
 images:
   - "/media/posts/202508/533379695_18530310286001623_1013732217697870311_n_18493281931069534.jpg"

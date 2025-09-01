@@ -5,8 +5,8 @@ date: 2025-05-17
 city: "Salt Lake City"
 country: "United States"
 continent: "North America"
-latitude: 40.7608
-longitude: -111.891
+latitude: 
+longitude: 
 cafe_name: ""
 rating: 
 notes: "Took a walk through SLC today and found @hallowedgrounds801 a cool cafe in an old church turned market for weirdos and tattoos (sadly the tattoo parlour was closed) another great stop on the"

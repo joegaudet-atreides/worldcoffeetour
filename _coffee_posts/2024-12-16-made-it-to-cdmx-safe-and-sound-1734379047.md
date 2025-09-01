@@ -5,8 +5,8 @@ date: 2024-12-16
 city: "Mexico City"
 country: "Mexico"
 continent: "North America"
-latitude: 19.4326
-longitude: -99.1332
+latitude: 
+longitude: 
 cafe_name: ""
 rating: 
 notes: "Made it to CDMX safe and sound, I may be too old for red eye flights. Nothing a little coffee from the first stop on the Mexico edition (it may include some tacos as well)"

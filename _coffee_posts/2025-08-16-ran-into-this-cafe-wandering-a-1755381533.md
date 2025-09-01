@@ -1,15 +1,15 @@
 ---
 layout: post
-title: "Ran into this cafe wandering around, probably the best logo I've seen on the #wo"
+title: "Ran into this cafe wandering around, probably the best logo I-'ve seen on the #"
 date: 2025-08-16
 city: "Unknown"
 country: "Unknown"
 continent: "World"
-latitude: null
-longitude: null
+latitude: 
+longitude: 
 cafe_name: ""
 rating: 
-notes: "Ran into this cafe wandering around, probably the best logo I've seen on the"
+notes: "Ran into this cafe wandering around, probably the best logo I-'ve seen on the"
 image_url: "/media/posts/202508/532548089_18530148385001623_7152361171572058872_n_17984493572712572.jpg"
 images:
   - "/media/posts/202508/532548089_18530148385001623_7152361171572058872_n_17984493572712572.jpg"

@@ -5,8 +5,8 @@ date: 2025-02-27
 city: "Unknown"
 country: "Unknown"
 continent: "World"
-latitude: null
-longitude: null
+latitude: 
+longitude: 
 cafe_name: ""
 rating: 
 notes: "Slick cafe and first stop on the Denver leg of the - @metropolis.coffeebar on RINO"

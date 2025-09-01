@@ -14,6 +14,35 @@
     }
   },
   "coffee/2025-08-21-latergram-post-from-our-last-d-1755822235": {
-    "cafe_name": "Pace Coffee"
+    "title": "Latergram post from our last day in Santiago @pacecoffeecl was the top rated caf",
+    "cafe_name": "Pace",
+    "city": "Santiago",
+    "country": "Chile",
+    "continent": "South America",
+    "latitude": -33.4489,
+    "longitude": -70.6693,
+    "notes": "Latergram post from our last day in Santiago @pacecoffeecl was the top rated cafe in &quot;little Italy&quot; (in no way Italian). They are a testament to the care and love that coffee culture can have when filled with intention. The owners made us this delicious pour over and then sat and chatted for 30 minutes while we enjoyed it, and gave us an espresso blend made with robusto beans that was absolutely fantastic (and floored me for an hour). All in all a magnificent stop on the",
+    "rating": "5"
+  },
+  "coffee/2024-11-13-fahrenheit-coffee-worldcoffeet-1731523036": {
+    "title": "Fahrenheit Coffee #worldcoffeetour",
+    "cafe_name": "Fahrenheit Coffee",
+    "city": "Toronto",
+    "country": "Canada",
+    "continent": "North America",
+    "latitude": 43.652417,
+    "longitude": -79.372895,
+    "notes": "Fahrenheit Coffee, classic Vancouver spot that Kenny B turned me onto, mostly known for their spro.",
+    "rating": "4"
+  },
+  "coffee/2025-08-16-finally-managed-to-wake-up-aft-1755372837": {
+    "title": "Finally managed to wake up after the best sleep of my life, kicking things off r",
+    "cafe_name": "We are four",
+    "city": "Las Condes",
+    "country": "Chile",
+    "continent": "South America",
+    "latitude": -33.417895,
+    "longitude": -70.599318,
+    "notes": "Finally managed to wake up after the best sleep of my life, kicking things off right with the first of many on the LATAM leg of the quick Americano - apparently a chain here but still quite tasty"
   }
 }

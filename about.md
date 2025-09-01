@@ -5,33 +5,22 @@ permalink: /about/
 ---
 
 <div class="about-page">
-    <h1>About World Coffee Tour</h1>
-    
     <div class="about-content">
         <p class="lead">
-            One cup at a time, exploring the world's coffee culture through local cafés, 
-            roasters, and the stories behind every brew.
+            One cup at a time, exploring the world's coffee culture through local cafés and roasters.
         </p>
-        
         <p>
-            This journey started with a simple love for coffee and curiosity about how different 
-            cultures approach this universal ritual. From the precise pour-overs of Tokyo to the 
-            leisurely espressos of Rome, each cup tells a story about its place and people.
+            Years ago, my friend <a href="https://www.instagram.com/jamesgolick" target="_blank" rel="noopener">James Golick</a> 
+            passed away tragically. Among the many things that James was, he was a lover of coffee. 
+            What started out as a way to remember him (he would tag things #worldcoffeetour on Instagram) 
+            turned into a way for me to explore cities, one cup of coffee at a time.
         </p>
-        
-        <h2>The Mission</h2>
+        <p>&nbsp;</p> 
         <p>
-            To discover and document exceptional coffee experiences around the world, celebrating 
-            the craft of local roasters and baristas who turn coffee into an art form.
+            Over the years folks have asked me for my coffee recommendations, and this felt like an 
+            easier way to give them than by pointing them at my Instagram. 
         </p>
-        
-        <h2>Follow Along</h2>
-        <p>
-            Join the journey on Instagram 
-            <a href="https://instagram.com/{{ site.instagram_username }}" target="_blank" rel="noopener">@{{ site.instagram_username }}</a> 
-            with <a href="https://www.instagram.com/explore/tags/worldcoffeetour/" target="_blank" rel="noopener">#worldcoffeetour</a>
-        </p>
-        
+
         <div class="coffee-stats">
             <div class="stat">
                 <span class="stat-number">{{ site.coffee_posts.size }}</span>
@@ -47,6 +36,7 @@ permalink: /about/
             </div>
         </div>
     </div>
+
 </div>
 
 <style>

@@ -1,0 +1,21 @@
+---
+layout: post
+title: "Cafe in the top of the 7 floor muji headquarters which included a hotel."
+date: 2024-01-27
+city: "Unknown"
+country: "Unknown"
+continent: "World"
+latitude: 
+longitude: 
+cafe_name: ""
+rating: 
+notes: "Cafe in the top of the 7 floor muji headquarters which included a hotel."
+image_url: "/media/posts/202401/423538253_18419573230001623_7623436800378593575_n_18018022025026922.jpg"
+images:
+  - "/media/posts/202401/423538253_18419573230001623_7623436800378593575_n_18018022025026922.jpg"
+  - "/media/posts/202401/423516519_18419573239001623_7441792408069939384_n_18013022039150428.jpg"
+  - "/media/posts/202401/423537783_18419573248001623_8068322956881838366_n_18025321861778098.jpg"
+  - "/media/posts/202401/423537629_18419573257001623_3327733050081757342_n_18029165905871342.jpg"
+  - "/media/posts/202401/423557470_18419573266001623_4532854037963508093_n_17910984158896592.jpg"
+instagram_url: ""
+---

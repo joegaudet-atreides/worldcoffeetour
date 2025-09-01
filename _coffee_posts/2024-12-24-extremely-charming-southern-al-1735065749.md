@@ -2,11 +2,11 @@
 layout: post
 title: "Extremely charming southern Alberta stop of the #worldcoffeetour Seeds in pinche"
 date: 2024-12-24
-city: "Alberta"
-country: "Canada"
-continent: "North America"
-latitude: 55.001251
-longitude: -115.002136
+city: "Unknown"
+country: "Unknown"
+continent: "World"
+latitude: 
+longitude: 
 cafe_name: ""
 rating: 
 notes: "Extremely charming southern Alberta stop of the Seeds in pincher creak."

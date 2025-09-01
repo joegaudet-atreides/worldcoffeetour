@@ -2,11 +2,11 @@
 layout: post
 title: "Finally managed to wake up after the best sleep of my life, kicking things off r"
 date: 2025-08-16
-city: "Lujn"
-country: "Argentina"
-continent: "South America"
-latitude: -34.5866792
-longitude: -59.1003353
+city: "Unknown"
+country: "Unknown"
+continent: "World"
+latitude: 
+longitude: 
 cafe_name: ""
 rating: 
 notes: "Finally managed to wake up after the best sleep of my life, kicking things off right with the first of many on the LATAM leg of the quick Americano - apparently a chain here but still quite tasty"

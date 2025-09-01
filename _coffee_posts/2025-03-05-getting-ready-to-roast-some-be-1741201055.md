@@ -7,7 +7,7 @@ country: "United States"
 continent: "North America"
 latitude: 38.6477
 longitude: -107.0603
-cafe_name: "Tributary Coffee Roasters"
+cafe_name: ""
 rating: 
 notes: "Getting ready to roast some beans at @tributary_coffee_roasters in Gunnison, biscuit egg sando was on point too!"
 image_url: "/media/posts/202503/483024829_18498645874001623_6459087034247004241_n_17864998755345184.jpg"

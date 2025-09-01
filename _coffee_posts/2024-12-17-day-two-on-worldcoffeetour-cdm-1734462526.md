@@ -5,8 +5,8 @@ date: 2024-12-17
 city: "Mexico City"
 country: "Mexico"
 continent: "North America"
-latitude: 19.4326
-longitude: -99.1332
+latitude: 
+longitude: 
 cafe_name: ""
 rating: 
 notes: "Day two on CDMX version, @tinaaluu and I are on the struggle bus today, some combination of altitude, air quality, and mezcal. The city has they extremely lovely boulevards which made for a nice walk this morning."

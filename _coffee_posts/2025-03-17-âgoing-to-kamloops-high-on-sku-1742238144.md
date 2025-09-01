@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "\"Going to Kamloops, high on skunk doobs, driving in my Volkswagen van oh yes I a"
+title: "-\"Going to Kamloops, high on skunk doobs, driving in my Volkswagen van oh yes I"
 date: 2025-03-17
 city: "Kamloops"
 country: "Canada"
@@ -9,7 +9,7 @@ latitude: 50.6745
 longitude: -120.3273
 cafe_name: ""
 rating: 
-notes: "\"Going to Kamloops, high on skunk doobs, driving in my Volkswagen van oh yes I am\" Road refule in Kamloops before taking on the coke, great cafe attached to the public library."
+notes: "-\"Going to Kamloops, high on skunk doobs, driving in my Volkswagen van oh yes I am-\" Road refule in Kamloops before taking on the coke, great cafe attached to the public library."
 image_url: "/media/posts/202503/485025379_18501302461001623_5429385457697465892_n_17923340157003183.jpg"
 images:
   - "/media/posts/202503/485025379_18501302461001623_5429385457697465892_n_17923340157003183.jpg"

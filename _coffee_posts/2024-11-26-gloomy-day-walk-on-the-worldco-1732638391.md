@@ -5,11 +5,11 @@ date: 2024-11-26
 city: "Unknown"
 country: "Unknown"
 continent: "World"
-latitude: null
-longitude: null
+latitude: 
+longitude: 
 cafe_name: ""
 rating: 
-notes: "Gloomy day walk on the pairs nicely with a single origin pour over from @coffeeprojectny and the amazing tunes of @trophywifeofficial (I've had them in loop since Friday night)"
+notes: "Gloomy day walk on the pairs nicely with a single origin pour over from @coffeeprojectny and the amazing tunes of @trophywifeofficial (I-'ve had them in loop since Friday night)"
 image_url: "/media/posts/202411/468417082_18480254701001623_888306023498161211_n_18043569782159520.jpg"
 images:
   - "/media/posts/202411/468417082_18480254701001623_888306023498161211_n_18043569782159520.jpg"

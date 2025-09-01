@@ -2,12 +2,12 @@
 layout: post
 title: "Off to Copper Mountain for the first ski day of the trip, but first a quick stop"
 date: 2025-02-28
-city: "Denver"
-country: "United States"
-continent: "North America"
-latitude: 39.7392364
-longitude: -104.984862
-cafe_name: "Capitol Caf"
+city: "Unknown"
+country: "Unknown"
+continent: "World"
+latitude: 
+longitude: 
+cafe_name: ""
 rating: 
 notes: "Off to Copper Mountain for the first ski day of the trip, but first a quick stop on the - @lularosegeneral cute cafe in Denver with great breakfast sandos and delicious beans."
 image_url: "/media/posts/202502/482258282_18497609863001623_9110449078794480885_n_17963514788894114.jpg"

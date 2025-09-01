@@ -5,8 +5,8 @@ date: 2024-11-27
 city: "New York"
 country: "United States"
 continent: "North America"
-latitude: 40.7128
-longitude: -74.006
+latitude: 
+longitude: 
 cafe_name: ""
 rating: 
 notes: "Probably the coolest stop on the nyc leg. @tildeathnyc"

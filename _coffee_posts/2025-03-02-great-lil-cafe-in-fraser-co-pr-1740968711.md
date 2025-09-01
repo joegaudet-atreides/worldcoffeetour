@@ -2,11 +2,11 @@
 layout: post
 title: "Great lil Cafe in Fraser, CO provided us with much needed driving fuel for the d"
 date: 2025-03-02
-city: "Fraser"
-country: "United States"
-continent: "North America"
-latitude: 42.1264859
-longitude: -93.9685535
+city: "Unknown"
+country: "Unknown"
+continent: "World"
+latitude: 
+longitude: 
 cafe_name: ""
 rating: 
 notes: "Great lil Cafe in Fraser, CO provided us with much needed driving fuel for the day."

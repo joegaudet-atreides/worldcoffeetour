@@ -1,15 +1,15 @@
 ---
 layout: post
-title: "Fun lil coffee and lunch date with @rsupeene at Annabelle's coffee and pastries,"
+title: "Fun lil coffee and lunch date with @rsupeene at Annabelle-'s coffee and pastrie"
 date: 2025-01-16
-city: "Wrocaw"
-country: "Polska"
+city: "Unknown"
+country: "Unknown"
 continent: "World"
-latitude: 51.1198059
-longitude: 17.0563636
-cafe_name: "Verde Delice"
+latitude: 
+longitude: 
+cafe_name: ""
 rating: 
-notes: "Fun lil coffee and lunch date with @rsupeene at Annabelle's coffee and pastries, delicious coffee and treats."
+notes: "Fun lil coffee and lunch date with @rsupeene at Annabelle-'s coffee and pastries, delicious coffee and treats."
 image_url: "/media/posts/202501/473983700_18490173592001623_242090858721471095_n_18057771388797790.jpg"
 images:
   - "/media/posts/202501/473983700_18490173592001623_242090858721471095_n_18057771388797790.jpg"

@@ -9,7 +9,7 @@ latitude: 50.1163
 longitude: -122.9574
 cafe_name: "HY's Steakhouse"
 rating: 
-notes: "Whistler classic spot on the the Alpine cafe, great break and friendly vibes, they've added heaps of capacity since I was last here."
+notes: "Whistler classic spot on the the Alpine cafe, great break and friendly vibes, they-'ve added heaps of capacity since I was last here."
 image_url: "/media/posts/202507/516756489_18522719491001623_8225538257689411533_n_17936077098059882.jpg"
 images:
   - "/media/posts/202507/516756489_18522719491001623_8225538257689411533_n_17936077098059882.jpg"

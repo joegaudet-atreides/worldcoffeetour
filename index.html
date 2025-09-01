@@ -3,13 +3,6 @@ layout: default
 title: World Coffee Tour Map
 ---
 
-<div class="background-slideshow">
-    {% for post in site.coffee_posts %}
-        {% if post.image_url %}
-        <div class="slide" style="background-image: url('{{ post.image_url }}')"></div>
-        {% endif %}
-    {% endfor %}
-</div>
 
 <div class="hero-section">
     <h1 class="hero-title">{{ site.title }}</h1>
@@ -17,13 +10,6 @@ title: World Coffee Tour Map
 </div>
 
 <div id="map" class="main-map"></div>
-<div id="sticky-map" class="sticky-map" style="display: none;">
-    <div class="sticky-map-header">
-        <div class="mobile-handle"></div>
-        <div class="map-title">Interactive Map</div>
-    </div>
-    <div id="sticky-map-container"></div>
-</div>
 
 <div class="filter-controls">
     <button class="filter-btn active" data-continent="all">All Continents</button>
@@ -46,7 +32,7 @@ title: World Coffee Tour Map
     {% assign posts_by_country = continent.items | group_by: 'country' | sort: 'name' %}
     
     {% for country in posts_by_country %}
-    <div class="country-section">
+    <div class="country-section" data-country="{{ country.name }}">
         <h2 class="country-title">{{ country.name }}</h2>
         
         {% assign posts_by_city = country.items | group_by: 'city' | sort: 'name' %}
@@ -118,63 +104,135 @@ const coffeePostsData = [
     {% endfor %}
 ];
 
-// Split pane and map functionality
-let mainMap, stickyMap;
+// Map functionality
+let mainMap;
 let isSticky = false;
 let currentHoveredCard = null;
+let mapContainer = null;
+let animationId = null;
+let mapOriginalRect = null;
+let heroSection = null;
+let scrollThreshold = 0;
+let scrollEventCount = 0;
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Wait for main.js to initialize the map
+    const initMainMap = () => {
+        if (window.mainMap) {
+            mainMap = window.mainMap;
+            console.log('mainMap connected:', !!mainMap);
+        } else {
+            setTimeout(initMainMap, 50);
+        }
+    };
+    initMainMap();
+    
     const filterBtns = document.querySelectorAll('.filter-btn');
     const continentSections = document.querySelectorAll('.continent-section');
-    const mainMapEl = document.getElementById('map');
-    const stickyMapEl = document.getElementById('sticky-map');
+    const countrySections = document.querySelectorAll('.country-section');
     const contentWrapper = document.querySelector('.content-wrapper');
     
-    // Initialize intersection observer for sticky map
-    const mapObserver = new IntersectionObserver(
-        (entries) => {
-            entries.forEach(entry => {
-                if (!entry.isIntersecting && !isSticky) {
-                    // Main map is out of view, show sticky map
-                    showStickyMap();
-                } else if (entry.isIntersecting && isSticky) {
-                    // Main map is back in view, hide sticky map
-                    hideStickyMap();
-                }
+    // Get the main map element and hero section
+    mapContainer = document.getElementById('map');
+    heroSection = document.querySelector('.hero-section');
+    
+    // Calculate scroll threshold (when hero section goes out of view)
+    function updateScrollThreshold() {
+        if (!heroSection || !mapContainer) {
+            console.log('updateScrollThreshold early return:', { heroSection: !!heroSection, mapContainer: !!mapContainer });
+            return;
+        }
+        
+        const heroRect = heroSection.getBoundingClientRect();
+        const mapRect = mapContainer.getBoundingClientRect();
+        
+        // First calculate the map's original position
+        mapOriginalRect = {
+            top: mapRect.top + window.scrollY,
+            left: mapRect.left,
+            width: mapRect.width,
+            height: mapRect.height
+        };
+        
+        // Scroll threshold should be when the map intersects with the site header
+        // Get the header height to know when the map hits the toolbar
+        const siteHeader = document.querySelector('.site-header');
+        const headerHeight = siteHeader ? siteHeader.offsetHeight : 0;
+        const targetPadding = 100; // The top padding we want for the sticky map
+        
+        // Animation starts when the map would reach its final sticky position
+        // This prevents the map from ever going under the toolbar
+        scrollThreshold = mapOriginalRect.top - headerHeight - targetPadding;
+        
+        console.log('updateScrollThreshold:', { scrollThreshold, mapOriginalRect });
+    }
+    
+    updateScrollThreshold();
+    
+    // Initialize state based on current scroll position (for page refresh)
+    setTimeout(() => {
+        updateMapAnimation();
+    }, 100);
+    
+    // Listen for scroll events
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+        scrollEventCount++;
+        // if (scrollEventCount % 10 === 0) { // Log every 10th scroll event to avoid spam
+        //     console.log('Scroll event #', scrollEventCount, 'scrollY:', window.scrollY);
+        // }
+        
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                updateMapAnimation();
+                ticking = false;
             });
-        },
-        { threshold: 0.1 }
-    );
+            ticking = true;
+        }
+    });
     
-    mapObserver.observe(mainMapEl);
+    // Update on resize
+    window.addEventListener('resize', () => {
+        updateScrollThreshold();
+        updateMapAnimation();
+    });
     
-    // Initialize intersection observer for auto-zooming to regions
+    // Initialize intersection observer for auto-zooming to regions, countries, and cities
     const sectionObserver = new IntersectionObserver(
         (entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting && entry.intersectionRatio > 0.5 && isSticky) {
-                    const section = entry.target;
-                    const continent = section.dataset.continent;
-                    zoomToRegion(continent);
+                if (entry.isIntersecting && entry.intersectionRatio > 0.3 && isSticky) {
+                    zoomToVisibleSection(entry.target);
                 }
             });
         },
-        { threshold: 0.5, rootMargin: '-20% 0px -20% 0px' }
+        { threshold: [0.3], rootMargin: '-50px 0px -40% 0px' }
     );
     
+    // Observe continent, country, and city sections for auto-zooming
     continentSections.forEach(section => {
         sectionObserver.observe(section);
     });
     
-    // Card hover functionality
+    countrySections.forEach(section => {
+        sectionObserver.observe(section);
+    });
+    
+    // Also observe city sections
+    const citySections = document.querySelectorAll('.city-section');
+    citySections.forEach(section => {
+        sectionObserver.observe(section);
+    });
+    
+    // Card hover functionality - zoom to individual cafe
     document.addEventListener('mouseover', function(e) {
         const card = e.target.closest('.coffee-card');
         if (card && isSticky) {
             const latitude = parseFloat(card.dataset.lat);
             const longitude = parseFloat(card.dataset.lng);
-            if (latitude && longitude && stickyMap) {
+            if (latitude && longitude && mainMap) {
                 currentHoveredCard = { lat: latitude, lng: longitude };
-                stickyMap.setView([latitude, longitude], 15);
+                mainMap.setView([latitude, longitude], 16, {animate: true, duration: 0.3, easeLinearity: 0.25});
             }
         }
     });
@@ -183,15 +241,25 @@ document.addEventListener('DOMContentLoaded', function() {
         const card = e.target.closest('.coffee-card');
         if (card && currentHoveredCard) {
             currentHoveredCard = null;
-            // Return to region view after a delay
+            // Return to appropriate section view after a delay
             setTimeout(() => {
                 if (!currentHoveredCard && isSticky) {
-                    const visibleSection = getVisibleSection();
+                    const visibleSection = getMostVisibleSection();
                     if (visibleSection) {
-                        zoomToRegion(visibleSection.dataset.continent);
+                        if (visibleSection.classList.contains('city-section')) {
+                            const cityTitle = visibleSection.querySelector('.city-title');
+                            if (cityTitle) {
+                                const cityName = cityTitle.textContent.replace('📍 ', '').trim();
+                                zoomToCity(cityName);
+                            }
+                        } else if (visibleSection.classList.contains('country-section')) {
+                            zoomToCountry(visibleSection.dataset.country);
+                        } else if (visibleSection.classList.contains('continent-section')) {
+                            zoomToRegion(visibleSection.dataset.continent);
+                        }
                     }
                 }
-            }, 500);
+            }, 800);
         }
     });
     
@@ -221,176 +289,388 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Resize handler
-    window.addEventListener('resize', function() {
-        if (isSticky && stickyMap) {
-            // Invalidate map size when switching between desktop/mobile
-            setTimeout(() => {
-                stickyMap.invalidateSize();
-            }, 100);
-        }
-    });
 });
 
-function showStickyMap() {
-    if (isSticky) return;
+function updateMapAnimation() {
+    if (!mapContainer || !mapOriginalRect) {
+        console.log('updateMapAnimation early return:', { mapContainer: !!mapContainer, mapOriginalRect: !!mapOriginalRect });
+        return;
+    }
     
-    const stickyMapEl = document.getElementById('sticky-map');
-    const contentWrapper = document.querySelector('.content-wrapper');
+    const scrollY = window.scrollY;
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
     
-    stickyMapEl.style.display = 'block';
-    contentWrapper.classList.add('split-pane');
+    // Calculate progress (0 = hero position, 1 = sidebar position)
+    const progress = Math.max(0, Math.min(1, (scrollY - scrollThreshold) / (viewportHeight * 0.3)));
     
-    // Initialize sticky map
-    setTimeout(() => {
-        if (!stickyMap) {
-            stickyMap = L.map('sticky-map-container').setView([20, 0], 2);
+    // console.log('updateMapAnimation:', { scrollY, scrollThreshold, progress, isSticky });
+    
+    // Target dimensions and position
+    const targetWidth = Math.min(viewportWidth * 0.35 - 32, 600);
+    const targetHeight = targetWidth * (9 / 16); // 16:9 aspect ratio
+    const targetTop = 100;
+    const targetLeft = viewportWidth - targetWidth - 32;
+    
+    if (progress > 0) {
+        // Animate to sidebar
+        if (!isSticky) {
+            isSticky = true;
+            mapContainer.classList.add('animating');
+            // Content wrapper is now always 65% width
             
-            // Use same dark tiles as main map
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-                subdomains: 'abcd',
-                maxZoom: 20
-            }).addTo(stickyMap);
+            // Create placeholder
+            if (!document.getElementById('map-placeholder')) {
+                const placeholder = document.createElement('div');
+                placeholder.id = 'map-placeholder';
+                placeholder.style.height = '500px';
+                placeholder.style.marginBottom = '3rem';
+                placeholder.style.visibility = 'hidden';
+                mapContainer.parentNode.insertBefore(placeholder, mapContainer);
+            }
             
-            // Create custom coffee icon to match main map
-            const coffeeIcon = L.divIcon({
-                html: '<div style="background: #d4a574; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #0a0a0a; font-size: 16px; box-shadow: 0 2px 6px rgba(212, 165, 116, 0.4);">☕</div>',
-                iconSize: [30, 30],
-                className: 'coffee-marker'
-            });
-            
-            // Add all coffee posts to sticky map
-            coffeePostsData.forEach(post => {
-                if (post.latitude && post.longitude) {
-                    const marker = L.marker([post.latitude, post.longitude], { icon: coffeeIcon }).addTo(stickyMap);
-                    marker.bindPopup(`
-                        <div style="text-align: center; min-width: 150px; color: #fff;">
-                            <strong>${post.title}</strong><br>
-                            ${post.city}, ${post.country}<br>
-                            <a href="${post.url}" style="color: #d4a574;">View Post →</a>
-                        </div>
-                    `);
-                }
-            });
+            if (mainMap) {
+                setTimeout(() => {
+                    mainMap.invalidateSize();
+                    // Only zoom to current section if this isn't the initial page load
+                    if (scrollEventCount > 0) {
+                        const visibleSection = getMostVisibleSection();
+                        if (visibleSection) {
+                            zoomToVisibleSection(visibleSection);
+                        }
+                    }
+                }, 100);
+            }
         }
         
-        stickyMap.invalidateSize();
-        isSticky = true;
+        // Calculate the natural scroll position of the map (where it would be if not sticky)
+        const naturalTop = mapOriginalRect.top - scrollY;
         
-        // Zoom to current visible section
-        const visibleSection = getVisibleSection();
-        if (visibleSection) {
-            zoomToRegion(visibleSection.dataset.continent);
+        // Ensure the map never goes above its target position (under the toolbar)
+        const safeNaturalTop = Math.max(naturalTop, targetTop);
+        
+        // Interpolate between the safe natural position and the target sticky position
+        const currentTop = safeNaturalTop + (targetTop - safeNaturalTop) * progress;
+        const currentLeft = mapOriginalRect.left + (targetLeft - mapOriginalRect.left) * progress;
+        const currentWidth = mapOriginalRect.width + (targetWidth - mapOriginalRect.width) * progress;
+        const currentHeight = mapOriginalRect.height + (targetHeight - mapOriginalRect.height) * progress;
+        
+        // Apply transform
+        mapContainer.style.top = `${currentTop}px`;
+        mapContainer.style.left = `${currentLeft}px`;
+        mapContainer.style.width = `${currentWidth}px`;
+        mapContainer.style.height = `${currentHeight}px`;
+        mapContainer.style.borderRadius = `${12 * (1 - progress * 0.5)}px`;
+        
+        // Update box shadow
+        const shadowIntensity = 0.4 + (progress * 0.2);
+        mapContainer.style.boxShadow = `0 ${2 + progress * 14}px ${8 + progress * 8}px rgba(0,0,0,${shadowIntensity})`;
+        
+    } else {
+        // Animate back to hero
+        if (isSticky) {
+            isSticky = false;
+            mapContainer.classList.remove('animating');
+            // Content wrapper is always 65% width
+            
+            // Remove placeholder
+            const placeholder = document.getElementById('map-placeholder');
+            if (placeholder) {
+                placeholder.remove();
+            }
+            
+            // Reset styles
+            mapContainer.style.top = '';
+            mapContainer.style.left = '';
+            mapContainer.style.width = '';
+            mapContainer.style.height = '';
+            mapContainer.style.borderRadius = '';
+            mapContainer.style.boxShadow = '';
+            
+            if (mainMap) {
+                setTimeout(() => {
+                    mainMap.invalidateSize();
+                    mainMap.setView([20, 0], 2, {animate: true, duration: 0.5});
+                }, 100);
+            }
         }
-    }, 100);
+    }
 }
 
-function hideStickyMap() {
-    if (!isSticky) return;
+function smoothZoomToBounds(bounds, maxZoom) {
+    if (!mainMap) return;
     
-    const stickyMapEl = document.getElementById('sticky-map');
-    const contentWrapper = document.querySelector('.content-wrapper');
+    console.log('smoothZoomToBounds called with maxZoom:', maxZoom);
     
-    stickyMapEl.style.display = 'none';
-    contentWrapper.classList.remove('split-pane');
-    isSticky = false;
+    const currentCenter = mainMap.getCenter();
+    const targetCenter = bounds.getCenter();
+    const currentZoom = mainMap.getZoom();
+    const targetZoom = Math.min(mainMap.getBoundsZoom(bounds, [10, 10]), maxZoom || 18);
+    
+    // Calculate distance to determine if we need to pan first
+    const distance = currentCenter.distanceTo(targetCenter);
+    const zoomDifference = Math.abs(currentZoom - targetZoom);
+    
+    console.log('Pan distance:', Math.round(distance), 'km, Zoom difference:', zoomDifference);
+    
+    // If it's a significant location change, pan first then zoom
+    if (distance > 100000 || zoomDifference > 3) { // > 100km or big zoom change
+        console.log('Using pan-then-zoom for large distance/zoom change');
+        
+        // For very long distances (cross-continental), zoom out first, then pan, then zoom in
+        if (distance > 5000000 && currentZoom > 4) { // > 5000km and zoomed in
+            console.log('Using zoom-out-pan-zoom-in for intercontinental travel');
+            
+            // First zoom out to see the journey
+            mainMap.setZoom(3, {
+                animate: true,
+                duration: 0.5
+            });
+            
+            // Then pan while zoomed out
+            setTimeout(() => {
+                mainMap.panTo(targetCenter, {
+                    animate: true,
+                    duration: 1.0,
+                    easeLinearity: 0.1
+                });
+            }, 300);
+            
+            // Finally zoom to target
+            setTimeout(() => {
+                mainMap.fitBounds(bounds, {
+                    animate: true,
+                    duration: 0.8,
+                    easeLinearity: 0.1,
+                    maxZoom: maxZoom,
+                    padding: [10, 10]
+                });
+            }, 1100);
+            
+        } else {
+            // Regular pan-then-zoom for shorter distances
+            mainMap.panTo(targetCenter, {
+                animate: true,
+                duration: 0.8,
+                easeLinearity: 0.1
+            });
+            
+            // Then zoom after panning
+            setTimeout(() => {
+                mainMap.fitBounds(bounds, {
+                    animate: true,
+                    duration: 0.8,
+                    easeLinearity: 0.1,
+                    maxZoom: maxZoom,
+                    padding: [10, 10]
+                });
+            }, 500);
+        }
+        
+    } else {
+        // For nearby locations, use direct fitBounds
+        console.log('Using direct fitBounds for nearby location');
+        mainMap.fitBounds(bounds, {
+            animate: true,
+            duration: 0.8,
+            easeLinearity: 0.1,
+            maxZoom: maxZoom,
+            padding: [10, 10]
+        });
+    }
 }
 
-function getVisibleSection() {
-    const sections = document.querySelectorAll('.continent-section');
-    for (const section of sections) {
+function zoomToVisibleSection(section) {
+    if (section.classList.contains('city-section')) {
+        const cityTitle = section.querySelector('.city-title');
+        if (cityTitle) {
+            const cityName = cityTitle.textContent.replace('📍 ', '').trim();
+            zoomToCity(cityName);
+        }
+    } else if (section.classList.contains('country-section')) {
+        zoomToCountry(section.dataset.country);
+    } else if (section.classList.contains('continent-section')) {
+        const continent = section.dataset.continent;
+        if (continent) {
+            zoomToRegion(continent);
+        }
+    }
+}
+
+function getMostVisibleSection() {
+    // Check city sections first (most specific)
+    const citySections = document.querySelectorAll('.city-section');
+    for (const section of citySections) {
         const rect = section.getBoundingClientRect();
         if (rect.top < window.innerHeight * 0.6 && rect.bottom > window.innerHeight * 0.4) {
             return section;
         }
     }
+    
+    // Then check country sections
+    const countrySections = document.querySelectorAll('.country-section');
+    for (const section of countrySections) {
+        const rect = section.getBoundingClientRect();
+        if (rect.top < window.innerHeight * 0.6 && rect.bottom > window.innerHeight * 0.4) {
+            return section;
+        }
+    }
+    
+    // Finally check continent sections
+    const continentSections = document.querySelectorAll('.continent-section');
+    for (const section of continentSections) {
+        const rect = section.getBoundingClientRect();
+        if (rect.top < window.innerHeight * 0.6 && rect.bottom > window.innerHeight * 0.4) {
+            return section;
+        }
+    }
+    
     return null;
 }
 
 function zoomToRegion(continent) {
-    if (!stickyMap || currentHoveredCard) return;
+    console.log('zoomToRegion called:', { continent, hasMainMap: !!mainMap, isSticky, currentHoveredCard });
+    
+    if (!mainMap || !isSticky || currentHoveredCard) return;
     
     const regionPosts = coffeePostsData.filter(post => 
         post.continent.toLowerCase().replace(/\s/g, '-') === continent && 
         post.latitude && post.longitude
     );
     
+    console.log('Found region posts:', regionPosts.length, 'for continent:', continent);
+    
     if (regionPosts.length > 0) {
-        const group = new L.featureGroup(regionPosts.map(post => 
-            L.marker([post.latitude, post.longitude])
-        ));
-        stickyMap.fitBounds(group.getBounds().pad(0.1));
+        try {
+            const group = new L.featureGroup(regionPosts.map(post => 
+                L.marker([post.latitude, post.longitude])
+            ));
+            console.log('Fitting bounds for region');
+            smoothZoomToBounds(group.getBounds().pad(0.15), 6);
+        } catch (error) {
+            console.error('Error during region zoom:', error);
+        }
+    }
+}
+
+function zoomToCountry(country) {
+    console.log('zoomToCountry called:', { country, hasMainMap: !!mainMap, isSticky, currentHoveredCard });
+    
+    if (!mainMap || !isSticky || currentHoveredCard) return;
+    
+    const countryPosts = coffeePostsData.filter(post => 
+        post.country === country && 
+        post.latitude && post.longitude
+    );
+    
+    console.log('Found country posts:', countryPosts.length, 'for country:', country);
+    
+    if (countryPosts.length > 0) {
+        try {
+            const group = new L.featureGroup(countryPosts.map(post => 
+                L.marker([post.latitude, post.longitude])
+            ));
+            console.log('Fitting bounds for country');
+            smoothZoomToBounds(group.getBounds().pad(0.2), 10);
+        } catch (error) {
+            console.error('Error during country zoom:', error);
+        }
+    }
+}
+
+function zoomToCity(cityName) {
+    console.log('zoomToCity called:', { cityName, hasMainMap: !!mainMap, isSticky, currentHoveredCard });
+    
+    if (!mainMap) {
+        console.log('No mainMap - aborting zoom');
+        return;
+    }
+    if (!isSticky) {
+        console.log('Not sticky - aborting zoom');
+        return;
+    }
+    if (currentHoveredCard) {
+        console.log('Currently hovering card - aborting zoom');
+        return;
+    }
+    
+    const cityPosts = coffeePostsData.filter(post => 
+        post.city === cityName && 
+        post.latitude && post.longitude
+    );
+    
+    console.log('Found city posts:', cityPosts.length, 'for city:', cityName);
+    console.log('All city posts:', cityPosts);
+    
+    if (cityPosts.length > 0) {
+        try {
+            console.log('Creating markers for city posts...');
+            
+            // Add small random offsets to identical coordinates so we can see multiple pins
+            const markers = cityPosts.map((post, index) => {
+                let lat = post.latitude;
+                let lng = post.longitude;
+                
+                // If there are multiple posts and this isn't the first one, add a small offset
+                if (cityPosts.length > 1 && index > 0) {
+                    // Check if coordinates are identical to first post
+                    if (lat === cityPosts[0].latitude && lng === cityPosts[0].longitude) {
+                        // Add small random offset (about 100-500m radius)
+                        const offsetRange = 0.005; // roughly 500m
+                        lat += (Math.random() - 0.5) * offsetRange;
+                        lng += (Math.random() - 0.5) * offsetRange;
+                        console.log('Added offset to duplicate coordinates for:', post.title);
+                    }
+                }
+                
+                console.log('Creating marker for:', lat, lng, post.title);
+                return L.marker([lat, lng]);
+            });
+            
+            const group = new L.featureGroup(markers);
+            const bounds = group.getBounds();
+            console.log('Bounds calculated:', bounds);
+            console.log('Bounds northeast:', bounds.getNorthEast());
+            console.log('Bounds southwest:', bounds.getSouthWest());
+            
+            // Use appropriate padding and zoom
+            const padding = cityPosts.length === 1 ? 0.01 : 0.1;
+            const maxZoom = cityPosts.length === 1 ? 13 : 15;
+            
+            console.log('Calling fitBounds with padding:', padding, 'maxZoom:', maxZoom);
+            
+            // Use smooth zoom animation
+            smoothZoomToBounds(bounds.pad(padding), maxZoom);
+            
+            console.log('fitBounds called successfully');
+        } catch (error) {
+            console.error('Error during zoom:', error);
+            console.error('Error stack:', error.stack);
+        }
+    } else {
+        console.log('No posts found for city:', cityName);
     }
 }
 </script>
 
 <style>
-/* Split Pane Layout */
+/* Content Layout */
 .content-wrapper {
+    width: 65%;
+    /* Always 65% width, no transition needed */
+}
+
+.posts-content {
     width: 100%;
-}
-
-.content-wrapper.split-pane {
-    display: flex;
-    gap: 2rem;
-    max-width: none;
-    margin: 0;
-    padding: 2rem;
-}
-
-.content-wrapper.split-pane .posts-content {
-    flex: 1;
-    max-width: 60%;
-    overflow-y: auto;
-}
-
-.sticky-map {
-    position: fixed;
-    top: 120px;
-    right: 2rem;
-    width: 35%;
-    height: calc(100vh - 140px);
-    z-index: 100;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: var(--shadow-hover);
-    border: 1px solid var(--border-color);
-}
-
-#sticky-map-container {
-    width: 100%;
-    height: calc(100% - 40px);
-}
-
-.sticky-map-header {
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(26, 26, 26, 0.95);
-    border-bottom: 1px solid var(--border-color);
-    position: relative;
-}
-
-.mobile-handle {
-    width: 40px;
-    height: 4px;
-    background: var(--border-color);
-    border-radius: 2px;
-    display: none;
-}
-
-.map-title {
-    color: var(--text-light);
-    font-size: 0.9rem;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
 }
 
 @media (max-width: 768px) {
-    .sticky-map {
+    .content-wrapper {
+        width: 100%;
+        padding-bottom: 40vh;
+    }
+    
+    #map.sticky-right {
         position: fixed;
         top: auto;
         bottom: 0;
@@ -398,104 +678,22 @@ function zoomToRegion(continent) {
         right: 0;
         width: 100%;
         height: 40vh;
+        max-height: 40vh;
         border-radius: 12px 12px 0 0;
         box-shadow: 0 -4px 16px rgba(0,0,0,0.6);
     }
-    
-    .content-wrapper.split-pane {
-        display: block;
-        padding-bottom: 40vh;
-    }
-    
-    .content-wrapper.split-pane .posts-content {
-        max-width: 100%;
-    }
-    
-    .mobile-handle {
-        display: block;
-        position: absolute;
-        top: 8px;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-    
-    .map-title {
-        display: none;
-    }
-    
-    .sticky-map-header {
-        height: 24px;
-        background: rgba(26, 26, 26, 0.95);
-        backdrop-filter: blur(10px);
-    }
-    
-    #sticky-map-container {
-        height: calc(100% - 24px);
-    }
 }
 
-/* Background Slideshow */
-.background-slideshow {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    overflow: hidden;
-}
 
-.slide {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0;
-    animation: slideshow 30s infinite;
-    will-change: opacity;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-}
-
-{% assign total_posts = site.coffee_posts | size %}
-{% if total_posts > 0 %}
-    {% for i in (1..total_posts) %}
-    .slide:nth-child({{ i }}) {
-        animation-delay: {{ i | minus: 1 | times: 30 | divided_by: total_posts }}s;
-    }
-    {% endfor %}
-{% endif %}
-
-@keyframes slideshow {
-    0% { opacity: 0; }
-    8% { opacity: 0.3; }
-    25% { opacity: 0.3; }
-    33% { opacity: 0; }
-    100% { opacity: 0; }
-}
-
-.slide::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(180deg, 
-        rgba(10, 10, 10, 0.4) 0%, 
-        rgba(10, 10, 10, 0.6) 50%, 
-        rgba(10, 10, 10, 0.8) 100%);
-}
 
 .hero-section {
     text-align: center;
-    padding: 3rem 0;
+    padding: 4rem 2rem 3rem 2rem;
+    margin: 0 -2rem;
     position: relative;
     z-index: 1;
+    background: var(--bg-color);
+    width: calc(100% + 4rem);
 }
 
 .hero-title {
@@ -514,10 +712,6 @@ function zoomToRegion(continent) {
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
 }
 
-#map {
-    opacity: 0.95;
-    border: 1px solid var(--border-color);
-}
 
 .coffee-grid {
     position: relative;

@@ -3,6 +3,9 @@ layout: default
 ---
 
 <article class="coffee-post">
+    <!-- Map at the top -->
+    <div class="post-map" id="post-map" data-lat="{{ page.latitude }}" data-lng="{{ page.longitude }}" data-title="{{ page.title }}"></div>
+    
     <div class="post-header">
         <a href="{{ '/' | relative_url }}" class="back-link">← Back to Map</a>
         {% if page.cafe_name %}
@@ -17,6 +20,13 @@ layout: default
     </div>
 
     <div class="post-content">
+        <!-- Description -->
+        {% if page.notes %}
+        <div class="post-description">
+            <p>{{ page.notes }}</p>
+        </div>
+        {% endif %}
+
         {% if page.instagram_url %}
         <div class="instagram-embed">
             <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="{{ page.instagram_url }}" data-instgrm-version="14">
@@ -37,16 +47,6 @@ layout: default
             <img src="{{ page.image_url }}" alt="{{ page.title }}" loading="lazy">
         </div>
         {% endif %}
-
-        <!-- Description -->
-        {% if page.notes %}
-        <div class="post-description">
-            <p>{{ page.notes }}</p>
-        </div>
-        {% endif %}
-
-        <!-- Map -->
-        <div class="post-map" id="post-map" data-lat="{{ page.latitude }}" data-lng="{{ page.longitude }}" data-title="{{ page.title }}"></div>
         
         <!-- Additional Details -->
         <div class="post-details">

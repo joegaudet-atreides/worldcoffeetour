@@ -2,12 +2,12 @@
 layout: post
 title: "Cute little Redwood City stop on the #worldcoffeetour completely with delightful"
 date: 2025-01-25
-city: "Redwood City"
-country: "United States"
-continent: "North America"
-latitude: 37.4863239
-longitude: -122.232523
-cafe_name: "Peet's Coffee"
+city: "Unknown"
+country: "Unknown"
+continent: "World"
+latitude: 
+longitude: 
+cafe_name: ""
 rating: 
 notes: "Cute little Redwood City stop on the completely with delightful sweet treats. @thebakernextdoor_rwc"
 image_url: "/media/posts/202501/474976200_18491637289001623_2741018221970030589_n_18103387420471089.jpg"

@@ -1,15 +1,15 @@
 ---
 layout: post
-title: "The most \"designey\" shop so far on the #worldcoffeetour in CDMX - super cool spa"
+title: "The most -\"designey-\" shop so far on the #worldcoffeetour in CDMX - super cool"
 date: 2024-12-18
 city: "Mexico City"
 country: "Mexico"
 continent: "North America"
-latitude: 19.4326
-longitude: -99.1332
+latitude: 
+longitude: 
 cafe_name: ""
 rating: 
-notes: "The most \"designey\" shop so far on the in CDMX - super cool space and first time I've seen a slayer single group head in the wild. Espresso was perfection."
+notes: "The most -\"designey-\" shop so far on the in CDMX - super cool space and first time I-'ve seen a slayer single group head in the wild. Espresso was perfection."
 image_url: "/media/posts/202412/470674818_18484461454001623_8468832195661570305_n_18215880058291038.jpg"
 images:
   - "/media/posts/202412/470674818_18484461454001623_8468832195661570305_n_18215880058291038.jpg"

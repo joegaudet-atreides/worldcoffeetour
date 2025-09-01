@@ -2,12 +2,12 @@
 layout: post
 title: "Second last day in TO before I head to NYC, took a beautiful stroll through High"
 date: 2024-11-16
-city: "Toronto"
-country: "Canada"
+city: "New York"
+country: "United States"
 continent: "North America"
-latitude: 43.6532
-longitude: -79.3832
-cafe_name: "Buno"
+latitude: 
+longitude: 
+cafe_name: ""
 rating: 
 notes: "Second last day in TO before I head to NYC, took a beautiful stroll through High park (check out this gorgeous tree I found-.) and yet another cheeky stop on the Buno on Queen west, cute blue motif, great espresso."
 image_url: "/media/posts/202411/467241031_18478422814001623_844854943870838980_n_17863669776203469.jpg"

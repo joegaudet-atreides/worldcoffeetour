@@ -5,11 +5,11 @@ date: 2024-11-21
 city: "Brooklyn"
 country: "United States"
 continent: "North America"
-latitude: 40.6782
-longitude: -73.9442
+latitude: 
+longitude: 
 cafe_name: ""
 rating: 
-notes: "So it turns out Brooklyn is where the goods are, found this brand new place in green point @coffeechecknyc, amazingly friendly staff gave me a list of recos for both coffee and food. We'll have them to thank for the improvement of the NYC leg"
+notes: "So it turns out Brooklyn is where the goods are, found this brand new place in green point @coffeechecknyc, amazingly friendly staff gave me a list of recos for both coffee and food. We-'ll have them to thank for the improvement of the NYC leg"
 image_url: "/media/posts/202411/467400670_18479345668001623_8320052824767035887_n_18011053328477767.jpg"
 images:
   - "/media/posts/202411/467400670_18479345668001623_8320052824767035887_n_18011053328477767.jpg"

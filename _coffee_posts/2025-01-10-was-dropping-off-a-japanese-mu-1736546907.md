@@ -2,12 +2,12 @@
 layout: post
 title: "Was dropping off a Japanese mug I got to get repaired and stumbled across @merca"
 date: 2025-01-10
-city: "Vancouver"
-country: "Canada"
-continent: "North America"
-latitude: 49.2608724
-longitude: -123.113952
-cafe_name: "Mercato di Luigi"
+city: "Unknown"
+country: "Unknown"
+continent: "World"
+latitude: 
+longitude: 
+cafe_name: ""
 rating: 
 notes: "Was dropping off a Japanese mug I got to get repaired and stumbled across @mercatodiluigi for an afternoon americano, must return for the pasta which looked unreal."
 image_url: "/media/posts/202501/473543883_18489081652001623_3090468817512826369_n_18282350014223837.jpg"
