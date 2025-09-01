@@ -252,10 +252,13 @@ function getPostId(post) {
 
 // Initialize the interface
 document.addEventListener('DOMContentLoaded', function() {
+    // Ensure modal is closed on page load
+    closeModal();
+    
     loadCorrections();
     loadPosts();
     setupEventListeners();
-    loadFilterSettings();
+    loadFilterSettings(); // This will also trigger filtering
 });
 
 function loadPosts() {
@@ -420,6 +423,11 @@ function populateEditImages(postData) {
 
 function closeModal() {
     document.getElementById('edit-modal').style.display = 'none';
+    
+    // Clear the form
+    document.getElementById('edit-form').reset();
+    document.getElementById('edit-images').innerHTML = '';
+    
     if (editMap) {
         editMap.remove();
         editMap = null;
@@ -932,9 +940,22 @@ function filterPosts() {
     
     if (showProblematicOnly) {
         filtered = filtered.filter(post => {
-            const hasCorrections = corrections[getPostId(post)];
+            const postId = getPostId(post);
+            const hasCorrections = corrections[postId];
             const effectivePost = hasCorrections ? {...post, ...hasCorrections} : post;
-            return !effectivePost.latitude || !effectivePost.longitude || !effectivePost.cafe_name;
+            const isProblematic = !effectivePost.latitude || !effectivePost.longitude || !effectivePost.cafe_name;
+            
+            // Debug logging
+            if (hasCorrections) {
+                console.log(`Post ${postId}:`, {
+                    original: { lat: post.latitude, lng: post.longitude, cafe: post.cafe_name },
+                    corrections: hasCorrections,
+                    effective: { lat: effectivePost.latitude, lng: effectivePost.longitude, cafe: effectivePost.cafe_name },
+                    isProblematic
+                });
+            }
+            
+            return isProblematic;
         });
         console.log('After problematic filter:', filtered.length);
     }
@@ -972,6 +993,38 @@ function savePost() {
     closeModal();
     
     alert('Changes saved!');
+}
+
+function saveFilterSettings() {
+    const filterSettings = {
+        search: document.getElementById('search-input').value,
+        continent: document.getElementById('continent-filter').value,
+        country: document.getElementById('country-filter').value,
+        showProblematic: document.getElementById('show-problematic').checked
+    };
+    localStorage.setItem('admin-filter-settings', JSON.stringify(filterSettings));
+}
+
+function loadFilterSettings() {
+    const saved = localStorage.getItem('admin-filter-settings');
+    if (saved) {
+        try {
+            const settings = JSON.parse(saved);
+            
+            // Wait for filters to be populated first
+            setTimeout(() => {
+                document.getElementById('search-input').value = settings.search || '';
+                document.getElementById('continent-filter').value = settings.continent || '';
+                document.getElementById('country-filter').value = settings.country || '';
+                document.getElementById('show-problematic').checked = settings.showProblematic || false;
+                
+                // Apply the filters after loading settings
+                filterPosts();
+            }, 200);
+        } catch (e) {
+            console.error('Failed to load filter settings:', e);
+        }
+    }
 }
 
 function updateStats() {
