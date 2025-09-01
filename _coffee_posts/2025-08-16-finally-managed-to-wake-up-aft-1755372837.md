@@ -1,4 +1,14 @@
 ---
+title: Finally managed to wake up after the best sleep of my life, kicking things off r
+city: Las Condes
+country: Chile
+continent: South America
+latitude: -33.417895
+longitude: -70.599318
+cafe_name: We are four
+notes: Finally managed to wake up after the best sleep of my life, kicking things off right with the first of many on the LATAM leg of the quick Americano - apparently a chain here but still quite tasty
+---
+---
 layout: post
 title: "Finally managed to wake up after the best sleep of my life, kicking things off r"
 date: 2025-08-16

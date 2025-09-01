@@ -1,4 +1,15 @@
 ---
+title: A Toronto classic, Voodoo Child on College, the last time I was in this cafe was
+city: Toronto
+country: Canada
+continent: North America
+latitude: 43.65706
+longitude: -79.405553
+cafe_name: Voodoo Child
+rating: 4
+notes: A Toronto classic, Voodoo Child on College, the last time I was in this cafe was in much less happy circumstances for the funeral of @jamesgolick, incidentally the person I lifted the habit from. Gone but never forgotten.
+---
+---
 layout: post
 title: "A Toronto classic, Voodoo Child on College, the last time I was in this cafe was"
 date: 2024-11-15

@@ -1,4 +1,15 @@
 ---
+title: Cute little stop on the #worldcoffeetour neighbourhood spot of my gracious hosts
+city: Toronto
+country: Canada
+continent: North America
+latitude: 43.652249
+longitude: -79.406892
+cafe_name: "Milky's"
+rating: 4
+notes: "Cute little stop on the neighbourhood spot of my gracious hosts Milky's - espresso was very much on point"
+---
+---
 layout: post
 title: "Cute little stop on the #worldcoffeetour neighbourhood spot of my gracious hosts"
 date: 2024-11-16

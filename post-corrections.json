@@ -21,7 +21,7 @@
     "continent": "South America",
     "latitude": -33.4489,
     "longitude": -70.6693,
-    "notes": "Latergram post from our last day in Santiago @pacecoffeecl was the top rated cafe in &quot;little Italy&quot; (in no way Italian). They are a testament to the care and love that coffee culture can have when filled with intention. The owners made us this delicious pour over and then sat and chatted for 30 minutes while we enjoyed it, and gave us an espresso blend made with robusto beans that was absolutely fantastic (and floored me for an hour). All in all a magnificent stop on the",
+    "notes": "Latergram post from our last day in Santiago @pacecoffeecl was the top rated cafe in \"little Italy\" (in no way Italian). They are a testament to the care and love that coffee culture can have when filled with intention. The owners made us this delicious pour over and then sat and chatted for 30 minutes while we enjoyed it, and gave us an espresso blend made with robusto beans that was absolutely fantastic (and floored me for an hour). All in all a magnificent stop on the",
     "rating": "5"
   },
   "coffee/2024-11-13-fahrenheit-coffee-worldcoffeet-1731523036": {
@@ -44,5 +44,27 @@
     "latitude": -33.417895,
     "longitude": -70.599318,
     "notes": "Finally managed to wake up after the best sleep of my life, kicking things off right with the first of many on the LATAM leg of the quick Americano - apparently a chain here but still quite tasty"
+  },
+  "coffee/2024-11-15-a-toronto-classic-voodoo-child-1731684861": {
+    "title": "A Toronto classic, Voodoo Child on College, the last time I was in this cafe was",
+    "cafe_name": "Voodoo Child",
+    "city": "Toronto",
+    "country": "Canada",
+    "continent": "North America",
+    "latitude": 43.65706,
+    "longitude": -79.405553,
+    "notes": "A Toronto classic, Voodoo Child on College, the last time I was in this cafe was in much less happy circumstances for the funeral of @jamesgolick, incidentally the person I lifted the habit from. Gone but never forgotten.",
+    "rating": "4"
+  },
+  "coffee/2024-11-16-cute-little-stop-on-the-worldc-1731774235": {
+    "title": "Cute little stop on the #worldcoffeetour neighbourhood spot of my gracious hosts",
+    "cafe_name": "Milky's",
+    "city": "Toronto",
+    "country": "Canada",
+    "continent": "North America",
+    "latitude": 43.652249,
+    "longitude": -79.406892,
+    "notes": "Cute little stop on the neighbourhood spot of my gracious hosts Milky's - espresso was very much on point",
+    "rating": "4"
   }
 }

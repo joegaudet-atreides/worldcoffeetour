@@ -1,4 +1,15 @@
 ---
+title: Fahrenheit Coffee #worldcoffeetour
+city: Toronto
+country: Canada
+continent: North America
+latitude: 43.652417
+longitude: -79.372895
+cafe_name: Fahrenheit Coffee
+rating: 4
+notes: Fahrenheit Coffee, classic Vancouver spot that Kenny B turned me onto, mostly known for their spro.
+---
+---
 layout: post
 title: "Fahrenheit Coffee #worldcoffeetour"
 date: 2024-11-13
