@@ -1210,5 +1210,29 @@ function zoomToCity(cityName) {
         font-size: 0.85rem;
         padding: 0.4rem 1rem;
     }
+    
+    /* Mobile: remove section borders, zero padding, cards get rounded rects */
+    .continent-section,
+    .country-section,
+    .city-section {
+        border: none !important;
+        border-left: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background: var(--bg-color);
+    }
+    
+    /* Section headings get padding to align with cards */
+    .continent-title,
+    .country-title,
+    .city-title {
+        padding: 0 1em !important;
+        margin: 1em 0 !important;
+    }
+    
+    .coffee-card {
+        border-radius: 8px !important;
+        margin: 1em !important;
+    }
 }
 </style>

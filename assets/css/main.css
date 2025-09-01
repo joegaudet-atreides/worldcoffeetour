@@ -601,6 +601,7 @@ body {
     
     .main-content {
         padding: 0;
+        width: 100%;
     }
     
     /* Full-bleed feed, remove all borders on mobile */
@@ -618,8 +619,9 @@ body {
     .country-section,
     .city-section {
         border: none;
-        padding: 1rem;
+        padding: 1.5rem;
         margin: 0;
+        background: var(--bg-color);
     }
     
     .continent-title,
@@ -632,15 +634,27 @@ body {
     .coffee-card {
         border: none;
         box-shadow: none;
+        border-radius: 0;
+        margin: 0;
+    }
+    
+    .coffee-card-content {
+        padding: 1.5rem;
+    }
+    
+    .coffee-card-image {
+        border-radius: 0;
     }
     
     #map {
         height: 300px;
+        margin: 1.5rem;
+        border-radius: 8px;
     }
     
     .coffee-grid {
         grid-template-columns: 1fr;
-        gap: 1.5rem;
+        gap: 0;
     }
     
     .post-title {
