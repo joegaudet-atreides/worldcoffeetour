@@ -26,19 +26,23 @@ title: World Coffee Tour Map
 <div class="content-wrapper">
     <div class="posts-content">
         {% for continent in posts_by_continent %}
-        <section class="continent-section" data-continent="{{ continent.name | downcase | replace: ' ', '-' }}">
-            <h1 class="continent-title">{{ continent.name }}</h1>
+        <section class="continent-section" id="{{ continent.name | downcase | replace: ' ', '-' }}" data-continent="{{ continent.name | downcase | replace: ' ', '-' }}">
+            <h1 class="continent-title">
+                <a href="#{{ continent.name | downcase | replace: ' ', '-' }}" class="section-link">{{ continent.name }}</a>
+            </h1>
     
     {% assign posts_by_country = continent.items | group_by: 'country' | sort: 'name' %}
     
     {% for country in posts_by_country %}
-    <div class="country-section" data-country="{{ country.name }}">
-        <h2 class="country-title">{{ country.name }}</h2>
+    <div class="country-section" id="{{ continent.name | downcase | replace: ' ', '-' }}-{{ country.name | downcase | replace: ' ', '-' }}" data-country="{{ country.name }}" data-continent="{{ continent.name }}">
+        <h2 class="country-title">
+            <a href="#{{ continent.name | downcase | replace: ' ', '-' }}-{{ country.name | downcase | replace: ' ', '-' }}" class="section-link">{{ country.name }}</a>
+        </h2>
         
         {% assign posts_by_city = country.items | group_by: 'city' | sort: 'name' %}
         
         {% for city in posts_by_city %}
-        <div class="city-section">
+        <div class="city-section" id="{{ continent.name | downcase | replace: ' ', '-' }}-{{ country.name | downcase | replace: ' ', '-' }}-{{ city.name | downcase | replace: ' ', '-' }}" data-city="{{ city.name }}" data-country="{{ country.name }}" data-continent="{{ continent.name }}">
             <h3 class="city-title">📍 {{ city.name }}</h3>
             
             <div class="coffee-grid">
@@ -194,6 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else {
                     updateMapAnimation();
                 }
+                updateBreadcrumb();
                 ticking = false;
             });
             ticking = true;
@@ -505,6 +510,133 @@ function toggleMobileMap() {
         mapContainer.classList.add('mobile-stowed');
         mapContainer.style.height = '40px';
         stowButton.innerHTML = '▲';
+    }
+}
+
+function updateBreadcrumb() {
+    const visibleSection = getMostVisibleSection();
+    const titleContent = document.querySelector('.title-content');
+    let breadcrumbNav = document.getElementById('breadcrumb-nav');
+    
+    if (!titleContent) return;
+    
+    // Clear breadcrumbs if at the very top of the page
+    if (window.scrollY < 100) {
+        if (breadcrumbNav) {
+            breadcrumbNav.remove();
+        }
+        titleContent.classList.add('no-breadcrumb');
+        return;
+    }
+    
+    if (!visibleSection) return;
+    
+    const continent = visibleSection.dataset.continent;
+    const country = visibleSection.dataset.country;
+    const city = visibleSection.dataset.city;
+    
+    if (continent || country || city) {
+        // Create breadcrumb if it doesn't exist
+        if (!breadcrumbNav) {
+            breadcrumbNav = document.createElement('div');
+            breadcrumbNav.id = 'breadcrumb-nav';
+            breadcrumbNav.className = 'breadcrumb-nav';
+            breadcrumbNav.innerHTML = `
+                <a id="breadcrumb-continent" href="#" class="breadcrumb-link"></a>
+                <span id="breadcrumb-separator1" class="breadcrumb-separator"> › </span>
+                <a id="breadcrumb-country" href="#" class="breadcrumb-link"></a>
+                <span id="breadcrumb-separator2" class="breadcrumb-separator"> › </span>
+                <a id="breadcrumb-city" href="#" class="breadcrumb-link"></a>
+            `;
+            titleContent.appendChild(breadcrumbNav);
+        }
+        
+        // Show breadcrumb with animation
+        breadcrumbNav.classList.add('visible');
+        titleContent.classList.remove('no-breadcrumb');
+        
+        // Get the elements
+        const continentLink = document.getElementById('breadcrumb-continent');
+        const countryLink = document.getElementById('breadcrumb-country');
+        const cityLink = document.getElementById('breadcrumb-city');
+        const sep1 = document.getElementById('breadcrumb-separator1');
+        const sep2 = document.getElementById('breadcrumb-separator2');
+        
+        // Clear all elements first
+        continentLink.textContent = '';
+        countryLink.textContent = '';
+        cityLink.textContent = '';
+        sep1.style.display = 'none';
+        sep2.style.display = 'none';
+        
+        // Update continent
+        if (continent) {
+            const continentId = continent.toLowerCase().replace(/\s+/g, '-');
+            const continentDisplay = continent.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
+            continentLink.textContent = continentDisplay;
+            continentLink.href = `#${continentId}`;
+            continentLink.onclick = (e) => {
+                e.preventDefault();
+                const element = document.getElementById(continentId);
+                console.log('Continent click:', continentId, 'element found:', !!element);
+                if (element) {
+                    const headerHeight = document.querySelector('.site-header').offsetHeight;
+                    const elementPosition = element.offsetTop - headerHeight - 20; // 20px extra padding
+                    window.scrollTo({ top: elementPosition, behavior: 'smooth' });
+                    history.pushState(null, null, `#${continentId}`);
+                } else {
+                    console.warn('Element not found for continent:', continentId);
+                }
+            };
+        }
+        
+        // Update country
+        if (country && continent) {
+            const countryId = `${continent.toLowerCase().replace(/\s+/g, '-')}-${country.toLowerCase().replace(/\s+/g, '-')}`;
+            countryLink.textContent = country;
+            countryLink.href = `#${countryId}`;
+            countryLink.onclick = (e) => {
+                e.preventDefault();
+                const element = document.getElementById(countryId);
+                console.log('Country click:', countryId, 'element found:', !!element);
+                if (element) {
+                    const headerHeight = document.querySelector('.site-header').offsetHeight;
+                    const elementPosition = element.offsetTop - headerHeight - 20; // 20px extra padding
+                    window.scrollTo({ top: elementPosition, behavior: 'smooth' });
+                    history.pushState(null, null, `#${countryId}`);
+                } else {
+                    console.warn('Element not found for country:', countryId);
+                }
+            };
+            sep1.style.display = 'inline';
+        }
+        
+        // Update city  
+        if (city && country && continent) {
+            const cityId = `${continent.toLowerCase().replace(/\s+/g, '-')}-${country.toLowerCase().replace(/\s+/g, '-')}-${city.toLowerCase().replace(/\s+/g, '-')}`;
+            cityLink.textContent = city;
+            cityLink.href = `#${cityId}`;
+            cityLink.onclick = (e) => {
+                e.preventDefault();
+                const element = document.getElementById(cityId);
+                console.log('City click:', cityId, 'element found:', !!element);
+                if (element) {
+                    const headerHeight = document.querySelector('.site-header').offsetHeight;
+                    const elementPosition = element.offsetTop - headerHeight - 20; // 20px extra padding
+                    window.scrollTo({ top: elementPosition, behavior: 'smooth' });
+                    history.pushState(null, null, `#${cityId}`);
+                } else {
+                    console.warn('Element not found for city:', cityId);
+                }
+            };
+            sep2.style.display = 'inline';
+        }
+    } else {
+        // Remove breadcrumb entirely
+        if (breadcrumbNav) {
+            breadcrumbNav.remove();
+        }
+        titleContent.classList.add('no-breadcrumb');
     }
 }
 
@@ -830,6 +962,109 @@ function zoomToCity(cityName) {
     height: 0 !important;
     opacity: 0;
     transition: opacity 0.3s ease;
+}
+
+/* Mobile responsive section styling */
+@media (max-width: 768px) {
+    .country-section {
+        margin: 1rem -2rem 2rem -2rem; /* Full bleed */
+        border-left: none;
+        border-bottom: 3px solid var(--accent-color);
+        padding: 0 2rem 1rem 2rem;
+    }
+    
+    .country-title {
+        font-size: 1.6rem;
+    }
+    
+    .city-section {
+        margin: 1rem -2rem;
+        padding: 0 2rem;
+        border-left: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .city-title {
+        font-size: 1.2rem;
+    }
+    
+    .continent-title {
+        font-size: 1.8rem;
+        margin: 2rem -2rem;
+        padding: 0 2rem;
+    }
+    
+    /* Make coffee cards full bleed on mobile */
+    .coffee-post {
+        margin-left: -2rem;
+        margin-right: -2rem;
+        border-radius: 0;
+    }
+}
+
+/* Section link styling */
+.section-link {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.section-link:hover {
+    color: var(--accent-color);
+}
+
+/* Site title container for breadcrumb layout */
+.site-title-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Breadcrumb navigation styling - as subheading */
+.breadcrumb-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: translateY(-5px);
+    margin-top: 0.2rem;
+}
+
+.breadcrumb-nav.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.breadcrumb-link {
+    color: var(--text-light);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    font-weight: 400;
+}
+
+.breadcrumb-link:hover {
+    color: var(--accent-color);
+}
+
+.breadcrumb-separator {
+    color: var(--accent-color);
+    font-size: 0.8rem;
+    font-weight: 300;
+    opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+    .breadcrumb-nav {
+        font-size: 0.65rem;
+        gap: 0.3rem;
+    }
+    
+    .breadcrumb-separator {
+        font-size: 0.7rem;
+    }
 }
 
 .hero-section {
