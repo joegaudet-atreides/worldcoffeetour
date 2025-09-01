@@ -59,7 +59,7 @@
     </main>
 
     <footer class="site-footer">
-        <p>&copy; {{ 'now' | date: '%Y' }} {{ site.author }} · Made with ☕ and ❤️ and 🤖</p>
+        <p>&copy; {{ 'now' | date: '%Y' }} <a href="https://instagram.com/{{ site.instagram_username }}" target="_blank" rel="noopener" style="color: var(--text-light); text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='var(--accent-color)'" onmouseout="this.style.color='var(--text-light)'">{{ site.author }}</a> · Made with ☕ and ❤️ and 🤖</p>
     </footer>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
