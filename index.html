@@ -489,7 +489,9 @@ function updateBreadcrumb() {
                 console.log('Continent click:', continentId, 'element found:', !!element);
                 if (element) {
                     const headerHeight = document.querySelector('.site-header').offsetHeight;
-                    const elementPosition = element.offsetTop - headerHeight - 20; // 20px extra padding
+                    const isMobile = window.innerWidth <= 768;
+                    const mapOffset = isMobile ? 270 : 0; // Map height + margin on mobile
+                    const elementPosition = element.offsetTop - headerHeight - mapOffset - 20; // 20px extra padding
                     window.scrollTo({ top: elementPosition, behavior: 'smooth' });
                     history.pushState(null, null, `#${continentId}`);
                 } else {
@@ -509,7 +511,9 @@ function updateBreadcrumb() {
                 console.log('Country click:', countryId, 'element found:', !!element);
                 if (element) {
                     const headerHeight = document.querySelector('.site-header').offsetHeight;
-                    const elementPosition = element.offsetTop - headerHeight - 20; // 20px extra padding
+                    const isMobile = window.innerWidth <= 768;
+                    const mapOffset = isMobile ? 270 : 0; // Map height + margin on mobile
+                    const elementPosition = element.offsetTop - headerHeight - mapOffset - 20; // 20px extra padding
                     window.scrollTo({ top: elementPosition, behavior: 'smooth' });
                     history.pushState(null, null, `#${countryId}`);
                 } else {
@@ -530,7 +534,9 @@ function updateBreadcrumb() {
                 console.log('City click:', cityId, 'element found:', !!element);
                 if (element) {
                     const headerHeight = document.querySelector('.site-header').offsetHeight;
-                    const elementPosition = element.offsetTop - headerHeight - 20; // 20px extra padding
+                    const isMobile = window.innerWidth <= 768;
+                    const mapOffset = isMobile ? 270 : 0; // Map height + margin on mobile
+                    const elementPosition = element.offsetTop - headerHeight - mapOffset - 20; // 20px extra padding
                     window.scrollTo({ top: elementPosition, behavior: 'smooth' });
                     history.pushState(null, null, `#${cityId}`);
                 } else {
@@ -817,14 +823,31 @@ function zoomToCity(cityName) {
 }
 
 @media (max-width: 768px) {
+    .hero-section {
+        display: none;
+    }
+    
+    .filter-controls {
+        margin-top: 330px; /* Push below fixed map (70px top + 250px height + 10px) */
+    }
+    
     .content-wrapper {
         width: 100%;
     }
     
     #map {
-        /* Map stays in hero position on mobile */
-        height: 300px !important;
-        margin: 1.5rem !important;
+        /* Pin map to top on mobile - full bleed */
+        position: fixed !important;
+        top: 70px !important; /* Below header with margin */
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 250px !important;
+        z-index: 90;
+        margin: 0 !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3);
     }
 }
 
