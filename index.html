@@ -120,7 +120,7 @@ title: World Coffee Tour Map
 <script>
 // Pass coffee posts data to JavaScript
 const coffeePostsData = [
-    {% for post in valid_posts %}
+    {% for post in published_posts %}
     {
         title: "{{ post.title | escape }}",
         url: "{{ post.url | relative_url }}",
@@ -154,6 +154,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (window.mainMap) {
             mainMap = window.mainMap;
             console.log('mainMap connected:', !!mainMap);
+            setupFilterButtons();
         } else {
             setTimeout(initMainMap, 50);
         }
@@ -888,6 +889,78 @@ function zoomToCity(cityName) {
         console.log('No posts found for city:', cityName);
     }
 }
+
+// Filter button functionality
+function setupFilterButtons() {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const continentSections = document.querySelectorAll('.continent-section');
+    
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const targetContinent = this.dataset.continent;
+            
+            // Update active button
+            filterBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Show/hide sections
+            continentSections.forEach(section => {
+                if (targetContinent === 'all') {
+                    section.style.display = 'block';
+                } else {
+                    const sectionContinent = section.dataset.continent;
+                    section.style.display = sectionContinent === targetContinent ? 'block' : 'none';
+                }
+            });
+            
+            // Zoom map to filtered area
+            setTimeout(() => {
+                if (targetContinent === 'all') {
+                    // Show all pins
+                    zoomToAllPins();
+                } else {
+                    // Zoom to specific continent
+                    zoomToRegion(targetContinent);
+                }
+            }, 100);
+        });
+    });
+}
+
+function zoomToAllPins() {
+    if (!mainMap) return;
+    
+    const validPosts = coffeePostsData.filter(post => 
+        post.latitude && post.longitude
+    );
+    
+    if (validPosts.length > 0) {
+        try {
+            const group = new L.featureGroup(validPosts.map(post => 
+                L.marker([post.latitude, post.longitude])
+            ));
+            mainMap.fitBounds(group.getBounds().pad(0.1));
+        } catch (error) {
+            console.error('Error zooming to all pins:', error);
+            // Fallback to world view
+            mainMap.setView([30, 0], 2);
+        }
+    } else {
+        // No pins, show world view
+        mainMap.setView([30, 0], 2);
+    }
+}
+
+// Ensure initial view shows all pins on page load
+window.addEventListener('load', function() {
+    setTimeout(() => {
+        // Wait a bit for map to be fully initialized, then ensure all pins are visible
+        if (window.mainMap && coffeePostsData.length > 0) {
+            console.log('Ensuring initial view shows all pins');
+            zoomToAllPins();
+        }
+    }, 2000); // Wait longer to ensure everything is loaded
+});
 
 </script>
 
