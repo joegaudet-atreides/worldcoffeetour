@@ -3,7 +3,7 @@ layout: post
 title: GLITCH COFFEE OSAKA
 date: "2024-01-18"
 city: Kita Ward
-country: "3 Chome−2−4 フェスティバルタワー・ウエスト 1階"
+country: Japan
 continent: Asia
 latitude: 34.6934048
 longitude: 135.4955867

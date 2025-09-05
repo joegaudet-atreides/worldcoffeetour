@@ -3,7 +3,7 @@ layout: post
 title: Glitch Coffee and Roasters GINZA
 date: "2024-01-28"
 city: Chuo City
-country: "4 Chome−14−8 VORT銀座イーストIII 1階"
+country: Japan
 continent: Asia
 latitude: 35.6688762
 longitude: 139.7686826
