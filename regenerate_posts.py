@@ -10,6 +10,14 @@ from pathlib import Path
 from datetime import datetime
 from coffee_db import CoffeeDatabase
 
+def is_problematic(post):
+    """Check if post is problematic (missing required data)"""
+    return not post.get('cafe_name') or \
+           not post.get('city') or post.get('city') == 'Unknown' or \
+           not post.get('country') or post.get('country') == 'Unknown' or \
+           not post.get('latitude') or not post.get('longitude') or \
+           not post.get('continent')
+
 def yaml_safe_string(text):
     """Make a string safe for YAML by properly escaping it"""
     if not text:
@@ -121,8 +129,14 @@ def regenerate_all_posts(backup=True):
         posts_dir.mkdir()
     
     # Get all posts from database
-    posts = db.get_all_posts()
-    print(f"📄 Found {len(posts)} posts in database")
+    all_posts = db.get_all_posts()
+    print(f"📄 Found {len(all_posts)} posts in database")
+    
+    # Filter for published and non-problematic posts only
+    posts = [post for post in all_posts if post.get('published') and not is_problematic(post)]
+    filtered_out = len(all_posts) - len(posts)
+    
+    print(f"📋 Generating {len(posts)} posts (filtered out {filtered_out} unpublished/problematic)")
     
     created_count = 0
     error_count = 0

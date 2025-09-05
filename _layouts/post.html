@@ -10,20 +10,13 @@ layout: default
     <div class="post-header">
         <a href="{{ '/' | relative_url }}" class="back-link">← Back to The Tour</a>
         {% if page.cafe_name %}
-        <h1 class="post-title cafe-title">{{ page.cafe_name }}</h1>
+        <h1 class="post-title cafe-title">{{ page.cafe_name }}{% if page.rating %} - {% for i in (1..5) %}{% if i <= page.rating %}☕{% endif %}{% endfor %}{% if page.rating > 5 %}+{% endif %}{% endif %}</h1>
         {% else %}
-        <h1 class="post-title">{{ page.title }}</h1>
+        <h1 class="post-title">{{ page.title }}{% if page.rating %} - {% for i in (1..5) %}{% if i <= page.rating %}☕{% endif %}{% endfor %}{% if page.rating > 5 %}+{% endif %}{% endif %}</h1>
         {% endif %}
         <div class="post-meta">
             <span class="location">📍 {{ page.city }}, {{ page.country }}</span>
             <span class="date">{{ page.date | date: "%B %d, %Y" }}</span>
-            {% if page.rating %}
-            <span class="rating">
-                {% for i in (1..5) %}
-                    {% if i <= page.rating %}☕{% else %}☕{% endif %}
-                {% endfor %}
-            </span>
-            {% endif %}
         </div>
     </div>
 
@@ -60,15 +53,7 @@ layout: default
         </div>
         {% endif %}
 
-        {% if page.instagram_url %}
-        <div class="instagram-embed">
-            <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="{{ page.instagram_url }}"
-                        data-instgrm-version="14">
-            </blockquote>
-        </div>
-        {% endif %}
 
     </div>
 </article>
 
-<script async src="//www.instagram.com/embed.js"></script>

@@ -60,7 +60,9 @@ title: World Coffee Tour Map
                     {% assign sorted_posts = city.items | sort: 'date' | reverse %}
                     {% for post in sorted_posts %}
                     <a href="{{ post.url | relative_url }}" class="coffee-card" data-lat="{{ post.latitude }}" data-lng="{{ post.longitude }}">
-                        {% if post.image_url %}
+                        {% if post.images and post.images.size > 0 %}
+                        <img src="{{ post.images[0] | relative_url }}" alt="{{ post.title }}" class="coffee-card-image" loading="lazy">
+                        {% elsif post.image_url %}
                         <img src="{{ post.image_url }}" alt="{{ post.title }}" class="coffee-card-image" loading="lazy">
                         {% else %}
                         <div class="coffee-card-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; font-size: 3rem;">☕</div>
@@ -68,17 +70,28 @@ title: World Coffee Tour Map
                         <div class="coffee-card-content">
                             {% if post.cafe_name %}
                             <h3 class="coffee-card-title">{{ post.cafe_name }}</h3>
-                            {% if post.title %}
-                            <p class="coffee-card-description">{{ post.title }}</p>
+                            {% if post.notes %}
+                            <p class="coffee-card-description">{{ post.notes | truncatewords: 20 }}</p>
                             {% endif %}
                             {% else %}
                             <h3 class="coffee-card-title">{{ post.title }}</h3>
+                            {% if post.notes %}
+                            <p class="coffee-card-description">{{ post.notes | truncatewords: 20 }}</p>
+                            {% endif %}
                             {% endif %}
                             <div class="coffee-card-meta">
-                                {% if post.latitude and post.longitude %}
-                                <span class="coffee-card-location">🌍 {{ post.latitude | round: 4 }}, {{ post.longitude | round: 4 }}</span>
-                                {% endif %}
-                                <span>{{ post.date | date: "%b %Y" }}</span>
+                                <div class="coffee-card-details">
+                                    <span class="coffee-card-date">{{ post.date | date: "%b %Y" }}</span>
+                                    <span class="coffee-card-location">{{ post.city }}, {{ post.country }}</span>
+                                    {% if post.rating %}
+                                    <span class="coffee-card-rating">
+                                        {% for i in (1..5) %}
+                                            {% if i <= post.rating %}☕{% endif %}
+                                        {% endfor %}
+                                        {% if post.rating > 5 %}+{% endif %}
+                                    </span>
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
                     </a>

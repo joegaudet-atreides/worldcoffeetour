@@ -30,6 +30,12 @@ class CoffeeAdminHandler(SimpleHTTPRequestHandler):
         else:
             self.send_error(404)
     
+    def do_PUT(self):
+        if self.path.startswith('/api/'):
+            self.handle_api_put()
+        else:
+            self.send_error(404)
+    
     def handle_api_get(self):
         try:
             db = CoffeeDatabase()
@@ -73,6 +79,19 @@ class CoffeeAdminHandler(SimpleHTTPRequestHandler):
     
     def handle_api_post(self):
         try:
+            # Handle regenerate endpoint without requiring JSON data
+            if self.path == '/api/regenerate':
+                # Regenerate all posts
+                def regenerate_async():
+                    time.sleep(0.1)  # Small delay to send response first
+                    from regenerate_posts import regenerate_all_posts
+                    regenerate_all_posts(backup=False)
+                
+                threading.Thread(target=regenerate_async).start()
+                self.send_json_response({'success': True, 'message': 'Regeneration started'})
+                return
+            
+            # For other endpoints, parse JSON data
             content_length = int(self.headers.get('Content-Length', 0))
             post_data = self.rfile.read(content_length)
             data = json.loads(post_data.decode('utf-8'))
@@ -125,15 +144,44 @@ class CoffeeAdminHandler(SimpleHTTPRequestHandler):
                 else:
                     self.send_error(404)
             
-            elif self.path == '/api/regenerate':
-                # Regenerate all posts
-                def regenerate_async():
-                    time.sleep(0.1)  # Small delay to send response first
-                    from regenerate_posts import regenerate_all_posts
-                    regenerate_all_posts(backup=False)
+            
+            else:
+                self.send_error(404)
+            
+            db.close()
+            
+        except Exception as e:
+            self.send_error(500, str(e))
+    
+    def handle_api_put(self):
+        try:
+            # Parse JSON data
+            content_length = int(self.headers.get('Content-Length', 0))
+            post_data = self.rfile.read(content_length)
+            data = json.loads(post_data.decode('utf-8'))
+            
+            db = CoffeeDatabase()
+            
+            if self.path.startswith('/api/posts/') and not '/update' in self.path:
+                # Update publish status: PUT /api/posts/{id}
+                post_id = int(self.path.split('/')[-1])
                 
-                threading.Thread(target=regenerate_async).start()
-                self.send_json_response({'success': True, 'message': 'Regeneration started'})
+                # For publish toggle, we only update the published field
+                if 'published' in data:
+                    success = db.update_post(post_id, data)
+                    if success:
+                        # Regenerate the single post if it's now published
+                        from single_post_regenerator import regenerate_single_post
+                        regen_success, regen_message = regenerate_single_post(post_id)
+                        self.send_json_response({
+                            'success': True,
+                            'regenerated': regen_success,
+                            'regen_message': regen_message
+                        })
+                    else:
+                        self.send_error(404)
+                else:
+                    self.send_error(400, "Missing 'published' field")
             
             else:
                 self.send_error(404)

@@ -242,6 +242,60 @@
             cursor: pointer;
         }
 
+        /* Image Modal Styles */
+        .image-modal-content {
+            position: relative;
+            background: none;
+            border: none;
+            border-radius: 0;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .image-modal-close {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+
+        .image-modal-close:hover {
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        #modal-image {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .image-tile img {
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .image-tile img:hover {
+            transform: scale(1.05);
+        }
+
         .form-group {
             margin-bottom: 1rem;
         }
@@ -598,6 +652,11 @@
                 </div>
                 
                 <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description"></textarea>
+                </div>
+                
+                <div class="form-group">
                     <label for="date">Date</label>
                     <input type="date" id="date" required>
                 </div>
@@ -662,15 +721,6 @@
                     </select>
                 </div>
                 
-                <div class="form-group">
-                    <label for="notes">Notes</label>
-                    <textarea id="notes"></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label for="instagram-url">Instagram URL</label>
-                    <input type="url" id="instagram-url">
-                </div>
                 
                 
                 <div class="form-group">
@@ -685,6 +735,14 @@
                     <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div class="modal" id="image-modal" onclick="closeImageModal()">
+        <div class="image-modal-content" onclick="event.stopPropagation()">
+            <span class="image-modal-close" onclick="closeImageModal()">&times;</span>
+            <img id="modal-image" src="" alt="Full size image">
         </div>
     </div>
 
@@ -1055,6 +1113,16 @@
         document.addEventListener('DOMContentLoaded', function() {
             loadPosts(); // loadStats will be called after posts are loaded
             setupLocationSearch();
+            
+            // Add keyboard support for image modal
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    const imageModal = document.getElementById('image-modal');
+                    if (imageModal.style.display === 'block') {
+                        closeImageModal();
+                    }
+                }
+            });
         });
 
         async function loadStats() {
@@ -1118,19 +1186,19 @@
             const heroImage = images.length > 0 ? images[0] : null;
             const date = post.date ? new Date(post.date).toLocaleDateString() : 'No date';
             const location = [post.city, post.country].filter(x => x && x !== 'Unknown').join(', ') || 'Unknown location';
+            const geoposition = (post.latitude && post.longitude) ? `${parseFloat(post.latitude).toFixed(4)}, ${parseFloat(post.longitude).toFixed(4)}` : 'No coordinates';
 
             card.innerHTML = `
                 ${heroImage ? `
                 <div class="post-hero-image">
-                    <img src="${heroImage}" alt="${post.cafe_name || 'Untitled'}" loading="lazy">
+                    <img src="${heroImage.startsWith('/') ? '.' + heroImage : heroImage}" alt="${post.cafe_name || 'Untitled'}" loading="lazy">
                     ${images.length > 1 ? `<div class="image-count">+${images.length - 1} more</div>` : ''}
                 </div>
                 ` : ''}
                 <div class="post-content">
                     <div class="post-title">${post.cafe_name || 'Untitled Cafe'}</div>
                     <div class="post-meta">
-                        ${location} • ${date}
-                        ${post.rating ? ` • ${'☕'.repeat(post.rating)}` : ''}
+                        ${location} • ${date} • 🌍 ${geoposition}${post.rating ? ` • ${'☕'.repeat(post.rating)}` : ''}
                     </div>
                     ${post.notes ? `<div class="post-description">${post.notes}</div>` : ''}
                 </div>
@@ -1172,8 +1240,7 @@
                 document.getElementById('latitude').value = currentPost.latitude || '';
                 document.getElementById('longitude').value = currentPost.longitude || '';
                 document.getElementById('rating').value = currentPost.rating || '';
-                document.getElementById('notes').value = currentPost.notes || '';
-                document.getElementById('instagram-url').value = currentPost.instagram_url || '';
+                document.getElementById('description').value = currentPost.notes || '';
                 
                 renderImagesList(currentPost.images || []);
                 document.getElementById('edit-modal').style.display = 'block';
@@ -1186,6 +1253,16 @@
 
         function closeModal() {
             document.getElementById('edit-modal').style.display = 'none';
+        }
+
+        function openImageModal(imageSrc) {
+            document.getElementById('modal-image').src = imageSrc;
+            document.getElementById('image-modal').style.display = 'block';
+        }
+
+        function closeImageModal() {
+            document.getElementById('image-modal').style.display = 'none';
+            document.getElementById('modal-image').src = '';
         }
 
         async function togglePublish(postId, currentStatus) {
@@ -1233,7 +1310,7 @@
                 const tile = document.createElement('div');
                 tile.className = 'image-tile';
                 tile.innerHTML = `
-                    <img src="${image}" onerror="this.style.display='none'" alt="Image ${index + 1}">
+                    <img src="${image.startsWith('/') ? '.' + image : image}" onerror="this.style.display='none'" alt="Image ${index + 1}" onclick="openImageModal('${image.startsWith('/') ? '.' + image : image}')">
                     <div class="image-tile-controls">
                         <input type="text" value="${image}" onchange="updateImage(${index}, this.value)" placeholder="Image URL">
                         <button type="button" class="remove-btn" onclick="removeImage(${index})">Remove</button>
@@ -1286,8 +1363,7 @@
                 latitude: parseFloat(document.getElementById('latitude').value) || null,
                 longitude: parseFloat(document.getElementById('longitude').value) || null,
                 rating: parseInt(document.getElementById('rating').value) || null,
-                notes: document.getElementById('notes').value,
-                instagram_url: document.getElementById('instagram-url').value,
+                notes: document.getElementById('description').value,
                 published: currentPost ? currentPost.published : false, // Keep current publish status when editing
                 images: getCurrentImages()
             };

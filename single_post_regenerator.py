@@ -8,6 +8,14 @@ import re
 from pathlib import Path
 from coffee_db import CoffeeDatabase
 
+def is_problematic(post):
+    """Check if post is problematic (missing required data)"""
+    return not post.get('cafe_name') or \
+           not post.get('city') or post.get('city') == 'Unknown' or \
+           not post.get('country') or post.get('country') == 'Unknown' or \
+           not post.get('latitude') or not post.get('longitude') or \
+           not post.get('continent')
+
 def yaml_safe_string(text):
     """Make a string safe for YAML by properly escaping it"""
     if not text:
@@ -111,6 +119,15 @@ def regenerate_single_post(post_id):
             if old_file.exists():
                 old_file.unlink()
         
+        # Only generate Jekyll file for published, non-problematic posts
+        if not post.get('published'):
+            db.close()
+            return True, f"Post {post_id} unpublished - no Jekyll file generated"
+        
+        if is_problematic(post):
+            db.close()
+            return True, f"Post {post_id} is problematic - no Jekyll file generated"
+        
         # Generate new filename and content
         filename = generate_filename(post)
         content = create_post_content(post)
@@ -121,7 +138,7 @@ def regenerate_single_post(post_id):
             f.write(content)
         
         db.close()
-        return True, filename
+        return True, f"Generated {filename}"
         
     except Exception as e:
         return False, str(e)
