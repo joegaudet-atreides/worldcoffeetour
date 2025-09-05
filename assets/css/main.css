@@ -62,7 +62,6 @@ body {
 
 .coffee-icon {
     font-size: 1.5rem;
-    filter: brightness(1.2) sepia(1) saturate(1.5) hue-rotate(10deg);
 }
 
 .title-content {
@@ -545,6 +544,13 @@ body {
 
 .leaflet-popup-close-button:hover {
     color: var(--primary-color) !important;
+}
+
+/* Hide zoom controls on mobile */
+@media (max-width: 768px) {
+    .leaflet-control-zoom {
+        display: none !important;
+    }
 }
 
 /* Footer */

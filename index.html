@@ -219,7 +219,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (!ticking) {
             requestAnimationFrame(() => {
-                if (isMobileDevice()) {
+                const isMobile = isMobileDevice();
+                if (isMobile) {
                     // On mobile, map stays as hero - no sticky animation, but still zoom to visible sections
                     updateMobileMapView();
                 } else {
@@ -242,6 +243,26 @@ document.addEventListener('DOMContentLoaded', function() {
             updateMapAnimation();
         }
     });
+    
+    // Add touch event support for mobile scroll detection
+    if (isMobileDevice()) {
+        let touchStartY = 0;
+        document.addEventListener('touchstart', (e) => {
+            touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+        
+        document.addEventListener('touchmove', (e) => {
+            // This ensures scroll events are triggered on touch devices
+            // The scroll event listener above will handle the actual map updates
+        }, { passive: true });
+        
+        document.addEventListener('touchend', () => {
+            // Force an update after touch ends to ensure we're in sync
+            setTimeout(() => {
+                updateMobileMapView();
+            }, 100);
+        }, { passive: true });
+    }
     
     // Initialize intersection observer for auto-zooming to regions, countries, and cities
     const sectionObserver = new IntersectionObserver(
@@ -346,16 +367,19 @@ let lastMobileUpdate = 0;
 function updateMobileMapView() {
     // On mobile, just update the map to zoom to the visible section
     // No sticky animation, but still responsive to scroll
-    if (!mainMap) return;
+    if (!mainMap) {
+        console.log('updateMobileMapView: no mainMap available');
+        return;
+    }
     
-    // Throttle mobile updates to avoid performance issues
+    // Throttle mobile updates to avoid performance issues (reduced to 50ms for better responsiveness)
     const now = Date.now();
-    if (now - lastMobileUpdate < 100) return; // Throttle to 10fps max
+    if (now - lastMobileUpdate < 50) return; // Throttle to 20fps max
     lastMobileUpdate = now;
     
     const visibleSection = getMostVisibleSection();
+    console.log('Mobile map update: visible section:', visibleSection ? visibleSection.dataset : 'none');
     if (visibleSection) {
-        console.log('Mobile map update: zooming to visible section:', visibleSection.dataset);
         zoomToVisibleSection(visibleSection);
     }
 }

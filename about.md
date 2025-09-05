@@ -9,7 +9,7 @@ permalink: /about/
         <div class="about-header">
             <img src="{{ '/assets/images/joe-profile.jpg' | relative_url }}" alt="Joe Gaudet" class="profile-pic">
             <div class="about-intro">
-                <h2>About the Tour Captain</h2>
+                <h2>The Tour Captain</h2>
                 <p class="lead">
                     Exploring the world's coffee culture through local cafés and roasters.
                 </p>
@@ -19,13 +19,15 @@ permalink: /about/
         <p>
             Hello, welcome to my dumb corner of the internet. I like many engineers, fell in love with coffee in school, late nights in the lab powered by rocket fuel. However initially I packed it with cream and sugar. My frequent consumption of this high calorie slurry caused me to balloon up in 3rd year to 230lbs (from 190). This led me to the conclusion that I needed to learn to drink coffee black.
         </p>
+        <p>&nbsp;</p> 
         <p>
             Fast forward 19 years, and my two favourite coffee drinks are a perfectly made pour over, and a creamy espresso.
         </p>
+        <p>&nbsp;</p> 
         <p>
             Please enjoy my ramblings here, and ping me for any recommendations that haven't made it to the page.
         </p>
-        <p>&nbsp;</p> 
+        <h2>The Tour</h2>
         <p>
             Years ago, my friend <a href="https://www.instagram.com/jamesgolick" target="_blank" rel="noopener">James Golick</a> 
             passed away tragically. Among the many things that James was, he was a lover of coffee. 

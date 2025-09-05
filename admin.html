@@ -501,6 +501,33 @@
             min-width: 100px;
         }
 
+        .business-type {
+            background: #d4a574;
+            color: #1a1a1a;
+            padding: 0.125rem 0.375rem;
+            border-radius: 3px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            margin-right: 0.5rem;
+            display: inline-block;
+        }
+
+        .location-info {
+            color: #a0a0a0;
+        }
+
+        .cafe-suggestion {
+            border-left: 3px solid #d4a574;
+        }
+
+        .cafe-suggestion .suggestion-name {
+            color: #d4a574;
+        }
+
+        .cafe-suggestion:hover {
+            background: #3a2e26;
+        }
+
         .location-search-container {
             position: relative;
         }
@@ -525,6 +552,18 @@
         .search-status.searching::after {
             content: "...";
             animation: dots 1.5s steps(5, end) infinite;
+        }
+
+        .search-status.success {
+            color: #4CAF50;
+        }
+
+        .search-status.error {
+            color: #f44336;
+        }
+
+        .search-status.warning {
+            color: #ff9800;
         }
 
         @keyframes dots {
@@ -839,33 +878,14 @@
                 
                 currentSearchController = new AbortController();
                 
-                // Use OpenStreetMap Nominatim API with enhanced business search
-                const url = `https://nominatim.openstreetmap.org/search?` + 
-                    `q=${encodeURIComponent(query)}&` +
-                    `format=json&` +
-                    `limit=20&` +
-                    `addressdetails=1&` +
-                    `extratags=1&` +
-                    `namedetails=1&` +
-                    `featuretype=settlement,street,housenumber`;
-                
-                const response = await fetch(url, {
-                    signal: currentSearchController.signal,
-                    headers: {
-                        'User-Agent': 'WorldCoffeeTour-Admin/1.0'
-                    }
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}`);
-                }
-                
-                const results = await response.json();
+                // Try multiple search providers in order of preference
+                const results = await searchWithMultipleProviders(query);
                 
                 if (results.length > 0) {
-                    showCategorizedSuggestions(results);
+                    showCategorizedSuggestions(results, results.provider);
                 } else {
-                    showNoResults();
+                    // Try a fallback search if all providers fail
+                    await tryFallbackSearch(query);
                 }
                 
             } catch (error) {
@@ -876,12 +896,122 @@
             }
         }
         
-        function showCategorizedSuggestions(results) {
+        async function searchWithMultipleProviders(query) {
+            const providers = [
+                {
+                    name: 'Photon',
+                    search: searchWithPhoton
+                },
+                {
+                    name: 'Nominatim', 
+                    search: searchWithNominatim
+                }
+            ];
+            
+            for (const provider of providers) {
+                try {
+                    console.log(`Searching with ${provider.name}...`);
+                    const results = await provider.search(query);
+                    if (results.length > 0) {
+                        console.log(`${provider.name} found ${results.length} results`);
+                        results.provider = provider.name;
+                        return results;
+                    }
+                } catch (error) {
+                    console.log(`${provider.name} search failed:`, error);
+                }
+            }
+            
+            console.log('All providers failed to find results');
+            return [];
+        }
+        
+        async function searchWithPhoton(query) {
+            const url = `https://photon.komoot.io/api/?q=${encodeURIComponent(query)}&limit=10`;
+            
+            const response = await fetch(url, {
+                signal: currentSearchController.signal,
+                headers: {
+                    'User-Agent': 'WorldCoffeeTour-Admin/1.0'
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            // Convert Photon GeoJSON format to Nominatim format
+            return data.features.map(feature => ({
+                place_id: `photon_${feature.properties.osm_type}_${feature.properties.osm_id}`,
+                lat: feature.geometry.coordinates[1].toString(),
+                lon: feature.geometry.coordinates[0].toString(), 
+                display_name: buildDisplayName(feature.properties),
+                address: {
+                    amenity: feature.properties.name,
+                    house_number: feature.properties.housenumber,
+                    road: feature.properties.street,
+                    neighbourhood: feature.properties.locality,
+                    city: feature.properties.city,
+                    state: feature.properties.state,
+                    postcode: feature.properties.postcode,
+                    country: feature.properties.country,
+                    country_code: feature.properties.countrycode
+                },
+                extratags: {
+                    amenity: feature.properties.osm_value === 'cafe' ? 'cafe' : null
+                },
+                namedetails: {
+                    name: feature.properties.name
+                },
+                name: feature.properties.name
+            }));
+        }
+        
+        function buildDisplayName(props) {
+            const parts = [];
+            if (props.name) parts.push(props.name);
+            if (props.housenumber && props.street) parts.push(`${props.housenumber} ${props.street}`);
+            else if (props.street) parts.push(props.street);
+            if (props.locality) parts.push(props.locality);
+            if (props.city && props.city !== props.locality) parts.push(props.city);
+            if (props.state) parts.push(props.state);
+            if (props.country) parts.push(props.country);
+            return parts.join(', ');
+        }
+        
+        async function searchWithNominatim(query) {
+            const url = `https://nominatim.openstreetmap.org/search?` + 
+                `q=${encodeURIComponent(query)}&` +
+                `format=json&` +
+                `limit=20&` +
+                `addressdetails=1&` +
+                `extratags=1&` +
+                `namedetails=1&` +
+                `dedupe=1`;
+            
+            const response = await fetch(url, {
+                signal: currentSearchController.signal,
+                headers: {
+                    'User-Agent': 'WorldCoffeeTour-Admin/1.0'
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+            
+            return await response.json();
+        }
+        
+        function showCategorizedSuggestions(results, provider) {
             const suggestionsDiv = document.getElementById('location-suggestions');
             const searchStatus = document.getElementById('search-status');
             
-            searchStatus.textContent = `${results.length} found`;
-            searchStatus.className = 'search-status';
+            const providerText = provider ? ` via ${provider}` : '';
+            searchStatus.textContent = `${results.length} found${providerText}`;
+            searchStatus.className = 'search-status success';
             
             // Categorize results
             const categories = categorizeResults(results);
@@ -966,6 +1096,8 @@
             
             const name = result.display_name;
             const address = result.address || {};
+            const tags = result.extratags || {};
+            const nameDetails = result.namedetails || {};
             const lat = parseFloat(result.lat);
             const lng = parseFloat(result.lon);
             
@@ -974,19 +1106,57 @@
             const state = address.state || address.province || address.region || '';
             const country = address.country || '';
             
+            // Get business name if available
+            let businessName = '';
+            if (nameDetails.name) {
+                businessName = nameDetails.name;
+            } else if (tags.name) {
+                businessName = tags.name;
+            } else if (result.name) {
+                businessName = result.name;
+            } else {
+                businessName = name.split(',')[0].trim();
+            }
+            
+            // Determine business type
+            const amenity = tags.amenity;
+            const shop = tags.shop;
+            let businessType = '';
+            let isCafe = false;
+            
+            if (amenity === 'cafe' || shop === 'coffee') {
+                businessType = '☕ Cafe';
+                isCafe = true;
+            } else if (amenity === 'restaurant') {
+                businessType = '🍽️ Restaurant';
+                // Check if it's coffee-related
+                if (businessName.toLowerCase().includes('coffee') || 
+                    businessName.toLowerCase().includes('cafe') || 
+                    businessName.toLowerCase().includes('espresso')) {
+                    businessType = '☕ Coffee Restaurant';
+                    isCafe = true;
+                }
+            } else if (amenity === 'fast_food') {
+                businessType = '🍔 Fast Food';
+            } else if (shop) {
+                businessType = `🛍️ ${shop.charAt(0).toUpperCase() + shop.slice(1)} Shop`;
+            }
+            
             // Create clean display name
-            let displayName = name;
-            if (name.length > 60) {
-                const parts = name.split(', ');
-                displayName = parts.slice(0, 3).join(', ');
-                if (parts.length > 3) displayName += '...';
+            let displayName = businessName.length > 60 ? 
+                businessName.substring(0, 57) + '...' : businessName;
+            
+            // Highlight cafe results
+            if (isCafe) {
+                suggestion.classList.add('cafe-suggestion');
             }
             
             suggestion.innerHTML = `
                 <div class="suggestion-content">
                     <div class="suggestion-name">${displayName}</div>
                     <div class="suggestion-details">
-                        ${[city, state, country].filter(x => x).join(', ')}
+                        ${businessType ? `<span class="business-type">${businessType}</span>` : ''}
+                        <span class="location-info">${[city, state, country].filter(x => x).join(', ')}</span>
                     </div>
                 </div>
                 <div class="suggestion-coords">
@@ -996,7 +1166,7 @@
             `;
             
             suggestion.addEventListener('click', () => {
-                document.getElementById('location-search').value = displayName;
+                document.getElementById('location-search').value = businessName;
                 fillLocationFromNominatim(result);
                 hideSuggestions();
             });
@@ -1009,31 +1179,57 @@
             const lat = parseFloat(result.lat);
             const lng = parseFloat(result.lon);
             const tags = result.extratags || {};
+            const nameDetails = result.namedetails || {};
             const amenity = tags.amenity;
+            const shop = tags.shop;
             
             // Extract location components
             const city = address.city || address.town || address.village || address.municipality || '';
             const country = address.country || '';
             const continent = getContinentFromCountry(country);
             
-            // Get the place name for cafe/restaurant businesses
-            const placeName = result.display_name.split(',')[0].trim();
-            const isCafe = amenity === 'cafe' || 
-                          placeName.toLowerCase().includes('coffee') || 
-                          placeName.toLowerCase().includes('cafe') || 
-                          placeName.toLowerCase().includes('café') ||
-                          tags.cuisine === 'coffee_shop';
+            // Determine business name with better logic
+            let businessName = '';
             
-            // Fill form fields
+            // First check for explicit name in namedetails or tags
+            if (nameDetails.name) {
+                businessName = nameDetails.name;
+            } else if (tags.name) {
+                businessName = tags.name;
+            } else if (result.name) {
+                businessName = result.name;
+            } else {
+                // Fall back to first part of display_name
+                businessName = result.display_name.split(',')[0].trim();
+            }
+            
+            // Check if this is a cafe/coffee business using multiple criteria
+            const isCafe = amenity === 'cafe' || 
+                          amenity === 'restaurant' ||
+                          shop === 'coffee' ||
+                          tags.cuisine === 'coffee_shop' ||
+                          businessName.toLowerCase().includes('coffee') || 
+                          businessName.toLowerCase().includes('cafe') || 
+                          businessName.toLowerCase().includes('café') ||
+                          businessName.toLowerCase().includes('espresso') ||
+                          businessName.toLowerCase().includes('roaster') ||
+                          businessName.toLowerCase().includes('bean');
+            
+            // Fill basic location fields
             document.getElementById('city').value = city;
             document.getElementById('country').value = country;
             document.getElementById('latitude').value = lat;
             document.getElementById('longitude').value = lng;
             
-            // If this is a cafe/coffee business, set the title and cafe name
-            if (isCafe) {
-                document.getElementById('title').value = placeName;
-                document.getElementById('cafe-name').value = placeName;
+            // Handle title and cafe name based on business type
+            if (isCafe && businessName) {
+                // For cafes, use the business name for both title and cafe name
+                document.getElementById('title').value = businessName;
+                document.getElementById('cafe-name').value = businessName;
+            } else if (businessName && businessName !== city && businessName !== country) {
+                // For other businesses or specific places, still set title
+                document.getElementById('title').value = businessName;
+                // Don't set cafe-name for non-cafe businesses
             }
             
             // Set continent dropdown
@@ -1044,6 +1240,17 @@
             } else {
                 console.log('No continent found for country:', country);
             }
+            
+            console.log('Filled location data:', {
+                businessName,
+                isCafe,
+                amenity,
+                shop,
+                city,
+                country,
+                lat,
+                lng
+            });
         }
         
         function getContinentFromCountry(country) {
@@ -1079,16 +1286,81 @@
             return continentMap[country] || '';
         }
         
+        async function tryFallbackSearch(originalQuery) {
+            const words = originalQuery.toLowerCase().split(' ');
+            
+            // Quick city/country detection for common locations
+            let fallbackQuery = null;
+            
+            // Check for Santiago, Chile specifically (most common case)
+            if (words.includes('santiago') && words.includes('chile')) {
+                fallbackQuery = 'Santiago, Chile';
+            } else if (words.includes('santiago')) {
+                fallbackQuery = 'Santiago, Chile';
+            }
+            // Add other common locations as needed
+            else if (words.includes('buenos') && words.includes('aires')) {
+                fallbackQuery = 'Buenos Aires, Argentina';
+            } else if (words.includes('mexico') && words.includes('city')) {
+                fallbackQuery = 'Mexico City, Mexico';
+            }
+            
+            // Only try one fast fallback search
+            if (fallbackQuery) {
+                try {
+                    const results = await searchWithNominatim(fallbackQuery);
+                    if (results.length > 0) {
+                        showFallbackResults(results.slice(0, 3), originalQuery, fallbackQuery); // Limit to 3 results
+                        return;
+                    }
+                } catch (error) {
+                    console.log('Fallback search failed:', error);
+                }
+            }
+            
+            // If fallback fails or no city detected, show no results immediately
+            showNoResults();
+        }
+        
+        function showFallbackResults(results, originalQuery, fallbackQuery) {
+            const suggestionsDiv = document.getElementById('location-suggestions');
+            const searchStatus = document.getElementById('search-status');
+            
+            searchStatus.textContent = `No exact match for "${originalQuery}" - showing results for "${fallbackQuery}"`;
+            searchStatus.className = 'search-status warning';
+            
+            suggestionsDiv.innerHTML = `
+                <div class="search-indicator">
+                    <strong>No exact match found for "${originalQuery}"</strong><br>
+                    Showing nearby locations in ${fallbackQuery}:<br>
+                    <small>Select a location below and manually enter the business name.</small>
+                </div>
+            `;
+            
+            results.forEach(result => {
+                const suggestion = createLocationSuggestion(result);
+                suggestionsDiv.appendChild(suggestion);
+            });
+            
+            suggestionsDiv.style.display = 'block';
+        }
+
         function showNoResults() {
             const suggestionsDiv = document.getElementById('location-suggestions');
             const searchStatus = document.getElementById('search-status');
             
-            searchStatus.textContent = 'No results';
-            searchStatus.className = 'search-status';
+            searchStatus.textContent = 'No results found';
+            searchStatus.className = 'search-status error';
             
             suggestionsDiv.innerHTML = `
                 <div class="search-indicator">
-                    No locations found. Try searching for a city, address, or landmark.
+                    <strong>No locations found</strong><br>
+                    This business may not be mapped in OpenStreetMap yet.<br><br>
+                    <strong>Try:</strong><br>
+                    • Search for the city/area instead (e.g., "Santiago, Chile")<br>
+                    • Try a different business name or address<br>
+                    • Fill in the location details manually below<br><br>
+                    <em>Many small businesses aren't yet in mapping databases.</em>
                 </div>
             `;
             suggestionsDiv.style.display = 'block';
@@ -1401,7 +1673,7 @@
                     // Automatically regenerate Jekyll posts after editing
                     try {
                         await fetch(`${API_BASE}/regenerate`, { method: 'POST' });
-                        alert(currentPost ? 'Post updated and Jekyll regenerated successfully!' : 'Post created and Jekyll regenerated successfully!');
+                        // Silent success - user knows regeneration happens automatically
                     } catch (error) {
                         console.error('Error regenerating Jekyll posts:', error);
                         alert(currentPost ? 'Post updated successfully, but Jekyll regeneration failed' : 'Post created successfully, but Jekyll regeneration failed');
