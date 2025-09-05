@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Enjoying the sun with @chet.ripley.ohdet\ndate: 2023-01-14\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Chet.Ripley.Ohdet\n---\n\nCoffee post from Unknown, Unknown

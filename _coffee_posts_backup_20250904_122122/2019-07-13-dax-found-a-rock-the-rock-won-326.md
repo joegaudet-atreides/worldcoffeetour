@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Dax found a rock, the rock won.\ndate: 2019-07-13\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nCoffee post from Unknown, Unknown

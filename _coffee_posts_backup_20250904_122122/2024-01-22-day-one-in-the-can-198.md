@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Day one in the can.\ndate: 2024-01-22\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: The Can.\n---\n\nCoffee post from Unknown, Unknown

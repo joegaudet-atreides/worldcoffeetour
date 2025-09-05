@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Pretty good guy\ndate: 2021-04-16\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nCoffee post from Unknown, Unknown

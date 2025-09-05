@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Another stop on the Dublin leg of the #worldcoffeetour, delicious americano and a sweat treat\ndate: 2024-08-30\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Worldcoffeetour\n---\n\nAnother stop on the Dublin leg of the #worldcoffeetour, delicious americano and a sweat treat

@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Spicy chicken and waffles, from binging with banish, finished with hot honey (honey and habaneros)\ndate: 2021-02-07\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nSpicy chicken and waffles, from binging with banish, finished with hot honey (honey and habaneros)

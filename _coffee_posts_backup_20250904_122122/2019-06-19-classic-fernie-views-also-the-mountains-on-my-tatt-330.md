@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Classic Fernie Views (also the mountains on my tattoo)\ndate: 2019-06-19\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nClassic Fernie Views (also the mountains on my tattoo)

@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Ran into this cafe wandering around, probably the best logo Iâve seen on the #worldcoffeetour #canipetthatdog\ndate: 2025-08-16\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Worldcoffeetour\n---\n\nRan into this cafe wandering around, probably the best logo Iâve seen on the #worldcoffeetour #canipetthatdog

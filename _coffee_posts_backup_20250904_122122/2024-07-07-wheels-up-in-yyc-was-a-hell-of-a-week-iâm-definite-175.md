@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Wheels up in YYC, was a hell of a week, Iâm definitely a quart low, but my heart is full. #yahoo\ndate: 2024-07-07\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Yahoo\n---\n\nWheels up in YYC, was a hell of a week, Iâm definitely a quart low, but my heart is full. #yahoo

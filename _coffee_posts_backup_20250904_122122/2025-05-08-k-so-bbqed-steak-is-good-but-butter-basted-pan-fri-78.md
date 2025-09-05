@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: K so BBQed steak is good, but butter basted pan fried steak with charred garlic and cured salt egg topping might be betterâ¦.\ndate: 2025-05-08\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nK so BBQed steak is good, but butter basted pan fried steak with charred garlic and cured salt egg topping might be betterâ¦.

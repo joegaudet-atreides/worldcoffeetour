@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: "#worldcoffeetour still alive with a late night hakuba edition, amazing little coffee roaster."\ndate: 2024-01-25\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Worldcoffeetour\n---\n\n#worldcoffeetour still alive with a late night hakuba edition, amazing little coffee roaster.

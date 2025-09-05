@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Chet is hard at work on his OKRs, hoping to get that promo this year.\ndate: 2022-01-11\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Work On His Okrs\n---\n\nChet is hard at work on his OKRs, hoping to get that promo this year.

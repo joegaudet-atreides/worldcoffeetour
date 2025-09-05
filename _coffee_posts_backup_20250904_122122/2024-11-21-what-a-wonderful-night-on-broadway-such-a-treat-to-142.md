@@ -1,0 +1,3 @@
+---\nlayout: coffee_post\ntitle: What a wonderful night on broadway, such a treat to get to see @denis_e_lambert perform on the biggest musical theatre stage on earth, and then as a bonus meet his partner and friends and grill them a\ndate: 2024-11-21\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Denis E Lambert\n---\n\nWhat a wonderful night on broadway, such a treat to get to see @denis_e_lambert perform on the biggest musical theatre stage on earth, and then as a bonus meet his partner and friends and grill them about the biz.
+
+Day two of NYC has set a pretty high bar.

@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: "Fun at Castle Fun Park! (It's pretty fun)"\ndate: 2017-08-13\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: "Castle Fun Park! (It'S Pretty Fun)"\n---\n\nCoffee post from Unknown, Unknown

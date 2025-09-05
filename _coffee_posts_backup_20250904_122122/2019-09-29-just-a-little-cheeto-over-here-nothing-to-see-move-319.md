@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Just a little Cheeto over here, nothing to see, move along..\ndate: 2019-09-29\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nJust a little Cheeto over here, nothing to see, move along..

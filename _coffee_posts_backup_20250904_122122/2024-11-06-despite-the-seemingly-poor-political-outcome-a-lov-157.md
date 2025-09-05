@@ -1,0 +1,3 @@
+---\nlayout: coffee_post\ntitle: Despite the seemingly poor political outcome, a lovely night was had with these beauties (there was also a tiny guest not pictured). My plating skills still not living up to the taste of the food, but\ndate: 2024-11-06\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nDespite the seemingly poor political outcome, a lovely night was had with these beauties (there was also a tiny guest not pictured). My plating skills still not living up to the taste of the food, but slow and steady.
+
+Duck with citrus gastrique, home made ricotta gnocchi with asparagus and chanterelle cream sauce. There was also cinnamon smoked and seared tuna, but I didnât get a snap.

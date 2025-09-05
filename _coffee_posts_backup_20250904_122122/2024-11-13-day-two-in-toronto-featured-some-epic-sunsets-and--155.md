@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Day two in Toronto featured some epic sunsets and extremely well named bars\ndate: 2024-11-13\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Toronto Featured Some Epic Sunsets And Extremely Well Named Bars\n---\n\nDay two in Toronto featured some epic sunsets and extremely well named bars

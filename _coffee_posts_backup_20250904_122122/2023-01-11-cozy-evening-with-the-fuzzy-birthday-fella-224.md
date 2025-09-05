@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Cozy evening with the fuzzy birthday fella.\ndate: 2023-01-11\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nCoffee post from Unknown, Unknown

@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: GF loaf v2, improving, Dutch oven improved considerably, but still quite dense, need some more leavening.\ndate: 2020-07-22\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nGF loaf v2, improving, Dutch oven improved considerably, but still quite dense, need some more leavening.

@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Got a new phone with a fancy new camera... so obviously Chet action.\ndate: 2021-02-10\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nGot a new phone with a fancy new camera... so obviously Chet action.

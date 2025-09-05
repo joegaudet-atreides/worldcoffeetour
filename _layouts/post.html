@@ -28,10 +28,35 @@ layout: default
     </div>
 
     <div class="post-content">
+        <!-- Hero Image -->
+        {% if page.images and page.images.size > 0 %}
+        <div class="post-hero-image">
+            <img src="{{ page.images[0] }}" alt="{{ page.title }}" loading="lazy">
+        </div>
+        {% elsif page.image_url %}
+        <div class="post-hero-image">
+            <img src="{{ page.image_url }}" alt="{{ page.title }}" loading="lazy">
+        </div>
+        {% endif %}
+
         <!-- Description -->
         {% if page.notes %}
         <div class="post-description">
             <p>{{ page.notes }}</p>
+        </div>
+        {% endif %}
+
+        <!-- Additional Images Gallery -->
+        {% if page.images and page.images.size > 1 %}
+        <div class="post-images-gallery">
+            <h3>More Photos</h3>
+            <div class="gallery-grid">
+                {% for image in page.images offset:1 %}
+                <div class="gallery-image">
+                    <img src="{{ image }}" alt="{{ page.title }}" loading="lazy" onclick="openLightbox('{{ image }}')">
+                </div>
+                {% endfor %}
+            </div>
         </div>
         {% endif %}
 
@@ -40,20 +65,6 @@ layout: default
             <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="{{ page.instagram_url }}"
                         data-instgrm-version="14">
             </blockquote>
-        </div>
-        {% endif %}
-
-        {% if page.images and page.images.size > 1 %}
-        <div class="post-images-gallery">
-            {% for image in page.images %}
-            <div class="gallery-image">
-                <img src="{{ image }}" alt="{{ page.title }}" loading="lazy">
-            </div>
-            {% endfor %}
-        </div>
-        {% elsif page.image_url %}
-        <div class="post-image">
-            <img src="{{ page.image_url }}" alt="{{ page.title }}" loading="lazy">
         </div>
         {% endif %}
 

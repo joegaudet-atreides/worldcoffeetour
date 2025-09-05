@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Weâve been coming to the same party for 25 years, and thatâs in no way depressing.\ndate: 2023-01-21\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: No Way Depressing.\n---\n\nWeâve been coming to the same party for 25 years, and thatâs in no way depressing.

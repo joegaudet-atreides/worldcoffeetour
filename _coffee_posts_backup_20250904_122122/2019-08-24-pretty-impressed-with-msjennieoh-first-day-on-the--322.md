@@ -1,0 +1,3 @@
+---\nlayout: coffee_post\ntitle: "Pretty impressed with @msjennieoh , first day on the ride to conquer cancer, she came in pretty nervous about the whole thing - but got it done. The cheers from @lennonsquiggy probably helped (heâs "\ndate: 2019-08-24\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Msjennieoh\n---\n\nPretty impressed with @msjennieoh , first day on the ride to conquer cancer, she came in pretty nervous about the whole thing - but got it done. The cheers from @lennonsquiggy probably helped (heâs all about the cowbell)
+
+#fuckcancer #ridetoconquercancer2019

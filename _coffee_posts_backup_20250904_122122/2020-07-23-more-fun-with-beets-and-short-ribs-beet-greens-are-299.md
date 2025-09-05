@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: More fun with beets and short ribs, beet greens are so tasty almost like rhubarb.\ndate: 2020-07-23\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nMore fun with beets and short ribs, beet greens are so tasty almost like rhubarb.

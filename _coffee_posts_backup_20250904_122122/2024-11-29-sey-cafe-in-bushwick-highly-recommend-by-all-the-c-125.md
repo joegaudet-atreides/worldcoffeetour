@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: SEY Cafe in Bushwick, highly recommend by all the coffee dorks Iâve met on this trip. #worldcoffeetour\ndate: 2024-11-29\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Worldcoffeetour\n---\n\nSEY Cafe in Bushwick, highly recommend by all the coffee dorks Iâve met on this trip. #worldcoffeetour

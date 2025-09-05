@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Cloudy Saturday in YVR, trout lake for farmers goodies and false creek for dragon boats.\ndate: 2024-06-01\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nCloudy Saturday in YVR, trout lake for farmers goodies and false creek for dragon boats.

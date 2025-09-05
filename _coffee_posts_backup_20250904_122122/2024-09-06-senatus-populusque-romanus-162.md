@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Senatus Populusque Romanus\ndate: 2024-09-06\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nCoffee post from Unknown, Unknown

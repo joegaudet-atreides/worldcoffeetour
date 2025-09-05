@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Got to hang out with these handsome gents.\ndate: 2022-02-03\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nCoffee post from Unknown, Unknown

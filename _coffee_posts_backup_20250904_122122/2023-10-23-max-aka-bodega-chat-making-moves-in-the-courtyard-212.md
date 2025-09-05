@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: "Max, aka: Bodega Chat, making moves in the courtyard"\ndate: 2023-10-23\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: The Courtyard\n---\n\nMax, aka: Bodega Chat, making moves in the courtyard

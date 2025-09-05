@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Lovely house warming gift from @paulrlambert, stoked to join the bake-off!\ndate: 2022-01-13\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Paulrlambert\n---\n\nLovely house warming gift from @paulrlambert, stoked to join the bake-off!

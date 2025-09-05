@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Taking advantage of the brief break in the rain.\ndate: 2021-11-07\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: The Rain.\n---\n\nCoffee post from Unknown, Unknown

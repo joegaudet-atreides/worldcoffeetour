@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: First basil harvest from the home garden\ndate: 2022-10-15\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nCoffee post from Unknown, Unknown

@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Some floor company while I roll my sore back out.\ndate: 2022-01-26\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nCoffee post from Unknown, Unknown

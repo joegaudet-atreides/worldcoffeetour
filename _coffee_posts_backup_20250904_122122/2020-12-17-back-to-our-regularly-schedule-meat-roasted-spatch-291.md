@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Back to our regularly schedule meat, roasted spatchcock glazed duck with Brussels. Shit is tiiiiight.\ndate: 2020-12-17\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nBack to our regularly schedule meat, roasted spatchcock glazed duck with Brussels. Shit is tiiiiight.

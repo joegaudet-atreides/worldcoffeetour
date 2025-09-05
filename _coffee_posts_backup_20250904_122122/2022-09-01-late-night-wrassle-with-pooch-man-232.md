@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Late night wrassle with pooch man\ndate: 2022-09-01\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nCoffee post from Unknown, Unknown

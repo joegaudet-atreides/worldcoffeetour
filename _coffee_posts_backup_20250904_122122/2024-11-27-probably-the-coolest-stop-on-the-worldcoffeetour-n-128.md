@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Probably the coolest stop on the #worldcoffeetour nyc leg. @tildeathnyc\ndate: 2024-11-27\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Tildeathnyc\n---\n\nProbably the coolest stop on the #worldcoffeetour nyc leg. @tildeathnyc

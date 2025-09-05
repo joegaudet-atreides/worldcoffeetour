@@ -149,6 +149,32 @@ def generate_front_matter(data):
     lines.append('---')
     return '\n'.join(lines) + '\n'
 
+def validate_yaml_content(filepath):
+    """Validate that a file can be parsed as Jekyll post"""
+    try:
+        with open(filepath, 'r', encoding='utf-8') as f:
+            content = f.read()
+            
+        # Check for basic YAML structure
+        if not content.startswith('---\n'):
+            return False, "Missing YAML front matter"
+            
+        # Find end of front matter
+        end_pos = content.find('\n---\n', 4)
+        if end_pos == -1:
+            return False, "Incomplete YAML front matter"
+            
+        # Check for control characters in title and content
+        lines = content[:end_pos + 5].split('\n')
+        for line in lines:
+            if any(ord(c) < 32 and c not in '\n\t' for c in line):
+                return False, f"Control characters in YAML: {repr(line[:50])}"
+                
+        return True, "Valid"
+        
+    except Exception as e:
+        return False, f"Error reading file: {e}"
+
 def apply_corrections_to_posts():
     """Apply corrections to existing posts"""
     corrections = load_corrections()
@@ -196,6 +222,11 @@ def apply_corrections_to_posts():
             # Write the corrected file
             with open(post_file, 'w', encoding='utf-8') as f:
                 f.write(new_content)
+                
+            # Validate the written file
+            is_valid, error_msg = validate_yaml_content(post_file)
+            if not is_valid:
+                print(f"   ⚠️  Warning: Created invalid file {post_file.name}: {error_msg}")
             
             applied_count += 1
         else:

@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: âThis is what happens when good meets evilâ\ndate: 2024-06-23\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Happens When Good Meets Evilâ\n---\n\nCoffee post from Unknown, Unknown

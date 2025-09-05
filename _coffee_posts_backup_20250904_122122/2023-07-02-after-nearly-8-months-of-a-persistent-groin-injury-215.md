@@ -1,0 +1,3 @@
+---\nlayout: coffee_post\ntitle: "After nearly 8 months of a persistent groin injury, and a back injury perfectly timed with my 40th I was finally able to go ride around pain free. Just a little rip through Stanley park single track, "\ndate: 2023-07-02\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Injury\n---\n\nAfter nearly 8 months of a persistent groin injury, and a back injury perfectly timed with my 40th I was finally able to go ride around pain free. Just a little rip through Stanley park single track, but it bodes well for getting after some riding in the park and on fromme this summer.
+
+No for the wheezing to subsideâ¦.

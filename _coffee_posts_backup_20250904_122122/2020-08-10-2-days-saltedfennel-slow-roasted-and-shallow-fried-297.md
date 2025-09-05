@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: 2 days salted+fennel, slow roasted, and shallow fried.\ndate: 2020-08-10\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\n2 days salted+fennel, slow roasted, and shallow fried.

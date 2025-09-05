@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Some shots from adventure Christmas in southern Alberta, Merry Christmas to you all!!!\ndate: 2024-12-26\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Southern Alberta\n---\n\nSome shots from adventure Christmas in southern Alberta, Merry Christmas to you all!!!

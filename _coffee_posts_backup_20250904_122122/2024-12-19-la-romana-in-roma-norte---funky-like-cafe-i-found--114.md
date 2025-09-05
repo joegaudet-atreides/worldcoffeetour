@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: La Romana in Roma Norte - funky like cafe I found while @tinaaluu recovers from last nice #worldcoffeetour\ndate: 2024-12-19\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Tinaaluu\n---\n\nLa Romana in Roma Norte - funky like cafe I found while @tinaaluu recovers from last nice #worldcoffeetour

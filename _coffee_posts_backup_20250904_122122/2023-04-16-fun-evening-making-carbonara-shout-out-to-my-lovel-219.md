@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Fun evening making carbonara, shout out to my lovely sous chef and photog consultant @yillyrae\ndate: 2023-04-16\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Yillyrae\n---\n\nFun evening making carbonara, shout out to my lovely sous chef and photog consultant @yillyrae

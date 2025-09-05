@@ -1,0 +1,5 @@
+---\nlayout: coffee_post\ntitle: "If youâre a regular of the feed, you may have noticed a conspicuous absence of culinary posts. Iâve been having a hard time getting it together to cook of late, but while chatting with my wee sis "\ndate: 2024-11-04\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: My Favourite Dish Of All Time Is Shepherds Pie (Though Specifically Made By My Mom). So Here It Is\n---\n\nIf youâre a regular of the feed, you may have noticed a conspicuous absence of culinary posts. Iâve been having a hard time getting it together to cook of late, but while chatting with my wee sis today I was reminded that my favourite dish of all time is shepherds pie (though specifically made by my mom). So here it is, next best thing, and perfect for a cold November Sunday.
+
+Did I have to make  JoÃ«l Robuchon Potatoes for the top, no, are they amazing, yes.
+
+(A thing only learned a few years ago, this is infact a cottage pie, since you know shepherds donât shepherd cowsâ¦)

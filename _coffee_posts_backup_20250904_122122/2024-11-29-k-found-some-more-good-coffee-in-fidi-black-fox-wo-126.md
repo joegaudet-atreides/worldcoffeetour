@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: K found some more good coffee in FIDI, black fox. #worldcoffeetour\ndate: 2024-11-29\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Worldcoffeetour\n---\n\nK found some more good coffee in FIDI, black fox. #worldcoffeetour

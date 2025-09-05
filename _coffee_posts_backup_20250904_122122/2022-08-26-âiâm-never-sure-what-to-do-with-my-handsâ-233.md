@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: âIâm never sure what to do with my handsâ\ndate: 2022-08-26\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: To Do With My Handsâ\n---\n\nCoffee post from Unknown, Unknown

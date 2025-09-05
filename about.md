@@ -20,26 +20,21 @@ permalink: /about/
             easier way to give them than by pointing them at my Instagram. 
         </p>
 
-        {% comment %} Filter posts with valid location data {% endcomment %}
+        {% comment %} Show all posts - even those with incomplete location data {% endcomment %}
         {% assign valid_posts = site.coffee_posts %}
-        {% assign filtered_posts = "" | split: "" %}
-        {% for post in valid_posts %}
-          {% if post.latitude and post.longitude and post.city != "Unknown" and post.country != "Unknown" and post.continent != "World" %}
-            {% assign filtered_posts = filtered_posts | push: post %}
-          {% endif %}
-        {% endfor %}
-        {% assign valid_posts = filtered_posts %}
         <div class="coffee-stats">
             <div class="stat">
                 <span class="stat-number">{{ valid_posts.size }}</span>
                 <span class="stat-label">Coffee Stops</span>
             </div>
             <div class="stat">
-                <span class="stat-number">{{ valid_posts | map: 'country' | uniq | size }}</span>
+                {% assign known_countries = valid_posts | map: 'country' | uniq | where_exp: 'country', 'country != "Unknown"' %}
+                <span class="stat-number">{{ known_countries | size }}</span>
                 <span class="stat-label">Countries</span>
             </div>
             <div class="stat">
-                <span class="stat-number">{{ valid_posts | map: 'city' | uniq | size }}</span>
+                {% assign known_cities = valid_posts | map: 'city' | uniq | where_exp: 'city', 'city != "Unknown"' %}
+                <span class="stat-number">{{ known_cities | size }}</span>
                 <span class="stat-label">Cities</span>
             </div>
         </div>

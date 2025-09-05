@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Made some tasty steak last night with little broccolini\ndate: 2021-04-26\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nMade some tasty steak last night with little broccolini

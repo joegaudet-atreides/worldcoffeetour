@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Impeccable house guest @lumpyspacedog, fun cosplaying as a dog owner again.\ndate: 2025-08-08\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Lumpyspacedog\n---\n\nImpeccable house guest @lumpyspacedog, fun cosplaying as a dog owner again.

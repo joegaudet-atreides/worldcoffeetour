@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Perspectives\ndate: 2019-07-27\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nCoffee post from Unknown, Unknown

@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: A highly recommended stop on the #worldcoffeetour in Dublin. Featured here, a âNoisetteâ!\ndate: 2024-08-30\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Worldcoffeetour\n---\n\nA highly recommended stop on the #worldcoffeetour in Dublin. Featured here, a âNoisetteâ!

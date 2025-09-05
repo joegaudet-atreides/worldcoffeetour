@@ -1,0 +1,3 @@
+---\nlayout: coffee_post\ntitle: Seems all my adventure pals are named Sarah. Heaps of fun playing in the snow with @sarah_afton - also the black tusk looking particularly like a starfish chilling on a couch today, once you see it yo\ndate: 2025-02-25\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Sarah Afton\n---\n\nSeems all my adventure pals are named Sarah. Heaps of fun playing in the snow with @sarah_afton - also the black tusk looking particularly like a starfish chilling on a couch today, once you see it you canât unsee it.
+
+Next stop Denver to adventure with @sarahkaysmith and @nerdlafkie

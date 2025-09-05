@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: First attempt at chicken feet, turned out pretty decent.\ndate: 2021-05-28\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Chicken Feet\n---\n\nFirst attempt at chicken feet, turned out pretty decent.

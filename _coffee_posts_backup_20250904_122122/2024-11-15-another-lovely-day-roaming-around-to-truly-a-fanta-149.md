@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Another lovely day roaming around TO, truly a fantastic city.\ndate: 2024-11-15\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nAnother lovely day roaming around TO, truly a fantastic city.

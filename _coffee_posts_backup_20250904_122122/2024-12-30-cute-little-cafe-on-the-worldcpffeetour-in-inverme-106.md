@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Cute little cafe on the #worldcpffeetour in Invermere, stolen church.\ndate: 2024-12-30\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Worldcpffeetour\n---\n\nCute little cafe on the #worldcpffeetour in Invermere, stolen church.

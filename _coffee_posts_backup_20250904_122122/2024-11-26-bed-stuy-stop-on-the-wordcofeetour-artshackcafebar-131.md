@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Bed-Stuy stop on the #wordcofeetour @artshackcafebar super friendly staff, with a neat ceramics store inside.\ndate: 2024-11-26\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Artshackcafebar\n---\n\nBed-Stuy stop on the #wordcofeetour @artshackcafebar super friendly staff, with a neat ceramics store inside.

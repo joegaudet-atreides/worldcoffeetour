@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: No fun was had on family day long weekend. None.\ndate: 2022-02-23\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nCoffee post from Unknown, Unknown

@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: When itâs not pouring rain, fall is pretty special round here.\ndate: 2024-10-31\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nWhen itâs not pouring rain, fall is pretty special round here.

@@ -172,24 +172,19 @@ body {
     position: relative;
 }
 
-.main-content.split-pane-active {
-    width: 100%;
-    padding: 2rem;
-    display: block;
-}
 
 /* Map */
 #map {
     height: 500px;
-    width: 100%;
+    width: calc(100% - 60px);
     border-radius: 12px;
     overflow: hidden;
     box-shadow: var(--shadow);
-    margin: 0 0 3rem 0;
+    margin: 0 30px 3rem 30px;
     border: 1px solid var(--border-color);
     position: relative;
     z-index: 50;
-    transform-origin: top left;
+    transform-origin: top center;
     will-change: transform, width, height;
     background: #0a0a0a; /* Match site background to reduce flash */
 }
@@ -289,6 +284,11 @@ body {
     margin: 0.75rem 0;
     line-height: 1.5;
     opacity: 0.9;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .coffee-card-meta {
@@ -355,12 +355,39 @@ body {
     display: block;
 }
 
+/* Hero Image */
+.post-hero-image {
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.post-hero-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    max-height: 600px;
+    object-fit: cover;
+}
+
 /* Image gallery for multiple photos */
 .post-images-gallery {
+    margin: 3rem 0;
+}
+
+.post-images-gallery h3 {
+    font-size: 1.3rem;
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+    letter-spacing: 0.5px;
+}
+
+.gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 1rem;
-    margin-bottom: 2rem;
 }
 
 .gallery-image {
@@ -382,13 +409,28 @@ body {
 }
 
 @media (max-width: 768px) {
-    .post-images-gallery {
+    .gallery-grid {
         grid-template-columns: 1fr;
     }
     
     .gallery-image img {
         height: 300px;
     }
+    
+    .post-hero-image img {
+        max-height: 400px;
+    }
+}
+
+.post-description {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--primary-color);
+    margin: 2rem 0;
+}
+
+.post-description p {
+    margin: 0;
 }
 
 .instagram-embed {

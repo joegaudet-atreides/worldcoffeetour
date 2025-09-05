@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Follow up post including these beauties.\ndate: 2022-05-29\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nCoffee post from Unknown, Unknown

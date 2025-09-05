@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Just hanging out with a little space man.\ndate: 2021-08-07\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nCoffee post from Unknown, Unknown

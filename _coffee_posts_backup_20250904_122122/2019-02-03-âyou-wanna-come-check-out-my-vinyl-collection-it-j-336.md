@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: âYou wanna come check out my vinyl collection, it just sounds more real yâ know?â\ndate: 2019-02-03\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nâYou wanna come check out my vinyl collection, it just sounds more real yâ know?â

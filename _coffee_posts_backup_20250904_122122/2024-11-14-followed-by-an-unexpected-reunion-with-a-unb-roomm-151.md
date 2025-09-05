@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Followed by an unexpected reunion with a UNB roommate, the world is pretty small\ndate: 2024-11-14\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nFollowed by an unexpected reunion with a UNB roommate, the world is pretty small

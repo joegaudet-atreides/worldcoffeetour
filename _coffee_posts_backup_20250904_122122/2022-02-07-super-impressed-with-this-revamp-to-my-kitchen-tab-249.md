@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Super impressed with this revamp to my kitchen table by @propolisprojects.\ndate: 2022-02-07\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Propolisprojects.\n---\n\nSuper impressed with this revamp to my kitchen table by @propolisprojects.

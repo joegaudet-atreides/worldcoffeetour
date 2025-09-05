@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: A little home gift to @msjennieoh and me - Shun Santoku with honing steel. All the chopping!\ndate: 2019-02-18\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Msjennieoh\n---\n\nA little home gift to @msjennieoh and me - Shun Santoku with honing steel. All the chopping!

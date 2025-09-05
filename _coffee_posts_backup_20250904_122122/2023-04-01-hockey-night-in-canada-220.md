@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Hockey night in Canada\ndate: 2023-04-01\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Canada\n---\n\nCoffee post from Unknown, Unknown

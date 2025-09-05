@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Final stop on the nyc #worldcoffeetour amazing breakfast sammich\ndate: 2024-12-02\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Worldcoffeetour\n---\n\nFinal stop on the nyc #worldcoffeetour amazing breakfast sammich

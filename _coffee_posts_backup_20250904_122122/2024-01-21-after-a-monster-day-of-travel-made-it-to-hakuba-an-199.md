@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: After a monster day of travel, made it to hakuba and met up with Paul, had an onsen, and look pow on the horizon!!\ndate: 2024-01-21\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nAfter a monster day of travel, made it to hakuba and met up with Paul, had an onsen, and look pow on the horizon!!

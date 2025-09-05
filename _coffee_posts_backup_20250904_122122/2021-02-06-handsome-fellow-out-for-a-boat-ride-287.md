@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Handsome fellow out for a boat ride.\ndate: 2021-02-06\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Ride.\n---\n\nCoffee post from Unknown, Unknown

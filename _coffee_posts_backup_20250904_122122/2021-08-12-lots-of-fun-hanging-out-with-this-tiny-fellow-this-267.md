@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Lots of fun hanging out with this tiny fellow this week.\ndate: 2021-08-12\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nLots of fun hanging out with this tiny fellow this week.

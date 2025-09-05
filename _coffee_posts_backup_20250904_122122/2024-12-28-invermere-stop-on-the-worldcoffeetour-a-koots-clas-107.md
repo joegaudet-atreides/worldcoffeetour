@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Invermere stop on the #worldcoffeetour a koots classic, kicking horse cafe.\ndate: 2024-12-28\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Worldcoffeetour\n---\n\nInvermere stop on the #worldcoffeetour a koots classic, kicking horse cafe.

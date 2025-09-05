@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Another brew day on the Franken system.\ndate: 2020-05-18\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nCoffee post from Unknown, Unknown

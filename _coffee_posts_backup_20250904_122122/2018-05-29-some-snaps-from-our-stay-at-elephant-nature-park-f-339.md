@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Some snaps from our stay at elephant nature park, featuring elephants and my homeboy pizza the dog.\ndate: 2018-05-29\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Elephant Nature Park\n---\n\nSome snaps from our stay at elephant nature park, featuring elephants and my homeboy pizza the dog.

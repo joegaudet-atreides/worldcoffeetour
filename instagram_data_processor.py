@@ -15,6 +15,67 @@ class InstagramDataProcessor:
     def __init__(self):
         self.coffee_posts = []
         
+    def clean_text(self, text):
+        """Clean and fix text encoding issues"""
+        if not text:
+            return ""
+        
+        # Fix common UTF-8 encoding problems from Instagram export
+        text = str(text)
+        
+        # Fix byte sequence issues
+        replacements = {
+            'â': "'",          # â often means '
+            'â': '"',          # â often means "
+            'â': '"',          # â often means "
+            'â': '-',          # â often means -
+            'â': '-',          # â often means -
+            'Â': '',           # Â is often a stray character
+            '\u0080\u0099': "'",  # I€™ve -> I've
+            '\u0080\u009c': '"',  # Left double quote
+            '\u0080\u009d': '"',  # Right double quote
+            '\u0080\u0094': '-',  # Em dash
+            '\u0080\u0093': '-',  # En dash
+            'ð': 'train',      # Train emoji
+            'life-¦': 'life',  # Fix corrupted text
+            'found-¦': 'found', # Fix corrupted text
+            "don-'t": "don't", # Fix corrupted contractions
+            "it-'s": "it's",   # Fix corrupted contractions
+        }
+        
+        for wrong, right in replacements.items():
+            text = text.replace(wrong, right)
+        
+        # Remove any remaining control characters except newline and tab
+        import re
+        text = re.sub(r'[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]', '', text)
+        
+        return text.strip()
+    
+    def validate_post_data(self, post_data):
+        """Validate that a post has proper structure and content"""
+        if not isinstance(post_data, dict):
+            return False, "Post data is not a dictionary"
+        
+        if not post_data.get('title'):
+            return False, "Post has no title"
+        
+        if not post_data.get('date'):
+            return False, "Post has no date"
+        
+        if not post_data.get('shortcode'):
+            return False, "Post has no shortcode"
+        
+        # Check for control characters that break YAML
+        title = post_data.get('title', '')
+        notes = post_data.get('notes', '')
+        
+        for field_name, field_value in [('title', title), ('notes', notes)]:
+            if any(ord(c) < 32 and c not in '\n\t' for c in str(field_value)):
+                return False, f"Post {field_name} contains control characters"
+        
+        return True, "Valid"
+        
     def process_instagram_export(self, export_path):
         """Process Instagram data export (ZIP file or folder)"""
         print("☕ Processing Instagram Data Export...")
@@ -60,23 +121,36 @@ class InstagramDataProcessor:
             print(f"❌ Folder not found: {folder_path}")
             return []
         
-        # Look for JSON files
-        json_files = list(folder.rglob('*.json'))
-        
-        print(f"Found {len(json_files)} JSON files in export folder")
-        
-        for json_file in json_files:
-            if 'post' in json_file.name.lower() or 'content' in json_file.name.lower():
-                print(f"Processing {json_file.name}...")
-                
-                try:
-                    with open(json_file, 'r', encoding='utf-8') as f:
-                        data = json.load(f)
-                        posts = self.extract_posts_from_export_data(data)
-                        self.coffee_posts.extend(posts)
-                        print(f"  ✅ Found {len(posts)} posts in {json_file.name}")
-                except Exception as e:
-                    print(f"  ❌ Error parsing {json_file.name}: {e}")
+        # Look for the specific posts file first
+        posts_file = folder / "your_instagram_activity" / "media" / "posts_1.json"
+        if posts_file.exists():
+            print(f"Found posts file: {posts_file}")
+            try:
+                with open(posts_file, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                    posts = self.extract_posts_from_export_data(data)
+                    self.coffee_posts.extend(posts)
+                    print(f"  ✅ Found {len(posts)} posts in posts_1.json")
+            except Exception as e:
+                print(f"  ❌ Error parsing posts_1.json: {e}")
+        else:
+            # Fallback to searching all files
+            json_files = list(folder.rglob('*.json'))
+            
+            print(f"Posts file not found, searching {len(json_files)} JSON files")
+            
+            for json_file in json_files:
+                if 'post' in json_file.name.lower() or 'content' in json_file.name.lower():
+                    print(f"Processing {json_file.name}...")
+                    
+                    try:
+                        with open(json_file, 'r', encoding='utf-8') as f:
+                            data = json.load(f)
+                            posts = self.extract_posts_from_export_data(data)
+                            self.coffee_posts.extend(posts)
+                            print(f"  ✅ Found {len(posts)} posts in {json_file.name}")
+                    except Exception as e:
+                        print(f"  ❌ Error parsing {json_file.name}: {e}")
         
         return self.coffee_posts
     
@@ -114,14 +188,15 @@ class InstagramDataProcessor:
     def process_export_post(self, post_data):
         """Process individual post from export"""
         try:
-            # Extract caption
+            # Extract caption - debugging info
             caption = ""
             
-            # Try different caption field names
-            caption_fields = ['caption', 'text', 'title', 'description', 'string_map_data']
+            
+            # Try different caption field names - Instagram export uses 'title' 
+            caption_fields = ['title', 'caption', 'text', 'description', 'string_map_data']
             
             for field in caption_fields:
-                if field in post_data:
+                if field in post_data and post_data[field]:
                     if isinstance(post_data[field], str):
                         caption = post_data[field]
                         break
@@ -133,18 +208,39 @@ class InstagramDataProcessor:
                         caption = post_data[field][0] if isinstance(post_data[field][0], str) else ""
                         break
             
+            # If no caption found at top level, check media array
+            if not caption and 'media' in post_data and post_data['media']:
+                media_item = post_data['media'][0] if isinstance(post_data['media'], list) else post_data['media']
+                if isinstance(media_item, dict) and 'title' in media_item:
+                    caption = media_item['title']
+            
+            
             # Skip if no caption or doesn't contain our hashtag
-            if not caption or '#worldcoffeetour' not in caption.lower():
+            if not caption:
+                print(f"    ⏭️  Skipping post: no caption found")
+                return None
+            if '#worldcoffeetour' not in caption.lower():
+                print(f"    ⏭️  Skipping post: no #worldcoffeetour hashtag")
                 return None
             
-            # Extract timestamp
+            # Extract timestamp - check both root level and media items
             timestamp_fields = ['creation_timestamp', 'timestamp', 'taken_at', 'created_at', 'date']
             timestamp = None
             
+            # First try root level
             for field in timestamp_fields:
                 if field in post_data and post_data[field]:
                     timestamp = post_data[field]
                     break
+            
+            # If not found at root level, check media items
+            if not timestamp and 'media' in post_data and post_data['media']:
+                media_items = post_data['media']
+                if isinstance(media_items, list) and media_items:
+                    for field in timestamp_fields:
+                        if field in media_items[0] and media_items[0][field]:
+                            timestamp = media_items[0][field]
+                            break
             
             # Convert timestamp to ISO format
             if timestamp:
@@ -205,24 +301,45 @@ class InstagramDataProcessor:
             elif not title:
                 title = "Coffee Stop"
             
-            # Clean notes
-            notes = re.sub(r'#\w+\s*', '', caption).strip()
+            # Clean text encoding issues
+            title = self.clean_text(title)
+            
+            # Fix YAML issues - titles starting with dash need quotes
+            if title.startswith('-'):
+                title = title[1:].strip()  # Remove leading dash
+            
+            # Clean notes but preserve #worldcoffeetour
+            notes = caption
+            # Remove other hashtags but keep #worldcoffeetour
+            notes = re.sub(r'#(?!worldcoffeetour)\w+\s*', '', notes, flags=re.IGNORECASE).strip()
+            # Remove mentions
             notes = re.sub(r'@\w+\s*', '', notes).strip()
+            # Clean up extra newlines
             notes = re.sub(r'\n\n+', '\n', notes).strip()
+            # Clean text encoding issues
+            notes = self.clean_text(notes)
             
             # Extract shortcode if available
             shortcode = post_data.get('shortcode', '') or post_data.get('id', '') or f"post_{int(datetime.now().timestamp())}"
             
-            return {
+            post_data = {
                 'shortcode': shortcode,
                 'title': title,
-                'caption': caption,
+                'caption': self.clean_text(caption),
                 'notes': notes,
                 'date': date,
                 'image_url': media_url,
                 'location': location_data,
                 'instagram_url': f"https://www.instagram.com/p/{shortcode}/" if shortcode.startswith(('A', 'B', 'C')) else ""
             }
+            
+            # Validate the post data
+            is_valid, error_msg = self.validate_post_data(post_data)
+            if not is_valid:
+                print(f"    ⚠️  Skipping invalid post: {error_msg}")
+                return None
+            
+            return post_data
             
         except Exception as e:
             print(f"    Error processing post: {e}")
@@ -237,17 +354,26 @@ class InstagramDataProcessor:
         posts_dir = Path("_coffee_posts")
         posts_dir.mkdir(exist_ok=True)
         
-        # Remove old sample posts
-        for old_post in posts_dir.glob("2024-*.md"):
-            old_post.unlink()
-        
         count = 0
         for post in posts:
+            # Validate post before processing
+            is_valid, error_msg = self.validate_post_data(post)
+            if not is_valid:
+                print(f"  ❌ Skipping invalid post: {error_msg}")
+                continue
+                
             try:
                 date_str = post['date'][:10]
                 title = post['title']
                 slug = re.sub(r'[^\w\s-]', '', title.lower())
                 slug = re.sub(r'[-\s]+', '-', slug)[:30]
+                
+                # Check for existing posts with same date and slug to avoid duplicates
+                existing_pattern = f"{date_str}-{slug}*.md"
+                existing_files = list(posts_dir.glob(existing_pattern))
+                if existing_files:
+                    print(f"  ⏭️  Skipping duplicate: {date_str}-{slug} (already exists)")
+                    continue
                 
                 filename = f"{date_str}-{slug}-{post['shortcode']}.md"
                 filepath = posts_dir / filename
@@ -279,21 +405,30 @@ class InstagramDataProcessor:
                             region = reg
                             break
                 
+                # Escape quotes and newlines in YAML strings
+                def yaml_escape(text):
+                    if not text:
+                        return '""'
+                    text = str(text)
+                    # Replace quotes and newlines
+                    text = text.replace('"', '\\"').replace('\n', ' ')
+                    return f'"{text}"'
+                
                 post_content = f"""---
 layout: post
-title: "{title}"
+title: {yaml_escape(title)}
 date: {date_str}
-city: "{city}"
-country: "{country}"
-region: "{region}"
+city: {yaml_escape(city)}
+country: {yaml_escape(country)}
+region: {yaml_escape(region)}
 latitude: {location.get('lat', 'null')}
 longitude: {location.get('lng', 'null')}
 cafe_name: ""
 coffee_type: ""
-rating: 
-notes: "{post['notes']}"
-image_url: "{post['image_url']}"
-instagram_url: "{post['instagram_url']}"
+rating: null
+notes: {yaml_escape(post['notes'])}
+image_url: {yaml_escape(post['image_url'])}
+instagram_url: {yaml_escape(post['instagram_url'])}
 ---"""
                 
                 filepath.write_text(post_content)

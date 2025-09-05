@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Gastown sights this evening.\ndate: 2022-07-02\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nCoffee post from Unknown, Unknown

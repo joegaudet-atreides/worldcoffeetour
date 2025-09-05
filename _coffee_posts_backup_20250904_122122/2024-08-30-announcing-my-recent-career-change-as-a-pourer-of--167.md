@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Announcing my recent career change as a pourer of perfect pints!\ndate: 2024-08-30\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nAnnouncing my recent career change as a pourer of perfect pints!

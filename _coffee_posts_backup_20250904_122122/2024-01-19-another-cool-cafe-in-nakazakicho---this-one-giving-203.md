@@ -1,0 +1,3 @@
+---\nlayout: coffee_post\ntitle: Another cool cafe in Nakazakicho - this one giving very 33 acres vibes. They also had their own roaster which is something you donât see too often.
+#worldcoffeetour\ndate: 2024-01-19\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Worldcoffeetour\n---\n\nAnother cool cafe in Nakazakicho - this one giving very 33 acres vibes. They also had their own roaster which is something you donât see too often.
+#worldcoffeetour

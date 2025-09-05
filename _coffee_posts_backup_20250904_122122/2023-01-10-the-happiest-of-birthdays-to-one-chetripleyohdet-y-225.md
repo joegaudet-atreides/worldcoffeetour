@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: The happiest of birthdays to one @chet.ripley.ohdet youâre one hell of a pooch!\ndate: 2023-01-10\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Chet.Ripley.Ohdet\n---\n\nThe happiest of birthdays to one @chet.ripley.ohdet youâre one hell of a pooch!

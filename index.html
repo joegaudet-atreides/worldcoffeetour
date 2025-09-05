@@ -16,70 +16,85 @@ title: World Coffee Tour Map
     <button class="filter-btn" data-continent="oceania">Oceania</button>
 </div>
 
-{% comment %} Show all posts, even with Unknown locations {% endcomment %}
-{% assign valid_posts = site.coffee_posts %}
-{% assign posts_by_continent = valid_posts | group_by: 'continent' | sort: 'name' %}
+{% comment %} Split posts into published and unpublished {% endcomment %}
+{% assign published_posts = site.coffee_posts | where_exp: "post", "post.published != false" %}
+{% assign unpublished_posts = site.coffee_posts | where: 'published', false %}
+{% comment %} Group by continent and move Unknown/empty to end {% endcomment %}
+{% assign posts_by_continent_raw = published_posts | group_by: 'continent' | sort: 'name' %}
+{% assign all_continents = posts_by_continent_raw %}
+{% assign posts_by_continent = "" | split: "" %}
+{% for continent in all_continents %}
+  {% if continent.name != 'Unknown' and continent.name != '' %}
+    {% assign posts_by_continent = posts_by_continent | push: continent %}
+  {% endif %}
+{% endfor %}
+{% for continent in all_continents %}
+  {% if continent.name == 'Unknown' or continent.name == '' %}
+    {% assign posts_by_continent = posts_by_continent | push: continent %}
+  {% endif %}
+{% endfor %}
 
 <div class="content-wrapper">
     <div class="posts-content">
-        {% for continent in posts_by_continent %}
-        <section class="continent-section" id="{{ continent.name | downcase | replace: ' ', '-' }}" data-continent="{{ continent.name | downcase | replace: ' ', '-' }}">
-            <h1 class="continent-title">
-                <a href="#{{ continent.name | downcase | replace: ' ', '-' }}" class="section-link">{{ continent.name }}</a>
-            </h1>
-    
-    {% assign posts_by_country = continent.items | group_by: 'country' | sort: 'name' %}
-    
-    {% for country in posts_by_country %}
-    <div class="country-section" id="{{ continent.name | downcase | replace: ' ', '-' }}-{{ country.name | downcase | replace: ' ', '-' }}" data-country="{{ country.name }}" data-continent="{{ continent.name }}">
-        <h2 class="country-title">
-            <a href="#{{ continent.name | downcase | replace: ' ', '-' }}-{{ country.name | downcase | replace: ' ', '-' }}" class="section-link">{{ country.name }}</a>
-        </h2>
+            {% for continent in posts_by_continent %}
+            <section class="continent-section" id="{{ continent.name | downcase | replace: ' ', '-' }}" data-continent="{{ continent.name | downcase | replace: ' ', '-' }}">
+                <h1 class="continent-title">
+                    <a href="#{{ continent.name | downcase | replace: ' ', '-' }}" class="section-link">{% if continent.name == '' %}Unknown{% else %}{{ continent.name }}{% endif %}</a>
+                </h1>
         
-        {% assign posts_by_city = country.items | group_by: 'city' | sort: 'name' %}
+        {% assign posts_by_country = continent.items | group_by: 'country' | sort: 'name' %}
         
-        {% for city in posts_by_city %}
-        <div class="city-section" id="{{ continent.name | downcase | replace: ' ', '-' }}-{{ country.name | downcase | replace: ' ', '-' }}-{{ city.name | downcase | replace: ' ', '-' }}" data-city="{{ city.name }}" data-country="{{ country.name }}" data-continent="{{ continent.name }}">
-            <h3 class="city-title">📍 {{ city.name }}</h3>
+        {% for country in posts_by_country %}
+        <div class="country-section" id="{{ continent.name | downcase | replace: ' ', '-' }}-{{ country.name | downcase | replace: ' ', '-' }}" data-country="{{ country.name }}" data-continent="{{ continent.name }}">
+            <h2 class="country-title">
+                <a href="#{{ continent.name | downcase | replace: ' ', '-' }}-{{ country.name | downcase | replace: ' ', '-' }}" class="section-link">{{ country.name }}</a>
+            </h2>
             
-            <div class="coffee-grid">
-                {% assign sorted_posts = city.items | sort: 'date' | reverse %}
-                {% for post in sorted_posts %}
-                <a href="{{ post.url | relative_url }}" class="coffee-card" data-lat="{{ post.latitude }}" data-lng="{{ post.longitude }}">
-                    {% if post.image_url %}
-                    <img src="{{ post.image_url }}" alt="{{ post.title }}" class="coffee-card-image" loading="lazy">
-                    {% else %}
-                    <div class="coffee-card-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; font-size: 3rem;">☕</div>
-                    {% endif %}
-                    <div class="coffee-card-content">
-                        {% if post.cafe_name %}
-                        <h3 class="coffee-card-title">{{ post.cafe_name }}</h3>
-                        {% if post.title %}
-                        <p class="coffee-card-description">{{ post.title }}</p>
-                        {% endif %}
+            {% assign posts_by_city = country.items | group_by: 'city' | sort: 'name' %}
+            
+            {% for city in posts_by_city %}
+            <div class="city-section" id="{{ continent.name | downcase | replace: ' ', '-' }}-{{ country.name | downcase | replace: ' ', '-' }}-{{ city.name | downcase | replace: ' ', '-' }}" data-city="{{ city.name }}" data-country="{{ country.name }}" data-continent="{{ continent.name }}">
+                <h3 class="city-title">📍 {{ city.name }}</h3>
+                
+                <div class="coffee-grid">
+                    {% assign sorted_posts = city.items | sort: 'date' | reverse %}
+                    {% for post in sorted_posts %}
+                    <a href="{{ post.url | relative_url }}" class="coffee-card" data-lat="{{ post.latitude }}" data-lng="{{ post.longitude }}">
+                        {% if post.image_url %}
+                        <img src="{{ post.image_url }}" alt="{{ post.title }}" class="coffee-card-image" loading="lazy">
                         {% else %}
-                        <h3 class="coffee-card-title">{{ post.title }}</h3>
+                        <div class="coffee-card-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; font-size: 3rem;">☕</div>
                         {% endif %}
-                        <div class="coffee-card-meta">
-                            {% if post.latitude and post.longitude %}
-                            <span class="coffee-card-location">🌍 {{ post.latitude | round: 4 }}, {{ post.longitude | round: 4 }}</span>
+                        <div class="coffee-card-content">
+                            {% if post.cafe_name %}
+                            <h3 class="coffee-card-title">{{ post.cafe_name }}</h3>
+                            {% if post.title %}
+                            <p class="coffee-card-description">{{ post.title }}</p>
                             {% endif %}
-                            <span>{{ post.date | date: "%b %Y" }}</span>
+                            {% else %}
+                            <h3 class="coffee-card-title">{{ post.title }}</h3>
+                            {% endif %}
+                            <div class="coffee-card-meta">
+                                {% if post.latitude and post.longitude %}
+                                <span class="coffee-card-location">🌍 {{ post.latitude | round: 4 }}, {{ post.longitude | round: 4 }}</span>
+                                {% endif %}
+                                <span>{{ post.date | date: "%b %Y" }}</span>
+                            </div>
                         </div>
-                    </div>
-                </a>
-                {% endfor %}
+                    </a>
+                    {% endfor %}
+                </div>
             </div>
+            {% endfor %}
+            
         </div>
         {% endfor %}
-        
-    </div>
-    {% endfor %}
-        
-        </section>
-        {% endfor %}
+            
+            </section>
+            {% endfor %}
     </div>
 </div>
+
 
 <!-- If no posts yet, show placeholder -->
 {% if site.coffee_posts.size == 0 %}
@@ -161,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Get the header height to know when the map hits the toolbar
         const siteHeader = document.querySelector('.site-header');
         const headerHeight = siteHeader ? siteHeader.offsetHeight : 0;
-        const targetPadding = 100; // The top padding we want for the sticky map
+        const targetPadding = 60; // The top padding we want for the sticky map
         
         // Animation starts when the map would reach its final sticky position
         // This prevents the map from ever going under the toolbar
@@ -174,7 +189,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize state based on current scroll position (for page refresh)
     setTimeout(() => {
-        if (!isMobileDevice()) {
+        if (isMobileDevice()) {
+            updateMobileMapView();
+        } else {
             updateMapAnimation();
         }
     }, 100);
@@ -190,7 +207,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!ticking) {
             requestAnimationFrame(() => {
                 if (isMobileDevice()) {
-                    // On mobile, map stays as hero - no animation
+                    // On mobile, map stays as hero - no sticky animation, but still zoom to visible sections
+                    updateMobileMapView();
                 } else {
                     updateMapAnimation();
                 }
@@ -205,7 +223,8 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('resize', () => {
         updateScrollThreshold();
         if (isMobileDevice()) {
-            // On mobile, map stays as hero - no animation
+            // On mobile, update map view without animation
+            updateMobileMapView();
         } else {
             updateMapAnimation();
         }
@@ -290,6 +309,7 @@ document.addEventListener('DOMContentLoaded', function() {
             filterBtns.forEach(b => b.classList.remove('active'));
             this.classList.add('active');
             
+            
             // Show/hide continents
             if (continent === 'all') {
                 continentSections.forEach(section => {
@@ -309,6 +329,24 @@ document.addEventListener('DOMContentLoaded', function() {
     
 });
 
+let lastMobileUpdate = 0;
+function updateMobileMapView() {
+    // On mobile, just update the map to zoom to the visible section
+    // No sticky animation, but still responsive to scroll
+    if (!mainMap) return;
+    
+    // Throttle mobile updates to avoid performance issues
+    const now = Date.now();
+    if (now - lastMobileUpdate < 100) return; // Throttle to 10fps max
+    lastMobileUpdate = now;
+    
+    const visibleSection = getMostVisibleSection();
+    if (visibleSection) {
+        console.log('Mobile map update: zooming to visible section:', visibleSection.dataset);
+        zoomToVisibleSection(visibleSection);
+    }
+}
+
 function updateMapAnimation() {
     if (!mapContainer || !mapOriginalRect) {
         console.log('updateMapAnimation early return:', { mapContainer: !!mapContainer, mapOriginalRect: !!mapOriginalRect });
@@ -327,10 +365,12 @@ function updateMapAnimation() {
     // Target dimensions and position
     const targetWidth = Math.min(viewportWidth * 0.35 - 32, 600);
     const targetHeight = targetWidth * (9 / 16); // 16:9 aspect ratio
-    const targetTop = 100;
+    const siteHeader = document.querySelector('.site-header');
+    const headerHeight = siteHeader ? siteHeader.offsetHeight : 0;
+    const targetTop = headerHeight + 60; // More top margin for better visual balance
     const targetLeft = viewportWidth - targetWidth - 32;
     
-    if (progress > 0) {
+    if (progress > 0.2) {  // Only start animation when there's meaningful scroll
         // Animate to sidebar
         if (!isSticky) {
             isSticky = true;
@@ -369,7 +409,9 @@ function updateMapAnimation() {
         
         // Interpolate between the safe natural position and the target sticky position
         const currentTop = safeNaturalTop + (targetTop - safeNaturalTop) * progress;
-        const currentLeft = mapOriginalRect.left + (targetLeft - mapOriginalRect.left) * progress;
+        // Don't interpolate from mapOriginalRect.left since it may not be 0 due to centering
+        // Start from 30px and animate to targetLeft
+        const currentLeft = 30 + (targetLeft - 30) * Math.max(0, (progress - 0.2) / 0.8);
         const currentWidth = mapOriginalRect.width + (targetWidth - mapOriginalRect.width) * progress;
         const currentHeight = mapOriginalRect.height + (targetHeight - mapOriginalRect.height) * progress;
         
@@ -385,6 +427,16 @@ function updateMapAnimation() {
         mapContainer.style.boxShadow = `0 ${2 + progress * 14}px ${8 + progress * 8}px rgba(0,0,0,${shadowIntensity})`;
         
     } else {
+        // Ensure map is in its natural position
+        if (mapContainer.style.left || mapContainer.style.top) {
+            mapContainer.style.top = '';
+            mapContainer.style.left = '';
+            mapContainer.style.width = '';
+            mapContainer.style.height = '';
+            mapContainer.style.borderRadius = '';
+            mapContainer.style.boxShadow = '';
+        }
+        
         // Animate back to hero
         if (isSticky) {
             isSticky = false;
@@ -396,14 +448,6 @@ function updateMapAnimation() {
             if (placeholder) {
                 placeholder.remove();
             }
-            
-            // Reset styles
-            mapContainer.style.top = '';
-            mapContainer.style.left = '';
-            mapContainer.style.width = '';
-            mapContainer.style.height = '';
-            mapContainer.style.borderRadius = '';
-            mapContainer.style.boxShadow = '';
             
             if (mainMap) {
                 setTimeout(() => {
@@ -1076,4 +1120,5 @@ function zoomToCity(cityName) {
         margin: 1em !important;
     }
 }
+
 </style>

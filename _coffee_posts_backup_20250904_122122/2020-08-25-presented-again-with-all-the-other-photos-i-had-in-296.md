@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Presented again with all the other photos I had intended.\ndate: 2020-08-25\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: With All The Other Photos I Had Intended.\n---\n\nPresented again with all the other photos I had intended.

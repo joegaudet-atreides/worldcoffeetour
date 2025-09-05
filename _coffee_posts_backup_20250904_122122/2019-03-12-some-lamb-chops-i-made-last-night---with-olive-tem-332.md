@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Some lamb chops I made last night - with olive tempenade.\ndate: 2019-03-12\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nSome lamb chops I made last night - with olive tempenade.

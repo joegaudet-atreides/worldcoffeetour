@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Wild to see these guys in action, glad no one was badly hurt.\ndate: 2022-04-11\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Action\n---\n\nWild to see these guys in action, glad no one was badly hurt.

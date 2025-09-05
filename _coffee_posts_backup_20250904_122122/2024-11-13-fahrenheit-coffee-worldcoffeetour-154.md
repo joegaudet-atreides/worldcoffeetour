@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Fahrenheit Coffee #worldcoffeetour\ndate: 2024-11-13\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Worldcoffeetour\n---\n\nCoffee post from Unknown, Unknown

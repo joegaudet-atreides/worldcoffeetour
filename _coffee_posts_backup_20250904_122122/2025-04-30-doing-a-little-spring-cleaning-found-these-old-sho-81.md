@@ -1,0 +1,3 @@
+---\nlayout: coffee_post\ntitle: Doing a little spring cleaning found these old shots from my trip to Europe at 19 with @paulrlambert - I was apparently really into this slight blue black and white process they could do (these were s\ndate: 2025-04-30\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Paulrlambert\n---\n\nDoing a little spring cleaning found these old shots from my trip to Europe at 19 with @paulrlambert - I was apparently really into this slight blue black and white process they could do (these were shot on a canon ae-1)
+
+The first picture features a very youthful Paul in the Vatican.

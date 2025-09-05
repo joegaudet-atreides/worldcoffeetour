@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Fun was had on day one!!\ndate: 2025-02-27\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nCoffee post from Unknown, Unknown

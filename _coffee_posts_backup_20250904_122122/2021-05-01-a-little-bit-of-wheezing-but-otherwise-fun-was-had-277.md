@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: A little bit of wheezing but otherwise fun was had.\ndate: 2021-05-01\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nA little bit of wheezing but otherwise fun was had.

@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: "She's a hot one over on the shore"\ndate: 2017-08-07\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nCoffee post from Unknown, Unknown

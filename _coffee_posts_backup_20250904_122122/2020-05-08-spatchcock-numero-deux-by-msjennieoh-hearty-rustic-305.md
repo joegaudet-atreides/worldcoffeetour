@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Spatchcock numero deux by @msjennieoh, hearty, rustic, deeeeeeelicious.\ndate: 2020-05-08\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Msjennieoh\n---\n\nSpatchcock numero deux by @msjennieoh, hearty, rustic, deeeeeeelicious.

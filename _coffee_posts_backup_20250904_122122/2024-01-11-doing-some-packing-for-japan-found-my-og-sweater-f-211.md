@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Doing some packing for Japan, found my OG sweater from when I started playing.\ndate: 2024-01-11\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nDoing some packing for Japan, found my OG sweater from when I started playing.

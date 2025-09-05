@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Some snaps from our penultimate night in Tokyoâ¦ more coffee updates to come!\ndate: 2024-01-27\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Tokyoâ¦ More Coffee Updates To Come!\n---\n\nSome snaps from our penultimate night in Tokyoâ¦ more coffee updates to come!

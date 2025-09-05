@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: What a show! #doyourealize\ndate: 2017-05-16\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Doyourealize\n---\n\nCoffee post from Unknown, Unknown

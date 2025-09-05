@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Benefits of being furloughed in a surprisingly sunny spring.\ndate: 2020-04-15\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: A Surprisingly Sunny Spring.\n---\n\nBenefits of being furloughed in a surprisingly sunny spring.

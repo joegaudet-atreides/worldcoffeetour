@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Strange colours this evening, but also 40 cm of freshâ¦\ndate: 2024-01-23\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nStrange colours this evening, but also 40 cm of freshâ¦

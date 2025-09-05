@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: First part of the brew day underway, @lennonsquiggy is not convinced about the whole thing.\ndate: 2019-07-07\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Lennonsquiggy\n---\n\nFirst part of the brew day underway, @lennonsquiggy is not convinced about the whole thing.

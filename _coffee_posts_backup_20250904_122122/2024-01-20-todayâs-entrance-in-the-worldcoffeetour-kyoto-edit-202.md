@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Todayâs entrance in the #worldcoffeetour Kyoto edition, beautiful cafe on a park.\ndate: 2024-01-20\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Worldcoffeetour\n---\n\nTodayâs entrance in the #worldcoffeetour Kyoto edition, beautiful cafe on a park.

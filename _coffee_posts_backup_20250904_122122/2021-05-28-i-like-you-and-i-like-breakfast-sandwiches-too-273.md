@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: I like you, and I like breakfast sandwiches too!\ndate: 2021-05-28\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nCoffee post from Unknown, Unknown

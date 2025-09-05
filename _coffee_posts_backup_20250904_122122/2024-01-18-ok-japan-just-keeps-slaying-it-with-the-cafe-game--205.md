@@ -1,0 +1,2 @@
+---\nlayout: coffee_post\ntitle: Ok, Japan just keeps slaying it with the cafe game, this spot was in the bottom of an office tower featured vintage over stuffed seating, vinyl spinning, and espresso gin martini that was Next. level.\ndate: 2024-01-18\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Worldcoffeetour\n---\n\nOk, Japan just keeps slaying it with the cafe game, this spot was in the bottom of an office tower featured vintage over stuffed seating, vinyl spinning, and espresso gin martini that was Next. level.
+#worldcoffeetour

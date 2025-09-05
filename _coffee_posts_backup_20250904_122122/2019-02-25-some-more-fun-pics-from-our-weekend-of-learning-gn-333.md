@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Some more fun pics from our weekend of learning. #gnarpatrol\ndate: 2019-02-25\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Gnarpatrol\n---\n\nSome more fun pics from our weekend of learning. #gnarpatrol

@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Test Update\ndate: None\ncity: ""\ncountry: ""\ncontinent: ""\npublished: true\n---\n\nUpdated via API

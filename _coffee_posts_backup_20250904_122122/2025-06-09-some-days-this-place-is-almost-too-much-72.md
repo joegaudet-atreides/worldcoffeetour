@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Some days this place is almost too much.\ndate: 2025-06-09\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nCoffee post from Unknown, Unknown

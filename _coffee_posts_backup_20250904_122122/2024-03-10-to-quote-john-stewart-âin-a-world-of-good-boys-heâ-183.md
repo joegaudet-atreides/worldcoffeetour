@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: "To quote John Stewart: âin a world of good boys, heâs the bestâ @chet.ripley.ohdet"\ndate: 2024-03-10\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Chet.Ripley.Ohdet\n---\n\nTo quote John Stewart: âin a world of good boys, heâs the bestâ @chet.ripley.ohdet

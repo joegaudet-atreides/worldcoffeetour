@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Hilarious Christmas present from @msjennieoh â¤ï¸ ð @chet.ripley.ohdet\ndate: 2022-01-26\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Msjennieoh\n---\n\nHilarious Christmas present from @msjennieoh â¤ï¸ ð @chet.ripley.ohdet

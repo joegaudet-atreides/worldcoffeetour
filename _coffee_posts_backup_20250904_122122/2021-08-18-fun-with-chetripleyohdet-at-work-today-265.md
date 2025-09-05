@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Fun with @chet.ripley.ohdet at work today.\ndate: 2021-08-18\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Chet.Ripley.Ohdet\n---\n\nCoffee post from Unknown, Unknown

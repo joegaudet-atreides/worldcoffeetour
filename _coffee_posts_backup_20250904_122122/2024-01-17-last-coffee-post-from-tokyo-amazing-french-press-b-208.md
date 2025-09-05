@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Last coffee post from Tokyo, amazing French press before I hop on the ð to Osaka #worldcoffeetour\ndate: 2024-01-17\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Worldcoffeetour\n---\n\nLast coffee post from Tokyo, amazing French press before I hop on the ð to Osaka #worldcoffeetour

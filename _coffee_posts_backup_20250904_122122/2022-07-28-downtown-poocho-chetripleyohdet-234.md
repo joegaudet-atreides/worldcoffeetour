@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Downtown Poocho @chet.ripley.ohdet\ndate: 2022-07-28\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Chet.Ripley.Ohdet\n---\n\nCoffee post from Unknown, Unknown

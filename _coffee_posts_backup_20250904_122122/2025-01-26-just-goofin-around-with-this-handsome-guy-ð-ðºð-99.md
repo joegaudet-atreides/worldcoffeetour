@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Just goofin around with this handsome guy ð¦ ðºð¸\ndate: 2025-01-26\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Around With This Handsome Guy Ð¦ Ðºð¸\n---\n\nJust goofin around with this handsome guy ð¦ ðºð¸

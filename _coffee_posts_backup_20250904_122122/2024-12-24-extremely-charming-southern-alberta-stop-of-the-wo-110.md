@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Extremely charming southern Alberta stop of the #worldcoffeetour Seeds in pincher creak.\ndate: 2024-12-24\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Worldcoffeetour\n---\n\nExtremely charming southern Alberta stop of the #worldcoffeetour Seeds in pincher creak.

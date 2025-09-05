@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Located some fine hipster coffee in Tokyo #coffeearoundtheworld\ndate: 2024-01-16\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Coffeearoundtheworld\n---\n\nLocated some fine hipster coffee in Tokyo #coffeearoundtheworld

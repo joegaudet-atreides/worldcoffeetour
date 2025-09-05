@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Another stop on the #worldcoffeetour, forgot to take a shot of the âlong blackâ I had, sure was tasty tho.\ndate: 2024-01-24\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Worldcoffeetour\n---\n\nAnother stop on the #worldcoffeetour, forgot to take a shot of the âlong blackâ I had, sure was tasty tho.

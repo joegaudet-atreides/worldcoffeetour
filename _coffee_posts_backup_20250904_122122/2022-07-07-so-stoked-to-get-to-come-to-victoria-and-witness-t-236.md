@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: So stoked to get to come to Victoria and witness this great day.\ndate: 2022-07-07\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\ncafe_name: Day.\n---\n\nSo stoked to get to come to Victoria and witness this great day.

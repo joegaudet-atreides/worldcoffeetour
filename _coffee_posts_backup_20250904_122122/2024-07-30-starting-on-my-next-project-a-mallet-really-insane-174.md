@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Starting on my next project, a mallet, really insanely fun day of playing with ðªµ\ndate: 2024-07-30\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nStarting on my next project, a mallet, really insanely fun day of playing with ðªµ

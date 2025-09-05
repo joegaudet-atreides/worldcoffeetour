@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Missed the gravity by a fair amount, but colour looks right, should come out as a very sessionable wit (~4.4)\ndate: 2020-05-03\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nMissed the gravity by a fair amount, but colour looks right, should come out as a very sessionable wit (~4.4)

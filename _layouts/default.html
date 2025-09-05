@@ -58,12 +58,22 @@
         {{ content }}
     </main>
 
-    <footer class="site-footer">
-        <p>&copy; {{ 'now' | date: '%Y' }} <a href="https://instagram.com/{{ site.instagram_username }}" target="_blank" rel="noopener" style="color: var(--text-light); text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='var(--accent-color)'" onmouseout="this.style.color='var(--text-light)'">{{ site.author }}</a> · Made with ☕ and ❤️ and 🤖</p>
+    <footer class="site-footer"><p>&copy; {{ 'now' | date: '%Y' }} <a href="https://instagram.com/{{ site.instagram_username }}" target="_blank" rel="noopener" style="color: var(--text-light); text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='var(--accent-color)'" onmouseout="this.style.color='var(--text-light)'">{{ site.author }}</a> · Made with ☕ ❤️🤖</p>
     </footer>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+    
+    <!-- Service Worker for image caching in development -->
+    {% if jekyll.environment == "development" %}
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('{{ "/assets/js/sw.js" | relative_url }}')
+                .then(registration => console.log('SW registered:', registration.scope))
+                .catch(error => console.log('SW registration failed:', error));
+        }
+    </script>
+    {% endif %}
     
     <script>
     // Mobile menu functionality

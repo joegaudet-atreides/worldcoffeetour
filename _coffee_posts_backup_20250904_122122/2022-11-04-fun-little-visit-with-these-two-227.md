@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: Fun little visit with these two!\ndate: 2022-11-04\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nCoffee post from Unknown, Unknown

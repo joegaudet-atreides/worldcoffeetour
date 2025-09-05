@@ -1,0 +1,1 @@
+---\nlayout: coffee_post\ntitle: "Damp Stroll with an Old Pal :)"\ndate: 2021-01-03\ncity: Unknown\ncountry: Unknown\ncontinent: Unknown\npublished: true\n---\n\nCoffee post from Unknown, Unknown
