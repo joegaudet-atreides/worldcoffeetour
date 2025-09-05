@@ -1706,7 +1706,7 @@
                     // Automatically regenerate Jekyll posts after deletion
                     try {
                         await fetch(`${API_BASE}/regenerate`, { method: 'POST' });
-                        alert('Post deleted and Jekyll regenerated successfully!');
+                        // Silent success - user knows regeneration happens automatically
                     } catch (error) {
                         console.error('Error regenerating Jekyll posts:', error);
                         alert('Post deleted successfully, but Jekyll regeneration failed');
