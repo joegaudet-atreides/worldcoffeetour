@@ -621,6 +621,21 @@
             }
         }
     </style>
+    
+    <!-- Google Maps Places API -->
+    <script>
+        // Initialize Google Maps Places service
+        let googleMapsReady = false;
+        
+        async function initGoogleMaps() {
+            googleMapsReady = true;
+            console.log('Google Maps API initialized');
+        }
+        
+        // Set your API key here - YOU MUST REPLACE THIS
+        const GOOGLE_MAPS_API_KEY = 'AIzaSyAU-6iLL4pyuj5wA6SwgYa5wPlPMR6jkxk';
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAU-6iLL4pyuj5wA6SwgYa5wPlPMR6jkxk&libraries=places&callback=initGoogleMaps&loading=async"></script>
 </head>
 <body>
     <div class="container">
@@ -643,6 +658,10 @@
                 <div>Unpublished</div>
             </div>
             <div class="stat-card">
+                <div class="stat-number" id="unrated-posts">-</div>
+                <div>Unrated</div>
+            </div>
+            <div class="stat-card">
                 <div class="stat-number" id="problematic-posts">-</div>
                 <div>Problematic</div>
             </div>
@@ -656,6 +675,7 @@
         <div class="tabs">
             <button class="tab active" onclick="switchTab('published')">Published</button>
             <button class="tab" onclick="switchTab('unpublished')">Unpublished</button>
+            <button class="tab" onclick="switchTab('unrated')">Unrated</button>
             <button class="tab" onclick="switchTab('problematic')">Problematic</button>
         </div>
 
@@ -665,6 +685,10 @@
 
         <div class="tab-content" id="unpublished-content">
             <div class="posts-grid" id="unpublished-posts-grid"></div>
+        </div>
+
+        <div class="tab-content" id="unrated-content">
+            <div class="posts-grid" id="unrated-posts-grid"></div>
         </div>
 
         <div class="tab-content" id="problematic-content">
@@ -899,6 +923,10 @@
         async function searchWithMultipleProviders(query) {
             const providers = [
                 {
+                    name: 'Google Places',
+                    search: searchWithGooglePlaces
+                },
+                {
                     name: 'Photon',
                     search: searchWithPhoton
                 },
@@ -924,6 +952,70 @@
             
             console.log('All providers failed to find results');
             return [];
+        }
+        
+        async function searchWithGooglePlaces(query) {
+            if (!googleMapsReady) {
+                console.log('Google Maps not ready, falling back');
+                return [];
+            }
+            
+            try {
+                // Use the new Places API searchByText method
+                const { Place } = await google.maps.importLibrary("places");
+                const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+                
+                const request = {
+                    textQuery: query,
+                    fields: ['displayName', 'location', 'formattedAddress', 'businessStatus', 'types'],
+                    includedType: 'cafe',
+                    maxResultCount: 10,
+                    language: 'en',
+                    region: 'us'
+                };
+                
+                const { places } = await Place.searchByText(request);
+                
+                if (!places || places.length === 0) {
+                    // Try without type restriction
+                    delete request.includedType;
+                    const response = await Place.searchByText(request);
+                    if (!response.places || response.places.length === 0) {
+                        console.log('No Google Places results found');
+                        return [];
+                    }
+                    places = response.places;
+                }
+                
+                // Convert to our format
+                return places.map(place => {
+                    const addressParts = place.formattedAddress ? place.formattedAddress.split(', ') : [];
+                    const country = addressParts[addressParts.length - 1] || '';
+                    const city = addressParts[addressParts.length - 3] || addressParts[addressParts.length - 2] || '';
+                    
+                    return {
+                        place_id: `google_${place.id || Math.random()}`,
+                        lat: place.location?.lat()?.toString() || '0',
+                        lon: place.location?.lng()?.toString() || '0',
+                        display_name: `${place.displayName}, ${place.formattedAddress}`,
+                        address: {
+                            amenity: place.displayName,
+                            city: city,
+                            country: country
+                        },
+                        extratags: {
+                            amenity: place.types?.includes('cafe') ? 'cafe' : null
+                        },
+                        namedetails: {
+                            name: place.displayName
+                        },
+                        name: place.displayName
+                    };
+                });
+            } catch (error) {
+                console.error('Google Places search error:', error);
+                return [];
+            }
         }
         
         async function searchWithPhoton(query) {
@@ -1386,11 +1478,18 @@
             loadPosts(); // loadStats will be called after posts are loaded
             setupLocationSearch();
             
-            // Add keyboard support for image modal
+            // Add keyboard support for modals
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') {
+                    const modal = document.getElementById('edit-modal');
                     const imageModal = document.getElementById('image-modal');
-                    if (imageModal.style.display === 'block') {
+                    
+                    // Close edit modal if it's open
+                    if (modal && modal.style.display === 'block') {
+                        closeModal();
+                    }
+                    // Close image modal if it's open
+                    else if (imageModal && imageModal.style.display === 'block') {
                         closeImageModal();
                     }
                 }
@@ -1404,10 +1503,12 @@
             const problematicCount = allPosts.filter(post => post.published && isProblematic(post)).length;
             const publishedCount = allPosts.filter(post => post.published && !isProblematic(post)).length;
             const unpublishedCount = allPosts.filter(post => !post.published && !isProblematic(post)).length;
+            const unratedCount = allPosts.filter(post => post.published && !isProblematic(post) && (!post.rating || post.rating === '' || post.rating == 0)).length;
             
             document.getElementById('total-posts').textContent = allPosts.length;
             document.getElementById('published-posts').textContent = publishedCount;
             document.getElementById('unpublished-posts').textContent = unpublishedCount;
+            document.getElementById('unrated-posts').textContent = unratedCount;
             document.getElementById('problematic-posts').textContent = problematicCount;
         }
 
@@ -1427,15 +1528,18 @@
         function renderPosts() {
             const publishedGrid = document.getElementById('published-posts-grid');
             const unpublishedGrid = document.getElementById('unpublished-posts-grid');
+            const unratedGrid = document.getElementById('unrated-posts-grid');
             const problematicGrid = document.getElementById('problematic-posts-grid');
             
             publishedGrid.innerHTML = '';
             unpublishedGrid.innerHTML = '';
+            unratedGrid.innerHTML = '';
             problematicGrid.innerHTML = '';
 
             const problematicPosts = allPosts.filter(post => post.published && isProblematic(post));
             const publishedPosts = allPosts.filter(post => post.published && !isProblematic(post));
             const unpublishedPosts = allPosts.filter(post => !post.published && !isProblematic(post));
+            const unratedPosts = allPosts.filter(post => post.published && !isProblematic(post) && (!post.rating || post.rating === '' || post.rating == 0));
 
             publishedPosts.forEach(post => {
                 publishedGrid.appendChild(createPostCard(post));
@@ -1443,6 +1547,10 @@
 
             unpublishedPosts.forEach(post => {
                 unpublishedGrid.appendChild(createPostCard(post));
+            });
+
+            unratedPosts.forEach(post => {
+                unratedGrid.appendChild(createPostCard(post));
             });
 
             problematicPosts.forEach(post => {
@@ -1488,7 +1596,7 @@
         function switchTab(tab) {
             // Update tab buttons
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            const tabIndex = tab === 'published' ? 1 : tab === 'unpublished' ? 2 : 3;
+            const tabIndex = tab === 'published' ? 1 : tab === 'unpublished' ? 2 : tab === 'unrated' ? 3 : 4;
             document.querySelector(`.tab:nth-child(${tabIndex})`).classList.add('active');
 
             // Update tab content
@@ -1525,6 +1633,31 @@
 
         function closeModal() {
             document.getElementById('edit-modal').style.display = 'none';
+            clearLocationSearch();
+        }
+        
+        function clearLocationSearch() {
+            // Clear the search input
+            const searchInput = document.getElementById('location-search');
+            if (searchInput) {
+                searchInput.value = '';
+            }
+            
+            // Hide suggestions
+            hideSuggestions();
+            
+            // Clear search status
+            const searchStatus = document.getElementById('search-status');
+            if (searchStatus) {
+                searchStatus.textContent = '';
+                searchStatus.className = 'search-status';
+            }
+            
+            // Cancel any ongoing search
+            if (currentSearchController) {
+                currentSearchController.abort();
+                currentSearchController = null;
+            }
         }
 
         function openImageModal(imageSrc) {
@@ -1731,7 +1864,7 @@
                 });
 
                 if (response.ok) {
-                    alert('Post regeneration started! Check the console for progress.');
+                    console.log('Post regeneration started successfully');
                 } else {
                     alert('Error starting regeneration');
                 }
