@@ -1,0 +1,21 @@
+---
+layout: post
+title: Channeling my father, kicking the day off with an affogato with editable flowers, cute little cafe Aqui near our hotel, delicious stop on the #worldcoffeetour
+date: "2025-08-20"
+city: Unknown
+country: Unknown
+continent: Unknown
+cafe_name: Worldcoffeetour
+notes: Channeling my father, kicking the day off with an affogato with editable flowers, cute little cafe Aqui near our hotel, delicious stop on the #worldcoffeetour
+images:
+  - /assets/images/posts/202508/535153609_18530790157001623_192499936658255958_n_18102862090517644.jpg
+  - /assets/images/posts/202508/535922860_18530790202001623_1256291965858621635_n_17894254185289332.jpg
+  - /assets/images/posts/202508/536538812_18530790217001623_3277760205410550326_n_18088689304752468.jpg
+  - /assets/images/posts/202508/535348432_18530790226001623_2099802884806008063_n_17871284223328543.jpg
+  - /assets/images/posts/202508/535284270_18530790238001623_5939736292728990311_n_18523764367058365.jpg
+  - /assets/images/posts/202508/536647879_18530790247001623_7236299275210253793_n_18062573183350296.jpg
+  - /assets/images/posts/202508/536734959_18530790256001623_3997059030843404407_n_18018087956749815.jpg
+  - /assets/images/posts/202508/535878300_18530790265001623_4502137782284468372_n_17856807324488627.jpg
+  - /assets/images/posts/202508/536923298_18530790274001623_6020398637947500064_n_18081046486926163.jpg
+published: 1
+---

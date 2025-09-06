@@ -366,18 +366,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
 let lastMobileUpdate = 0;
 function updateMobileMapView() {
-    // On mobile with map at bottom, still update map to zoom to the visible section
-    // No sticky animation, but still responsive to scroll
+    // On mobile with map fixed at bottom, still update map to zoom to the visible section
+    // Content scrolls underneath the fixed map
     if (!mainMap) {
         console.log('updateMobileMapView: no mainMap available');
         return;
     }
     
-    // Throttle mobile updates to avoid performance issues (reduced to 50ms for better responsiveness)
+    // Throttle mobile updates to avoid performance issues
     const now = Date.now();
-    if (now - lastMobileUpdate < 50) return; // Throttle to 20fps max
+    if (now - lastMobileUpdate < 100) return; // Throttle to 10fps max for fixed map
     lastMobileUpdate = now;
     
+    // Get the most visible section (accounting for fixed map at bottom)
     const visibleSection = getMostVisibleSection();
     console.log('Mobile map update: visible section:', visibleSection ? visibleSection.dataset : 'none');
     if (visibleSection) {
@@ -733,11 +734,20 @@ function zoomToVisibleSection(section) {
 }
 
 function getMostVisibleSection() {
+    // On mobile, account for fixed map at bottom (300px height)
+    const isMobile = isMobileDevice();
+    const mapHeight = isMobile ? 300 : 0;
+    const viewportHeight = window.innerHeight - mapHeight;
+    
     // Check city sections first (most specific)
     const citySections = document.querySelectorAll('.city-section');
     for (const section of citySections) {
         const rect = section.getBoundingClientRect();
-        if (rect.top < window.innerHeight * 0.6 && rect.bottom > window.innerHeight * 0.4) {
+        // On mobile, check visibility in the scrollable area above the fixed map
+        const topThreshold = isMobile ? viewportHeight * 0.3 : window.innerHeight * 0.4;
+        const bottomThreshold = isMobile ? viewportHeight * 0.7 : window.innerHeight * 0.6;
+        
+        if (rect.top < bottomThreshold && rect.bottom > topThreshold) {
             return section;
         }
     }
@@ -746,7 +756,10 @@ function getMostVisibleSection() {
     const countrySections = document.querySelectorAll('.country-section');
     for (const section of countrySections) {
         const rect = section.getBoundingClientRect();
-        if (rect.top < window.innerHeight * 0.6 && rect.bottom > window.innerHeight * 0.4) {
+        const topThreshold = isMobile ? viewportHeight * 0.3 : window.innerHeight * 0.4;
+        const bottomThreshold = isMobile ? viewportHeight * 0.7 : window.innerHeight * 0.6;
+        
+        if (rect.top < bottomThreshold && rect.bottom > topThreshold) {
             return section;
         }
     }
@@ -755,7 +768,10 @@ function getMostVisibleSection() {
     const continentSections = document.querySelectorAll('.continent-section');
     for (const section of continentSections) {
         const rect = section.getBoundingClientRect();
-        if (rect.top < window.innerHeight * 0.6 && rect.bottom > window.innerHeight * 0.4) {
+        const topThreshold = isMobile ? viewportHeight * 0.3 : window.innerHeight * 0.4;
+        const bottomThreshold = isMobile ? viewportHeight * 0.7 : window.innerHeight * 0.6;
+        
+        if (rect.top < bottomThreshold && rect.bottom > topThreshold) {
             return section;
         }
     }
@@ -982,22 +998,22 @@ window.addEventListener('load', function() {
     
     .content-wrapper {
         width: 100%;
+        padding-bottom: 320px; /* Add bottom padding for fixed map */
     }
     
     #map {
-        /* Position map at bottom on mobile */
-        position: static !important;
-        top: auto !important;
-        left: auto !important;
-        right: auto !important;
-        width: calc(100% - 2rem) !important;
+        /* Anchor map to bottom on mobile */
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
         height: 300px !important;
-        z-index: 10;
-        margin: 2rem 1rem !important;
-        border: 1px solid var(--border-color) !important;
-        border-radius: 12px !important;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3);
-        order: 99; /* Push to bottom using flexbox order */
+        z-index: 1000 !important;
+        margin: 0 !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: 0 -4px 12px rgba(0,0,0,0.3);
     }
     
     .main-content {

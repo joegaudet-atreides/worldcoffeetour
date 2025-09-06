@@ -1,0 +1,15 @@
+---
+layout: post
+title: "The season seems to have rallied just in time for my visit to Revy. I couldnât be more grateful to Carolyn and Steven for hosting me, an extra big shoutout to Carolyn who is deeply pregnant for lett"
+date: "2025-03-18"
+city: Unknown
+country: Unknown
+continent: Unknown
+cafe_name: Shares My Particular Enthusiasm For And Style Of Skiing.
+notes: "The season seems to have rallied just in time for my visit to Revy. I couldnât be more grateful to Carolyn and Steven for hosting me, an extra big shoutout to Carolyn who is deeply pregnant for letting this loud mouth get her husband drunk and keeping him up watching ski movies for three nights!
+
+We sadly didnât get to ride brown shorts (last photo) given someone has to be a dad soon. But it was such a pleasure to ride for a few days with someone that shares my particular enthusiasm for and style of skiing.
+
+Mountains are pretty neat."
+published: 1
+---

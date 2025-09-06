@@ -1,0 +1,24 @@
+---
+layout: post
+title: "Amazing stop on the #worldcoffeetour with @turnerbri. Voted best cafe in Ireland 6 years in a row, @coffeewerkandpress features immaculate coffee, and an incredible space filled with interesting art a"
+date: "2024-08-28"
+city: 4 Quay St
+country: Ireland
+continent: Europe
+latitude: 53.2713459
+longitude: -9.0539731
+cafe_name: Turnerbri.
+notes: "Amazing stop on the #worldcoffeetour with @turnerbri. Voted best cafe in Ireland 6 years in a row, @coffeewerkandpress features immaculate coffee, and an incredible space filled with interesting art and curated hipster merch, highly recommend if you find yourself in Galway."
+images: 
+  - /assets/images/posts/202408/457190013_18462637018001623_7853985741685112_n_18355129549113666.jpg
+  - /assets/images/posts/202408/457370608_18462637030001623_7017959329823909267_n_18029399756049334.jpg
+  - /assets/images/posts/202408/457451682_18462637045001623_4082971821524825390_n_18040094999021576.jpg
+  - /assets/images/posts/202408/457451676_18462637066001623_3170327317771162417_n_17878366314068258.jpg
+  - /assets/images/posts/202408/457354252_18462637078001623_7365683094056444917_n_17998322636503205.jpg
+  - /assets/images/posts/202408/457249175_18462637105001623_663613699534337737_n_18060772486649804.jpg
+  - /assets/images/posts/202408/457328426_18462637114001623_6836193914389624785_n_18020658719170785.jpg
+  - /assets/images/posts/202408/457326670_18462637123001623_3055342722439975613_n_18043599127799603.jpg
+  - /assets/images/posts/202408/471192805_18485353780001623_2862589191198177872_n_18348974755186816.jpg
+instagram_url: "https://www.instagram.com/p/CQeOu7EBtJg/"
+published: 1
+---

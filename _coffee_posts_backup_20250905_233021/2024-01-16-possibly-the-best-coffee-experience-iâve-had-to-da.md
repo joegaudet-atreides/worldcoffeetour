@@ -1,0 +1,22 @@
+---
+layout: post
+title: "Possibly the best coffee experience Iâve had to date, amazing recommendation from a workmate.
+#worldcoffeetour"
+date: "2024-01-16"
+city: Unknown
+country: Unknown
+continent: Unknown
+cafe_name: Worldcoffeetour
+notes: "Possibly the best coffee experience Iâve had to date, amazing recommendation from a workmate.
+#worldcoffeetour"
+images:
+  - /assets/images/posts/202401/470219713_18483347077001623_1381117889439834312_n_17863362717037374.jpg
+  - /assets/images/posts/202401/470142420_18483347188001623_1622995400690833055_n_18091874974398983.jpg
+  - /assets/images/posts/202401/470155161_18483347239001623_6298194151902574805_n_17850104103117693.jpg
+  - /assets/images/posts/202401/470178699_18483347173001623_5762125700792206034_n_18053276128533435.jpg
+  - /assets/images/posts/202401/470221341_18483347179001623_2249478464908952876_n_18036301603672851.jpg
+  - /assets/images/posts/202401/470140275_18483347203001623_7926503043423805840_n_18410146066002436.jpg
+  - /assets/images/posts/202401/470153674_18483347161001623_8927803220433961301_n_18026317294742120.jpg
+  - /assets/images/posts/202401/470133974_18483347158001623_2506277624204810641_n_17985763664561961.jpg
+published: 1
+---

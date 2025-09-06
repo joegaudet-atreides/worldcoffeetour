@@ -1,0 +1,16 @@
+---
+layout: post
+title: "18 grams - cold brewed coffee #worldcoffeetour"
+date: "2015-03-14"
+city: Unknown
+country: Unknown
+continent: Asia
+latitude: 22.316013
+longitude: 114.173221
+cafe_name: 18 grams
+rating: 4
+notes: "18 grams - cold brewed coffee #worldcoffeetour"
+images: 
+  - /assets/images/posts/201503/10413038_1562090674049578_1420330574_n_17843036473001623.jpg
+published: 1
+---

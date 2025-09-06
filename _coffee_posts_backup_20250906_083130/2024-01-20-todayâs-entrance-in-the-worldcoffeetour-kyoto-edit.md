@@ -1,0 +1,19 @@
+---
+layout: post
+title: "Todayâs entrance in the #worldcoffeetour Kyoto edition, beautiful cafe on a park."
+date: "2024-01-20"
+city: Unknown
+country: Unknown
+continent: Unknown
+cafe_name: "Todayâs entrance in the #worldcoffee"
+notes: "Todayâs entrance in the #worldcoffeetour Kyoto edition, beautiful cafe on a park."
+images:
+  - /assets/images/posts/202401/470205606_18483349288001623_4089000897094843936_n_17941670507780271.jpg
+  - /assets/images/posts/202401/470135869_18483349234001623_7802320540802465101_n_18008368361272782.jpg
+  - /assets/images/posts/202401/470228217_18483349363001623_4117803930465486971_n_17850200403118437.jpg
+  - /assets/images/posts/202401/470148431_18483349228001623_8585047339327097128_n_18021201724981486.jpg
+  - /assets/images/posts/202401/470137893_18483349360001623_7277078373601316186_n_18224851657250165.jpg
+  - /assets/images/posts/202401/470187038_18483349126001623_5356787540438287568_n_18018400375874801.jpg
+  - /assets/images/posts/202401/470141251_18483349156001623_7855096194009196571_n_18329284903105586.jpg
+published: 1
+---

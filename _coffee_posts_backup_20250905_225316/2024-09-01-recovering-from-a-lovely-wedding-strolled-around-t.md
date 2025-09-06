@@ -1,0 +1,15 @@
+---
+layout: post
+title: "Recovering from a lovely wedding, strolled around the streets of Dublin today, featured here: a highly recommended âspice bagâ absent bag, what I was told was the best Guinness in town (itâs pre"
+date: "2024-09-01"
+city: Unknown
+country: Unknown
+continent: Unknown
+cafe_name: "I Was Told Was The Best Guinness In Town (ItâS Pretty Good)"
+notes: "Recovering from a lovely wedding, strolled around the streets of Dublin today, featured here: a highly recommended âspice bagâ absent bag, what I was told was the best Guinness in town (itâs pretty good), and the iconic doors of Dublin. 
+
+Leg one of the trip is winding down, Ireland has been wonderful, as have her people. A big shout out to our hosts, in particular for inviting me in to such a special moment in their lives! 
+
+SlÃ¡inte"
+published: 1
+---

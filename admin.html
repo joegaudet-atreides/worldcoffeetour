@@ -611,6 +611,7 @@
             display: block;
         }
 
+        /* Map positioning for mobile */
         @media (max-width: 768px) {
             .post-card {
                 grid-template-columns: 1fr;
@@ -619,10 +620,53 @@
             .controls {
                 flex-direction: column;
             }
+            
+            /* Only apply mobile map positioning when modal is open and screen is small */
+            .modal[style*="block"] .modal-content {
+                max-height: calc(100vh - 2rem);
+                overflow-y: auto;
+                padding-bottom: 350px; /* Space for the anchored map */
+            }
+            
+            .modal[style*="block"] #edit-map {
+                position: fixed !important;
+                bottom: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                width: 100% !important;
+                height: 300px !important;
+                z-index: 1001 !important; /* Above modal */
+                border-radius: 0 !important;
+                border: none !important;
+                box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5) !important;
+            }
+            
+            /* Hide the map help text on mobile since map is anchored */
+            .modal[style*="block"] .map-help-text {
+                display: none;
+            }
+            
+            /* Add a visual indicator that the map is at the bottom */
+            .modal[style*="block"] .form-group:has(#edit-map)::after {
+                content: "📍 Location map is anchored at the bottom of the screen";
+                display: block;
+                padding: 1rem;
+                background: #d4a574;
+                color: #000;
+                border-radius: 8px;
+                text-align: center;
+                font-size: 0.9rem;
+                font-weight: 500;
+                margin-top: 1rem;
+            }
         }
     </style>
     
-    <!-- Google Maps Places API -->
+    <!-- Leaflet CSS and JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Google Maps Places API (for location search) -->
     <script>
         // Initialize Google Maps Places service
         let googleMapsReady = false;
@@ -771,6 +815,15 @@
                     <input type="number" id="longitude" step="any">
                 </div>
                 
+                <!-- Map to show the location -->
+                <div class="form-group">
+                    <label>Location on Map</label>
+                    <div id="edit-map" style="height: 300px; border: 1px solid #2a2a2a; border-radius: 8px; background: #1a1a1a;"></div>
+                    <p class="map-help-text" style="font-size: 0.8rem; color: #a0a0a0; margin-top: 0.5rem;">
+                        Click on the map to set location, or enter coordinates above to see the location.
+                    </p>
+                </div>
+                
                 <div class="form-group">
                     <label for="rating">Rating</label>
                     <select id="rating">
@@ -813,6 +866,8 @@
         const API_BASE = 'http://localhost:8081/api';
         let allPosts = [];
         let currentPost = null;
+        let editMap = null;
+        let editMapMarker = null;
 
         // Check if post is problematic (missing required data)
         function isProblematic(post) {
@@ -1624,6 +1679,11 @@
                 
                 renderImagesList(currentPost.images || []);
                 document.getElementById('edit-modal').style.display = 'block';
+                
+                // Initialize map after modal is shown
+                setTimeout(() => {
+                    initEditMap();
+                }, 100);
             } catch (error) {
                 console.error('Error loading post:', error);
                 alert('Error loading post');
@@ -1634,6 +1694,108 @@
         function closeModal() {
             document.getElementById('edit-modal').style.display = 'none';
             clearLocationSearch();
+            
+            // Clean up map
+            if (editMap) {
+                editMap.remove();
+                editMap = null;
+                editMapMarker = null;
+            }
+        }
+        
+        function initEditMap() {
+            // Remove existing map if it exists
+            if (editMap) {
+                editMap.remove();
+            }
+            
+            // Get current coordinates
+            const lat = parseFloat(document.getElementById('latitude').value) || 0;
+            const lng = parseFloat(document.getElementById('longitude').value) || 0;
+            
+            // Set default center (world center if no coordinates)
+            const mapCenter = (lat && lng) ? [lat, lng] : [20, 0];
+            const mapZoom = (lat && lng) ? 13 : 2;
+            
+            // Detect mobile
+            const isMobile = window.innerWidth <= 768;
+            
+            // Initialize map
+            editMap = L.map('edit-map', {
+                center: mapCenter,
+                zoom: mapZoom,
+                zoomControl: true
+            });
+            
+            // Add tile layer with dark theme
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors',
+                maxZoom: 19
+            }).addTo(editMap);
+            
+            // Add marker if coordinates exist
+            if (lat && lng) {
+                editMapMarker = L.marker([lat, lng])
+                    .addTo(editMap)
+                    .bindPopup(`${currentPost?.cafe_name || 'Location'}<br>Lat: ${lat.toFixed(4)}, Lng: ${lng.toFixed(4)}`)
+                    .openPopup();
+            }
+            
+            // Allow clicking on map to set location
+            editMap.on('click', function(e) {
+                const newLat = e.latlng.lat;
+                const newLng = e.latlng.lng;
+                
+                // Update form fields
+                document.getElementById('latitude').value = newLat.toFixed(6);
+                document.getElementById('longitude').value = newLng.toFixed(6);
+                
+                // Remove existing marker
+                if (editMapMarker) {
+                    editMap.removeLayer(editMapMarker);
+                }
+                
+                // Add new marker
+                editMapMarker = L.marker([newLat, newLng])
+                    .addTo(editMap)
+                    .bindPopup(`New Location<br>Lat: ${newLat.toFixed(4)}, Lng: ${newLng.toFixed(4)}`)
+                    .openPopup();
+            });
+            
+            // Listen for coordinate input changes
+            const latInput = document.getElementById('latitude');
+            const lngInput = document.getElementById('longitude');
+            
+            function updateMapFromInputs() {
+                const newLat = parseFloat(latInput.value);
+                const newLng = parseFloat(lngInput.value);
+                
+                if (newLat && newLng && !isNaN(newLat) && !isNaN(newLng)) {
+                    // Update map center
+                    editMap.setView([newLat, newLng], 13);
+                    
+                    // Remove existing marker
+                    if (editMapMarker) {
+                        editMap.removeLayer(editMapMarker);
+                    }
+                    
+                    // Add new marker
+                    editMapMarker = L.marker([newLat, newLng])
+                        .addTo(editMap)
+                        .bindPopup(`${currentPost?.cafe_name || 'Location'}<br>Lat: ${newLat.toFixed(4)}, Lng: ${newLng.toFixed(4)}`)
+                        .openPopup();
+                }
+            }
+            
+            latInput.addEventListener('change', updateMapFromInputs);
+            lngInput.addEventListener('change', updateMapFromInputs);
+            
+            // On mobile, invalidate size after a short delay to ensure proper rendering
+            if (isMobile) {
+                setTimeout(() => {
+                    editMap.invalidateSize();
+                }, 200);
+            }
         }
         
         function clearLocationSearch() {
