@@ -1,6 +1,6 @@
 ---
 layout: default
-title: World Coffee Tour Map
+title: World Coffee Tour
 ---
 
 
@@ -350,7 +350,8 @@ document.addEventListener('DOMContentLoaded', function() {
             entries.forEach(entry => {
                 // On mobile, map is always visible. On desktop, only when sticky
                 const shouldZoom = isMobileDevice() || isSticky;
-                if (entry.isIntersecting && entry.intersectionRatio > 0.3 && shouldZoom) {
+                if (entry.isIntersecting && entry.intersectionRatio > 0.3 && shouldZoom && mainMap) {
+                    console.log('Section entering view:', entry.target.className, 'Should zoom:', shouldZoom, 'Is sticky:', isSticky);
                     zoomToVisibleSection(entry.target);
                 }
             });
@@ -376,13 +377,21 @@ document.addEventListener('DOMContentLoaded', function() {
     // Card hover functionality - zoom to individual cafe
     document.addEventListener('mouseover', function(e) {
         const card = e.target.closest('.coffee-card');
-        const shouldZoom = isMobileDevice() || isSticky;
-        if (card && shouldZoom) {
+        // Only zoom if map is visible and sticky on desktop (not on mobile)
+        if (card && mainMap && isSticky && !isMobileDevice()) {
             const latitude = parseFloat(card.dataset.lat);
             const longitude = parseFloat(card.dataset.lng);
-            if (latitude && longitude && mainMap) {
+            if (latitude && longitude) {
                 currentHoveredCard = { lat: latitude, lng: longitude };
-                mainMap.setView([latitude, longitude], 16, {animate: true, duration: 0.3, easeLinearity: 0.25});
+                console.log('Hovering card, zooming to:', latitude, longitude);
+                
+                // Ensure map size is correct before zooming (important during animation)
+                mainMap.invalidateSize();
+                
+                // Small delay to ensure size is updated
+                setTimeout(() => {
+                    mainMap.setView([latitude, longitude], 16, {animate: true, duration: 0.5, easeLinearity: 0.25});
+                }, 50);
             }
         }
     });
@@ -393,8 +402,7 @@ document.addEventListener('DOMContentLoaded', function() {
             currentHoveredCard = null;
             // Return to appropriate section view after a delay
             setTimeout(() => {
-                const shouldZoom = isMobileDevice() || isSticky;
-                if (!currentHoveredCard && shouldZoom) {
+                if (!currentHoveredCard && mainMap && (isSticky || isMobileDevice())) {
                     const visibleSection = getMostVisibleSection();
                     if (visibleSection) {
                         if (visibleSection.classList.contains('city-section')) {
@@ -536,7 +544,7 @@ function updateMapAnimation() {
     const targetHeight = targetWidth * (9 / 16); // 16:9 aspect ratio
     const siteHeader = document.querySelector('.site-header');
     const headerHeight = siteHeader ? siteHeader.offsetHeight : 0;
-    const targetTop = headerHeight + 20; // More top margin for better visual balance
+    const targetTop = headerHeight + 35; // More top margin for better visual balance
     const targetLeft = viewportWidth - targetWidth - 32;
     
     if (progress > 0.2) {  // Only start animation when there's meaningful scroll
@@ -559,8 +567,13 @@ function updateMapAnimation() {
             }
             
             if (mainMap) {
+                // Invalidate size after the animation starts
                 setTimeout(() => {
                     mainMap.invalidateSize();
+                }, 300);
+                
+                // Wait for animation to settle before zooming
+                setTimeout(() => {
                     // Only zoom to current section if this isn't the initial page load
                     if (scrollEventCount > 0) {
                         const visibleSection = getMostVisibleSection();
@@ -568,7 +581,7 @@ function updateMapAnimation() {
                             zoomToVisibleSection(visibleSection);
                         }
                     }
-                }, 100);
+                }, 600);
             }
         }
         
@@ -592,6 +605,17 @@ function updateMapAnimation() {
         mapContainer.style.width = `${currentWidth}px`;
         mapContainer.style.height = `${currentHeight}px`;
         mapContainer.style.borderRadius = `${12 * (1 - progress * 0.5)}px`;
+        
+        // Invalidate map size during animation for proper rendering
+        if (mainMap && progress > 0.2 && progress < 0.95) {
+            // Throttle invalidateSize calls
+            if (!mapContainer.invalidateSizeTimeout) {
+                mapContainer.invalidateSizeTimeout = setTimeout(() => {
+                    mainMap.invalidateSize();
+                    mapContainer.invalidateSizeTimeout = null;
+                }, 50);
+            }
+        }
         
         // Update box shadow
         const shadowIntensity = 0.4 + (progress * 0.2);
@@ -914,129 +938,149 @@ function getMostVisibleSection() {
 }
 
 function zoomToRegion(continent) {
-    const shouldZoom = isMobileDevice() || isSticky;
-    console.log('zoomToRegion called:', { continent, hasMainMap: !!mainMap, shouldZoom, currentHoveredCard });
+    console.log('zoomToRegion called:', { continent, hasMainMap: !!mainMap, isSticky, currentHoveredCard });
     
-    if (!mainMap || !shouldZoom || currentHoveredCard) return;
+    if (!mainMap || currentHoveredCard) return;
     
-    const regionPosts = coffeePostsData.filter(post => 
-        post.continent.toLowerCase().replace(/\s/g, '-') === continent && 
-        post.latitude && post.longitude
-    );
-    
-    console.log('Found region posts:', regionPosts.length, 'for continent:', continent);
-    
-    if (regionPosts.length > 0) {
-        try {
-            const group = new L.featureGroup(regionPosts.map(post => 
-                L.marker([post.latitude, post.longitude])
-            ));
-            console.log('Fitting bounds for region');
-            smoothZoomToBounds(group.getBounds().pad(0.15), 6);
-        } catch (error) {
-            console.error('Error during region zoom:', error);
+    // Use the actual markers that are already on the map
+    if (window.allMarkers && window.allMarkers.length > 0) {
+        const relevantMarkers = window.allMarkers.filter(marker => 
+            marker.postData && 
+            marker.postData.continent.toLowerCase().replace(/\s/g, '-') === continent
+        );
+        
+        console.log('Found relevant markers:', relevantMarkers.length, 'for continent:', continent);
+        
+        if (relevantMarkers.length > 0) {
+            try {
+                const group = new L.featureGroup(relevantMarkers);
+                const bounds = group.getBounds();
+                console.log('Fitting bounds for region:', bounds);
+                
+                // Only invalidate if we're in the middle of animation
+                if (isSticky && mapContainer.classList.contains('animating')) {
+                    mainMap.invalidateSize();
+                    // Longer delay during animation
+                    setTimeout(() => {
+                        mainMap.fitBounds(bounds, {
+                            padding: [80, 80],
+                            maxZoom: 5,
+                            animate: true,
+                            duration: 0.8
+                        });
+                    }, 200);
+                } else {
+                    // Direct fitBounds when not animating
+                    mainMap.fitBounds(bounds, {
+                        padding: [80, 80],
+                        maxZoom: 5,
+                        animate: true,
+                        duration: 0.8
+                    });
+                }
+            } catch (error) {
+                console.error('Error during region zoom:', error);
+            }
         }
     }
 }
 
 function zoomToCountry(country) {
-    const shouldZoom = isMobileDevice() || isSticky;
-    console.log('zoomToCountry called:', { country, hasMainMap: !!mainMap, shouldZoom, currentHoveredCard });
+    console.log('zoomToCountry called:', { country, hasMainMap: !!mainMap, isSticky, currentHoveredCard });
     
-    if (!mainMap || !shouldZoom || currentHoveredCard) return;
+    if (!mainMap || currentHoveredCard) return;
     
-    const countryPosts = coffeePostsData.filter(post => 
-        post.country === country && 
-        post.latitude && post.longitude
-    );
-    
-    console.log('Found country posts:', countryPosts.length, 'for country:', country);
-    
-    if (countryPosts.length > 0) {
-        try {
-            const group = new L.featureGroup(countryPosts.map(post => 
-                L.marker([post.latitude, post.longitude])
-            ));
-            console.log('Fitting bounds for country');
-            smoothZoomToBounds(group.getBounds().pad(0.2), 10);
-        } catch (error) {
-            console.error('Error during country zoom:', error);
+    // Use the actual markers that are already on the map
+    if (window.allMarkers && window.allMarkers.length > 0) {
+        const relevantMarkers = window.allMarkers.filter(marker => 
+            marker.postData && 
+            marker.postData.country === country
+        );
+        
+        console.log('Found relevant markers:', relevantMarkers.length, 'for country:', country);
+        
+        if (relevantMarkers.length > 0) {
+            try {
+                const group = new L.featureGroup(relevantMarkers);
+                const bounds = group.getBounds();
+                console.log('Fitting bounds for country:', bounds);
+                
+                // Only invalidate if we're in the middle of animation
+                if (isSticky && mapContainer.classList.contains('animating')) {
+                    mainMap.invalidateSize();
+                    // Longer delay during animation
+                    setTimeout(() => {
+                        mainMap.fitBounds(bounds, {
+                            padding: [60, 60],
+                            maxZoom: 8,
+                            animate: true,
+                            duration: 0.8
+                        });
+                    }, 200);
+                } else {
+                    // Direct fitBounds when not animating
+                    mainMap.fitBounds(bounds, {
+                        padding: [60, 60],
+                        maxZoom: 8,
+                        animate: true,
+                        duration: 0.8
+                    });
+                }
+            } catch (error) {
+                console.error('Error during country zoom:', error);
+            }
         }
     }
 }
 
 function zoomToCity(cityName) {
-    const shouldZoom = isMobileDevice() || isSticky;
-    console.log('zoomToCity called:', { cityName, hasMainMap: !!mainMap, shouldZoom, currentHoveredCard });
+    console.log('zoomToCity called:', { cityName, hasMainMap: !!mainMap, isSticky, currentHoveredCard });
     
-    if (!mainMap) {
-        console.log('No mainMap - aborting zoom');
-        return;
-    }
-    if (!shouldZoom) {
-        console.log('Should not zoom - aborting');
-        return;
-    }
-    if (currentHoveredCard) {
-        console.log('Currently hovering card - aborting zoom');
-        return;
-    }
+    if (!mainMap || currentHoveredCard) return;
     
-    const cityPosts = coffeePostsData.filter(post => 
-        post.city === cityName && 
-        post.latitude && post.longitude
-    );
-    
-    console.log('Found city posts:', cityPosts.length, 'for city:', cityName);
-    console.log('All city posts:', cityPosts);
-    
-    if (cityPosts.length > 0) {
-        try {
-            console.log('Creating markers for city posts...');
-            
-            // Add small random offsets to identical coordinates so we can see multiple pins
-            const markers = cityPosts.map((post, index) => {
-                let lat = post.latitude;
-                let lng = post.longitude;
+    // Use the actual markers that are already on the map
+    if (window.allMarkers && window.allMarkers.length > 0) {
+        const relevantMarkers = window.allMarkers.filter(marker => 
+            marker.postData && 
+            marker.postData.city === cityName
+        );
+        
+        console.log('Found relevant markers:', relevantMarkers.length, 'for city:', cityName);
+        
+        if (relevantMarkers.length > 0) {
+            try {
+                const group = new L.featureGroup(relevantMarkers);
+                const bounds = group.getBounds();
+                console.log('Fitting bounds for city:', bounds);
                 
-                // If there are multiple posts and this isn't the first one, add a small offset
-                if (cityPosts.length > 1 && index > 0) {
-                    // Check if coordinates are identical to first post
-                    if (lat === cityPosts[0].latitude && lng === cityPosts[0].longitude) {
-                        // Add small random offset (about 100-500m radius)
-                        const offsetRange = 0.005; // roughly 500m
-                        lat += (Math.random() - 0.5) * offsetRange;
-                        lng += (Math.random() - 0.5) * offsetRange;
-                        console.log('Added offset to duplicate coordinates for:', post.title);
-                    }
+                // Use appropriate padding and zoom
+                const maxZoom = relevantMarkers.length === 1 ? 14 : 12;
+                
+                // Only invalidate if we're in the middle of animation
+                if (isSticky && mapContainer.classList.contains('animating')) {
+                    mainMap.invalidateSize();
+                    // Longer delay during animation
+                    setTimeout(() => {
+                        mainMap.fitBounds(bounds, {
+                            padding: [50, 50],
+                            maxZoom: maxZoom,
+                            animate: true,
+                            duration: 0.8
+                        });
+                    }, 200);
+                } else {
+                    // Direct fitBounds when not animating
+                    mainMap.fitBounds(bounds, {
+                        padding: [50, 50],
+                        maxZoom: maxZoom,
+                        animate: true,
+                        duration: 0.8
+                    });
                 }
-                
-                console.log('Creating marker for:', lat, lng, post.title);
-                return L.marker([lat, lng]);
-            });
-            
-            const group = new L.featureGroup(markers);
-            const bounds = group.getBounds();
-            console.log('Bounds calculated:', bounds);
-            console.log('Bounds northeast:', bounds.getNorthEast());
-            console.log('Bounds southwest:', bounds.getSouthWest());
-            
-            // Use appropriate padding and zoom
-            const padding = cityPosts.length === 1 ? 0.01 : 0.1;
-            const maxZoom = cityPosts.length === 1 ? 13 : 15;
-            
-            console.log('Calling fitBounds with padding:', padding, 'maxZoom:', maxZoom);
-            
-            // Use smooth zoom animation
-            smoothZoomToBounds(bounds.pad(padding), maxZoom);
-            
-            console.log('fitBounds called successfully');
-        } catch (error) {
-            console.error('Error during zoom:', error);
-            console.error('Error stack:', error.stack);
+            } catch (error) {
+                console.error('Error during city zoom:', error);
+            }
         }
-    } else {
-        console.log('No posts found for city:', cityName);
     }
 }
 
@@ -1045,16 +1089,27 @@ function zoomToCity(cityName) {
 function zoomToAllPins() {
     if (!mainMap) return;
     
+    // Use existing markers if available
+    if (window.allMarkers && window.allMarkers.length > 0) {
+        console.log('Zooming to all pins using existing markers:', window.allMarkers.length);
+        try {
+            const group = new L.featureGroup(window.allMarkers);
+            mainMap.fitBounds(group.getBounds().pad(0.1));
+            return;
+        } catch (error) {
+            console.error('Error zooming to all markers:', error);
+        }
+    }
+    
+    // Fallback to posts
     const validPosts = coffeePostsData.filter(post => 
         post.latitude && post.longitude
     );
     
     if (validPosts.length > 0) {
         try {
-            const group = new L.featureGroup(validPosts.map(post => 
-                L.marker([post.latitude, post.longitude])
-            ));
-            mainMap.fitBounds(group.getBounds().pad(0.1));
+            const bounds = L.latLngBounds(validPosts.map(post => [post.latitude, post.longitude]));
+            mainMap.fitBounds(bounds.pad(0.1));
         } catch (error) {
             console.error('Error zooming to all pins:', error);
             // Fallback to world view

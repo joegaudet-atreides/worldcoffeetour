@@ -37,6 +37,9 @@ if (document.getElementById('map')) {
     // Add markers from coffee posts data
     if (typeof coffeePostsData !== 'undefined') {
         const markers = [];
+        // Store markers globally so zoom functions can use them
+        window.allMarkers = [];
+        
         coffeePostsData.forEach(post => {
             if (post.latitude && post.longitude) {
                 const marker = L.marker([post.latitude, post.longitude], { icon: coffeeIcon })
@@ -49,6 +52,10 @@ if (document.getElementById('map')) {
                         </div>
                     `);
                 markers.push(marker);
+                window.allMarkers.push(marker);
+                
+                // Store post data with marker for filtering
+                marker.postData = post;
             }
         });
 
@@ -60,7 +67,7 @@ if (document.getElementById('map')) {
             // Start prefetching tiles after initial load
             setTimeout(() => {
                 prefetchTilesForCoffeePosts(coffeePostsData);
-            }, 2000);
+            }, 1000); // Start sooner for better performance
         }
     }
 }
@@ -166,30 +173,54 @@ function prefetchTilesForCoffeePosts(coffeePosts) {
     // Prefetch tiles for each region at appropriate zoom levels
     const prefetchPromises = [];
     
-    // Continental views (zoom 2-6)
+    // Continental views (zoom 3-5 to match maxZoom: 5 in zoomToRegion)
     Object.entries(regions).forEach(([continent, coords]) => {
         if (coords.length > 0) {
             const bounds = L.latLngBounds(coords);
-            prefetchPromises.push(prefetchBoundsAtZoom(bounds.pad(0.15), 4));
-            prefetchPromises.push(prefetchBoundsAtZoom(bounds.pad(0.15), 6));
+            // Add extra padding to match the padding: [80, 80] used in zoomToRegion
+            const paddedBounds = bounds.pad(0.25);
+            prefetchPromises.push(prefetchBoundsAtZoom(paddedBounds, 3));
+            prefetchPromises.push(prefetchBoundsAtZoom(paddedBounds, 4));
+            prefetchPromises.push(prefetchBoundsAtZoom(paddedBounds, 5));
         }
     });
     
-    // Country views (zoom 6-10)
+    // Country views (zoom 6-8 to match maxZoom: 8 in zoomToCountry)
     Object.entries(countries).forEach(([country, coords]) => {
         if (coords.length > 0) {
             const bounds = L.latLngBounds(coords);
-            prefetchPromises.push(prefetchBoundsAtZoom(bounds.pad(0.2), 8));
-            prefetchPromises.push(prefetchBoundsAtZoom(bounds.pad(0.2), 10));
+            // Add extra padding to match the padding: [60, 60] used in zoomToCountry
+            const paddedBounds = bounds.pad(0.2);
+            prefetchPromises.push(prefetchBoundsAtZoom(paddedBounds, 6));
+            prefetchPromises.push(prefetchBoundsAtZoom(paddedBounds, 7));
+            prefetchPromises.push(prefetchBoundsAtZoom(paddedBounds, 8));
         }
     });
     
-    // City views (zoom 10-15) - only for cities with multiple cafes
+    // City views (zoom 10-14 to match maxZoom: 12-14 in zoomToCity)
     Object.entries(cities).forEach(([city, coords]) => {
-        if (coords.length > 1) { // Only prefetch for cities with multiple cafes
+        if (coords.length > 0) { // Prefetch for all cities, not just multiple cafes
             const bounds = L.latLngBounds(coords);
-            prefetchPromises.push(prefetchBoundsAtZoom(bounds.pad(0.3), 12));
-            prefetchPromises.push(prefetchBoundsAtZoom(bounds.pad(0.3), 14));
+            // Add extra padding to match the padding: [50, 50] used in zoomToCity
+            const paddedBounds = bounds.pad(0.3);
+            prefetchPromises.push(prefetchBoundsAtZoom(paddedBounds, 10));
+            prefetchPromises.push(prefetchBoundsAtZoom(paddedBounds, 11));
+            prefetchPromises.push(prefetchBoundsAtZoom(paddedBounds, 12));
+            if (coords.length === 1) {
+                // Single cafe cities might zoom to 14
+                prefetchPromises.push(prefetchBoundsAtZoom(paddedBounds, 13));
+                prefetchPromises.push(prefetchBoundsAtZoom(paddedBounds, 14));
+            }
+        }
+    });
+    
+    // Also prefetch tiles for individual cafe zoom (zoom 16 for hover)
+    coffeePosts.forEach(post => {
+        if (post.latitude && post.longitude) {
+            const bounds = L.latLngBounds([[post.latitude, post.longitude]]);
+            const paddedBounds = bounds.pad(0.01); // Small area around each cafe
+            prefetchPromises.push(prefetchBoundsAtZoom(paddedBounds, 15));
+            prefetchPromises.push(prefetchBoundsAtZoom(paddedBounds, 16));
         }
     });
     
@@ -213,8 +244,8 @@ function prefetchBoundsAtZoom(bounds, zoom) {
             }
         }
         
-        // Limit tiles per batch to avoid overwhelming the server
-        const maxTiles = 20;
+        // Increase limit for better coverage
+        const maxTiles = 50;
         const tilesToFetch = tiles.slice(0, maxTiles);
         
         console.log(`Prefetching ${tilesToFetch.length} tiles at zoom ${zoom}`);
@@ -231,8 +262,8 @@ function prefetchBoundsAtZoom(bounds, zoom) {
             prefetchTile(tile.x, tile.y, tile.z);
             index++;
             
-            // Small delay to not overwhelm the server
-            setTimeout(prefetchNext, 50);
+            // Smaller delay for faster prefetching
+            setTimeout(prefetchNext, 20);
         };
         
         prefetchNext();
