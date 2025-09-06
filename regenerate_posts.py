@@ -12,11 +12,8 @@ from coffee_db import CoffeeDatabase
 
 def is_problematic(post):
     """Check if post is problematic (missing required data)"""
-    return not post.get('cafe_name') or \
-           not post.get('city') or post.get('city') == 'Unknown' or \
-           not post.get('country') or post.get('country') == 'Unknown' or \
-           not post.get('latitude') or not post.get('longitude') or \
-           not post.get('continent')
+    # Only require title and date - everything else can be Unknown or missing
+    return not post.get('title') or not post.get('date')
 
 def yaml_safe_string(text):
     """Make a string safe for YAML by properly escaping it"""

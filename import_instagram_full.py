@@ -67,9 +67,8 @@ class InstagramImporter:
     def load_instagram_data(self, export_files):
         """Load Instagram posts from export files"""
         posts_data = []
-        media_data = {}
         
-        # Load posts
+        # Load posts - the main posts_1.json contains both post data AND media URIs
         if export_files['posts']:
             print(f"Loading posts from: {export_files['posts']}")
             with open(export_files['posts'], 'r', encoding='utf-8') as f:
@@ -80,24 +79,10 @@ class InstagramImporter:
                     posts_data = data['posts']
                 else:
                     print("Unknown posts file format")
-                    return [], {}
+                    return []
         
-        # Load media
-        if export_files['media']:
-            print(f"Loading media from: {export_files['media']}")
-            with open(export_files['media'], 'r', encoding='utf-8') as f:
-                data = json.load(f)
-                if isinstance(data, list):
-                    for item in data:
-                        if 'uri' in item:
-                            media_data[item['uri']] = item
-                elif isinstance(data, dict) and 'photos' in data:
-                    for item in data['photos']:
-                        if 'uri' in item:
-                            media_data[item['uri']] = item
-        
-        print(f"Loaded {len(posts_data)} posts and {len(media_data)} media items")
-        return posts_data, media_data
+        print(f"Loaded {len(posts_data)} posts from Instagram export")
+        return posts_data
     
     def extract_location_from_text(self, text):
         """Extract location information from post text"""
@@ -125,89 +110,111 @@ class InstagramImporter:
         return cafe_name, None, None  # City and country would need geocoding
     
     def is_coffee_related(self, title):
-        """Check if a post is coffee-related - STRICT filtering"""
+        """Check if a post is coffee-related - SIMPLE filtering for coffee and worldcoffeetour only"""
         if not title:
             return False
             
         title_lower = title.lower()
         
-        # Primary requirement: Must have #worldcoffeetour or mention coffee explicitly
-        # Check for #worldcoffeetour variants (including misspellings)
-        worldcoffeetour_variants = [
-            '#worldcoffeetour', '#worldcoffee', '#worldcofee', '#worldcoffe',
-            'worldcoffeetour', 'worldcoffee', 'worldcofee', 'worldcoffe'
+        # Simple requirement: Must contain "coffee" or "worldcoffeetour"
+        coffee_terms = [
+            'coffee', 'cafe', 'café', 'worldcoffeetour', 'espresso', 'latte', 'cappuccino', 
+            'americano', 'macchiato', 'cortado', 'mocha', 'cofee', 'coffe',
+            'barista', 'roast', 'beans', 'brew', 'roastery', 'coffeeshop'
         ]
         
-        has_worldcoffeetour = any(variant in title_lower for variant in worldcoffeetour_variants)
-        
-        # Core coffee words that MUST be present if worldcoffeetour isn't
-        core_coffee_words = [
-            'coffee', 'cafe', 'café', 'espresso', 'latte', 'cappuccino', 
-            'americano', 'macchiato', 'cortado', 'mocha', 'cofee', 'coffe'  # Include misspellings
-        ]
-        
-        has_coffee_mention = any(word in title_lower for word in core_coffee_words)
-        
-        # Only include if it has worldcoffeetour hashtag OR explicitly mentions coffee
-        return has_worldcoffeetour or has_coffee_mention
+        return any(term in title_lower for term in coffee_terms)
 
-    def process_post(self, post, media_data, base_path):
-        """Process a single Instagram post"""
+    def process_post(self, post, base_path):
+        """Process a single Instagram post with correct structure handling"""
         try:
-            # Extract basic info
+            # Extract basic info from the correct Instagram structure
             creation_timestamp = post.get('creation_timestamp', 0)
             post_date = datetime.fromtimestamp(creation_timestamp).strftime('%Y-%m-%d') if creation_timestamp else None
             
-            # Get post data
-            title = post.get('title', '')
-            if not title and 'data' in post and post['data']:
-                # Try to get title from first data item
-                first_data = post['data'][0] if isinstance(post['data'], list) else post['data']
-                title = first_data.get('title', '')
+            # Get post title directly from post level (not from individual media items)
+            title = post.get('title', '').strip()
             
             # Skip non-coffee posts
             if not self.is_coffee_related(title):
                 return None
             
-            # Extract images
+            # Extract images from media array
             images = []
-            attachments = post.get('attachments', [])
+            media_list = post.get('media', [])
             
-            for attachment in attachments:
-                if 'data' in attachment:
-                    for data_item in attachment['data']:
-                        if 'media' in data_item:
-                            media_info = data_item['media']
-                            if 'uri' in media_info:
-                                # Convert relative path to full path
-                                media_path = base_path / media_info['uri']
-                                if media_path.exists():
-                                    # Use relative path from project root
-                                    relative_path = str(media_path.relative_to(Path.cwd()))
-                                    images.append(f"/{relative_path}")
-                                else:
-                                    # Try to find the file in media directory
-                                    filename = Path(media_info['uri']).name
-                                    for media_dir in ['media', 'photos', 'content']:
-                                        search_path = base_path / media_dir
-                                        if search_path.exists():
-                                            for img_file in search_path.rglob(filename):
-                                                relative_path = str(img_file.relative_to(Path.cwd()))
-                                                images.append(f"/{relative_path}")
-                                                break
+            print(f"  Processing post with {len(media_list)} media items: {title[:50]}...")
             
-            # Also check direct media references
-            if 'media' in post:
-                media_list = post['media'] if isinstance(post['media'], list) else [post['media']]
-                for media_item in media_list:
-                    if 'uri' in media_item:
-                        media_path = base_path / media_item['uri']
-                        if media_path.exists():
-                            relative_path = str(media_path.relative_to(Path.cwd()))
-                            images.append(f"/{relative_path}")
+            for media_item in media_list:
+                if isinstance(media_item, dict) and 'uri' in media_item:
+                    media_uri = media_item['uri']
+                    
+                    # Convert media URI to assets path
+                    # media/posts/202508/image.jpg -> /assets/images/posts/202508/image.jpg
+                    if media_uri.startswith('media/posts/'):
+                        assets_path = media_uri.replace('media/posts/', 'assets/images/posts/')
+                        full_assets_path = Path(assets_path)
+                        if full_assets_path.exists():
+                            images.append(f"/{assets_path}")
+                        else:
+                            # Try to find the file in the assets directory
+                            filename = Path(media_uri).name
+                            for img_file in Path('assets/images/posts').rglob(filename):
+                                relative_path = str(img_file.relative_to(Path.cwd()))
+                                images.append(f"/{relative_path}")
+                                break
+                    else:
+                        # Handle alternative URI formats or direct paths
+                        # Try to find file in the original export location first
+                        original_path = base_path / media_uri
+                        if original_path.exists():
+                            # Copy to assets directory if needed
+                            filename = Path(media_uri).name
+                            # Extract year-month from path (e.g., 202508)
+                            path_parts = Path(media_uri).parts
+                            year_month = None
+                            for part in path_parts:
+                                if part.isdigit() and len(part) == 6:  # YYYYMM format
+                                    year_month = part
+                                    break
+                            
+                            if year_month:
+                                assets_dir = Path(f'assets/images/posts/{year_month}')
+                                assets_dir.mkdir(parents=True, exist_ok=True)
+                                assets_path = assets_dir / filename
+                                
+                                # Copy file if it doesn't exist in assets
+                                if not assets_path.exists():
+                                    import shutil
+                                    shutil.copy2(original_path, assets_path)
+                                    print(f"    Copied {filename} to {assets_path}")
+                                
+                                images.append(f"/{str(assets_path)}")
+                            else:
+                                # Fallback - use relative path from current location
+                                relative_path = str(original_path.relative_to(Path.cwd()))
+                                images.append(f"/{relative_path}")
+                        else:
+                            # File not found - try searching for it
+                            filename = Path(media_uri).name
+                            found = False
+                            for search_dir in [Path('assets/images/posts'), Path('instagram-export-folder')]:
+                                if search_dir.exists():
+                                    for img_file in search_dir.rglob(filename):
+                                        relative_path = str(img_file.relative_to(Path.cwd()))
+                                        images.append(f"/{relative_path}")
+                                        found = True
+                                        break
+                                if found:
+                                    break
+                            
+                            if not found:
+                                print(f"    WARNING: Image not found: {media_uri}")
             
             # Remove duplicates while preserving order
             images = list(dict.fromkeys(images))
+            
+            print(f"  Found {len(images)} images for post")
             
             # Extract location info from title/text
             cafe_name, city, country = self.extract_location_from_text(title)
@@ -229,17 +236,17 @@ class InstagramImporter:
                 'published': True,  # Default to published
                 'metadata': json.dumps({
                     'instagram_timestamp': creation_timestamp,
-                    'instagram_id': post.get('id'),
-                    'original_attachments': len(attachments)
+                    'instagram_media_count': len(media_list),
+                    'original_media_uris': [m.get('uri') for m in media_list if isinstance(m, dict)]
                 })
             }
             
             # Generate hash for deduplication
             hash_data = {
-                'title': post_data['title'],
-                'date': post_data['date'],
-                'notes': post_data['notes'],
-                'images': images[0] if images else None
+                'title': post_data['title'] or '',
+                'date': post_data['date'] or '',
+                'notes': post_data['notes'] or '',
+                'images': images  # Pass the full images list, not just first one
             }
             post_hash = self.db.generate_hash(hash_data)
             post_data['hash'] = post_hash
@@ -248,6 +255,8 @@ class InstagramImporter:
             
         except Exception as e:
             print(f"Error processing post: {e}")
+            import traceback
+            traceback.print_exc()
             return None
     
     def import_posts(self):
@@ -265,7 +274,7 @@ class InstagramImporter:
         print(f"📁 Found export directory: {export_files['directory']}")
         
         # Load Instagram data
-        posts_data, media_data = self.load_instagram_data(export_files)
+        posts_data = self.load_instagram_data(export_files)
         
         if not posts_data:
             print("❌ No posts found in export files!")
@@ -275,20 +284,75 @@ class InstagramImporter:
         
         # Process each post
         for i, post in enumerate(posts_data, 1):
-            print(f"Processing post {i}/{len(posts_data)}", end='\\r')
+            print(f"Processing post {i}/{len(posts_data)}")
             
-            post_data = self.process_post(post, media_data, export_files['directory'])
+            post_data = self.process_post(post, export_files['directory'])
             if not post_data:
                 self.skipped_count += 1
                 continue
             
-            # Try to insert or update
+            # Try to insert or update (IDEMPOTENT - preserve existing geocoding and edits)
             try:
                 existing_post = self.db.get_post_by_hash(post_data['hash'])
                 if existing_post:
-                    # Update existing post
-                    self.db.update_post(existing_post['id'], post_data)
-                    self.updated_count += 1
+                    # IDEMPOTENT UPDATE: Only update missing fields, preserve existing geocoding
+                    update_data = {}
+                    
+                    # Only update if current field is empty/missing - PRESERVE ALL USER EDITS
+                    preserve_fields = ['cafe_name', 'city', 'country', 'continent', 'latitude', 'longitude', 'rating', 'notes']
+                    
+                    for field, new_value in post_data.items():
+                        if field == 'hash':  # Skip hash field
+                            continue
+                        existing_value = existing_post.get(field)
+                        
+                        # NEVER overwrite geocoding or user-edited fields if they have real values
+                        if field in preserve_fields and existing_value and existing_value not in ['Unknown', '', None, 'unknown']:
+                            continue  # Keep user's existing data
+                        
+                        # Special handling for images field - update if empty array
+                        if field == 'images':
+                            # Check if existing images field is empty
+                            existing_empty = False
+                            if not existing_value or existing_value in ['', None]:
+                                existing_empty = True
+                            elif existing_value == '[]':  # JSON string empty array
+                                existing_empty = True
+                            elif isinstance(existing_value, list) and len(existing_value) == 0:  # Python empty list
+                                existing_empty = True
+                            elif isinstance(existing_value, str):
+                                try:
+                                    parsed = json.loads(existing_value)
+                                    if isinstance(parsed, list) and len(parsed) == 0:
+                                        existing_empty = True
+                                except:
+                                    pass
+                            
+                            # Check if new value has content
+                            new_has_content = new_value and new_value != '[]'
+                            if isinstance(new_value, str):
+                                try:
+                                    parsed = json.loads(new_value)
+                                    new_has_content = isinstance(parsed, list) and len(parsed) > 0
+                                except:
+                                    new_has_content = bool(new_value)
+                            elif isinstance(new_value, list):
+                                new_has_content = len(new_value) > 0
+                            
+                            if existing_empty and new_has_content:
+                                update_data[field] = new_value
+                                print(f"    Updating images field: {len(json.loads(new_value) if isinstance(new_value, str) else new_value)} images")
+                        else:
+                            # Update only if existing is empty/None/Unknown and new has content
+                            if (not existing_value or existing_value in ['Unknown', '', None]) and new_value and new_value != 'Unknown':
+                                update_data[field] = new_value
+                    
+                    if update_data:
+                        self.db.update_post(existing_post['id'], update_data)
+                        self.updated_count += 1
+                    else:
+                        # No updates needed - post already has better data
+                        pass
                 else:
                     # Insert new post
                     self.db.insert_post(post_data)

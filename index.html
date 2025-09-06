@@ -366,7 +366,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 let lastMobileUpdate = 0;
 function updateMobileMapView() {
-    // On mobile, just update the map to zoom to the visible section
+    // On mobile with map at bottom, still update map to zoom to the visible section
     // No sticky animation, but still responsive to scroll
     if (!mainMap) {
         console.log('updateMobileMapView: no mainMap available');
@@ -568,7 +568,7 @@ function updateBreadcrumb() {
                 if (element) {
                     const headerHeight = document.querySelector('.site-header').offsetHeight;
                     const isMobile = window.innerWidth <= 768;
-                    const mapOffset = isMobile ? 270 : 0; // Map height + margin on mobile
+                    const mapOffset = 0; // No mobile map offset needed since map is at bottom
                     const elementPosition = element.offsetTop - headerHeight - mapOffset - 20; // 20px extra padding
                     window.scrollTo({ top: elementPosition, behavior: 'smooth' });
                     history.pushState(null, null, `#${continentId}`);
@@ -590,7 +590,7 @@ function updateBreadcrumb() {
                 if (element) {
                     const headerHeight = document.querySelector('.site-header').offsetHeight;
                     const isMobile = window.innerWidth <= 768;
-                    const mapOffset = isMobile ? 270 : 0; // Map height + margin on mobile
+                    const mapOffset = 0; // No mobile map offset needed since map is at bottom
                     const elementPosition = element.offsetTop - headerHeight - mapOffset - 20; // 20px extra padding
                     window.scrollTo({ top: elementPosition, behavior: 'smooth' });
                     history.pushState(null, null, `#${countryId}`);
@@ -613,7 +613,7 @@ function updateBreadcrumb() {
                 if (element) {
                     const headerHeight = document.querySelector('.site-header').offsetHeight;
                     const isMobile = window.innerWidth <= 768;
-                    const mapOffset = isMobile ? 270 : 0; // Map height + margin on mobile
+                    const mapOffset = 0; // No mobile map offset needed since map is at bottom
                     const elementPosition = element.offsetTop - headerHeight - mapOffset - 20; // 20px extra padding
                     window.scrollTo({ top: elementPosition, behavior: 'smooth' });
                     history.pushState(null, null, `#${cityId}`);
@@ -977,7 +977,7 @@ window.addEventListener('load', function() {
 
 @media (max-width: 768px) {
     .filter-controls {
-        margin-top: 330px; /* Push below fixed map (70px top + 250px height + 10px) */
+        margin: 2rem 0; /* Normal margin for filter controls */
     }
     
     .content-wrapper {
@@ -985,18 +985,24 @@ window.addEventListener('load', function() {
     }
     
     #map {
-        /* Pin map to top on mobile - full bleed */
-        position: fixed !important;
-        top: 70px !important; /* Below header with margin */
-        left: 0 !important;
-        right: 0 !important;
-        width: 100% !important;
-        height: 250px !important;
-        z-index: 90;
-        margin: 0 !important;
-        border: none !important;
-        border-radius: 0 !important;
+        /* Position map at bottom on mobile */
+        position: static !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        width: calc(100% - 2rem) !important;
+        height: 300px !important;
+        z-index: 10;
+        margin: 2rem 1rem !important;
+        border: 1px solid var(--border-color) !important;
+        border-radius: 12px !important;
         box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3);
+        order: 99; /* Push to bottom using flexbox order */
+    }
+    
+    .main-content {
+        display: flex;
+        flex-direction: column;
     }
 }
 
