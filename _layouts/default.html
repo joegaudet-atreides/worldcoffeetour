@@ -40,7 +40,7 @@
     <meta property="og:title" content="{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}">
     <meta property="og:description" content="{{ page.description | default: page.notes | default: site.description | strip_html | normalize_whitespace | truncate: 300 }}">
     <meta property="og:url" content="{{ site.url }}{{ page.url | default: '/' }}">
-    <meta property="og:image" content="{% if page.images and page.images.size > 0 %}{{ site.url }}{{ page.images[0] }}{% else %}{{ site.url }}/assets/images/coffee-tour-og.jpg{% endif %}">
+    <meta property="og:image" content="{% if page.images and page.images.size > 0 %}{{ site.url }}{{ page.images[0] }}{% else %}https://worldcoffeetour.joegaudet.com/assets/images/posts/202508/540002731_18532165042001623_9222496751397690357_n_18077193815002841.jpg{% endif %}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:locale" content="en_US">
@@ -51,7 +51,7 @@
     <meta name="twitter:creator" content="@{{ site.instagram_username }}">
     <meta name="twitter:title" content="{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}">
     <meta name="twitter:description" content="{{ page.description | default: page.notes | default: site.description | strip_html | normalize_whitespace | truncate: 200 }}">
-    <meta name="twitter:image" content="{% if page.images and page.images.size > 0 %}{{ site.url }}{{ page.images[0] }}{% else %}{{ site.url }}/assets/images/coffee-tour-twitter.jpg{% endif %}">
+    <meta name="twitter:image" content="{% if page.images and page.images.size > 0 %}{{ site.url }}{{ page.images[0] }}{% else %}https://worldcoffeetour.joegaudet.com/assets/images/posts/202508/540002731_18532165042001623_9222496751397690357_n_18077193815002841.jpg{% endif %}">
     
     <!-- Additional Meta Tags -->
     <meta name="author" content="{{ site.author }}">
