@@ -11,7 +11,7 @@ permalink: /about/
             <div class="about-intro">
                 <h2>The Tour Captain</h2>
                 <p class="lead">
-                    Exploring the world's coffee culture through local cafés and roasters.
+                    Exploring the world through local cafés, roasters, and coffee culture.
                 </p>
             </div>
         </div>
