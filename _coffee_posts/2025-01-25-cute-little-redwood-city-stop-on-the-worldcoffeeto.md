@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Cute little Redwood City stop on the #worldcoffeetour completely with delightful sweet treats. @thebakernextdoor_rwc
+title: "Cute little Redwood City stop on the #worldcoffeetour completely with delightful sweet treats. @thebakernextdoor_rwc"
 date: "2025-01-25"
 city: Redwood City
 country: United States
@@ -9,7 +9,7 @@ latitude: 37.4856333
 longitude: -122.226089
 cafe_name: Thebakernextdoor Rwc
 rating: 5
-notes: Cute little Redwood City stop on the #worldcoffeetour completely with delightful sweet treats. @thebakernextdoor_rwc
+notes: "Cute little Redwood City stop on the #worldcoffeetour completely with delightful sweet treats. @thebakernextdoor_rwc"
 images:
   - /assets/images/posts/202501/474976200_18491637289001623_2741018221970030589_n_18103387420471089.jpg
   - /assets/images/posts/202501/475253590_18491637310001623_3002850036834678301_n_17938402421841024.jpg

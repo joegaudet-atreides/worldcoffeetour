@@ -9,7 +9,7 @@ latitude: 50.5188714
 longitude: -116.0164177
 cafe_name: Invermere stop
 rating: 3
-notes: Invermere stop on the #worldcoffeetour a koots classic, kicking horse cafe.
+notes: "Invermere stop on the #worldcoffeetour a koots classic, kicking horse cafe."
 images:
   - /assets/images/posts/202412/471864074_18486541198001623_7936372264652092922_n_17890320213155365.jpg
   - /assets/images/posts/202412/471919974_18486541213001623_2852293227588045651_n_18253769431277484.jpg

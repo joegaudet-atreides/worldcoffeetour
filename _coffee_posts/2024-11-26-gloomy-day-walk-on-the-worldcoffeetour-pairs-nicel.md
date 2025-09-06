@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Gloomy day walk on the #worldcoffeetour pairs nicely with a
+title: "Gloomy day walk on the #worldcoffeetour pairs nicely with a"
 date: "2024-11-26"
 city: New York
 country: United States

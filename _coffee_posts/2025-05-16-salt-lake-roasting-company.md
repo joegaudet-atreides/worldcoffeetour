@@ -9,7 +9,7 @@ latitude: 40.7604184
 longitude: -111.867314
 cafe_name: Salt Lake Roasting Company
 rating: 5
-notes: And of course had to make a quick little stop on the #worldcoffeetour in SLC cool little shop that roasts their own beans and makes a might fine cold brew
+notes: "And of course had to make a quick little stop on the #worldcoffeetour in SLC cool little shop that roasts their own beans and makes a might fine cold brew"
 images:
   - /assets/images/posts/202505/497523987_18513010447001623_37488454885152378_n_17982415037807749.jpg
   - /assets/images/posts/202505/497782112_18513010474001623_5799345574863191058_n_18095308321567970.jpg

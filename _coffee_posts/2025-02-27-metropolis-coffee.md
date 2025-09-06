@@ -9,7 +9,7 @@ latitude: 39.7578998
 longitude: -104.9841578
 cafe_name: Metropolis Coffee
 rating: 4
-notes: Slick cafe and first stop on the Denver leg of the #worldcoffeetour - @metropolis.coffeebar  on RINO
+notes: "Slick cafe and first stop on the Denver leg of the #worldcoffeetour - @metropolis.coffeebar  on RINO"
 images:
   - /assets/images/posts/202502/482205948_18497480734001623_9122368214983962291_n_18128286835410993.jpg
   - /assets/images/posts/202502/482157653_18497480755001623_2356791484104900385_n_18057524573039542.jpg

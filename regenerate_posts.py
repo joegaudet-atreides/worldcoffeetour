@@ -43,6 +43,7 @@ def yaml_safe_string(text):
     # Characters that require quoting in YAML
     needs_quoting = any([
         text.startswith(('%', '@', '`', '|', '>', '#', '-', '?', ':', '[', '{', ']', '}', ',', '&', '*', '!', '\'', '"')),
+        '#' in text,  # Ensure any text containing hashtags is quoted
         text.endswith(':'),
         ':' in text,
         '\n' in text,

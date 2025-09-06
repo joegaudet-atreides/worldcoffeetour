@@ -9,7 +9,7 @@ latitude: 48.426404
 longitude: -123.3155807
 cafe_name: Hide & Seek Coffee
 rating: 4
-notes: Because I am who I am, #worldcoffeetour Victoria edition, @hideandseekcoffee cute cafe in oak bay, spinning vinyl and bring millennials and boomers together.
+notes: "Because I am who I am, #worldcoffeetour Victoria edition, @hideandseekcoffee cute cafe in oak bay, spinning vinyl and bring millennials and boomers together."
 images:
   - /assets/images/posts/202508/528657677_18528006394001623_6357886371342412856_n_18405982867116830.jpg
   - /assets/images/posts/202508/528039926_18528006448001623_6477695120280871367_n_18287588668249735.jpg

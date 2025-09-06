@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Took a walk through SLC today and found @hallowedgrounds801 a cool cafe in an old church turned market for weirdos and tattoos (sadly the tattoo parlour was closed) another great stop on the #worldcof
+title: "Took a walk through SLC today and found @hallowedgrounds801 a cool cafe in an old church turned market for weirdos and tattoos (sadly the tattoo parlour was closed) another great stop on the #worldcof"
 date: "2025-05-17"
 city: Salt Lake City
 country: United States
@@ -9,7 +9,7 @@ latitude: 40.7609867
 longitude: -111.8828778
 cafe_name: Hallowedgrounds801
 rating: 5
-notes: Took a walk through SLC today and found @hallowedgrounds801 a cool cafe in an old church turned market for weirdos and tattoos (sadly the tattoo parlour was closed) another great stop on the #worldcoffeetour
+notes: "Took a walk through SLC today and found @hallowedgrounds801 a cool cafe in an old church turned market for weirdos and tattoos (sadly the tattoo parlour was closed) another great stop on the #worldcoffeetour"
 images:
   - /assets/images/posts/202505/499426871_18513204343001623_1369535199653652388_n_18125092996449018.jpg
   - /assets/images/posts/202505/497589179_18513204379001623_8667468959423032187_n_18070200841763508.jpg

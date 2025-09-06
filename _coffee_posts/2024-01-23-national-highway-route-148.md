@@ -7,9 +7,9 @@ country: Japan
 continent: Asia
 latitude: 36.6633649
 longitude: 137.8263725
-cafe_name: On slope edition of the #worldcoffee
+cafe_name: "On slope edition of the #worldcoffee"
 rating: 3
-notes: On slope edition of the #worldcoffeetour - from Melbourne so we drink flat whites.
+notes: "On slope edition of the #worldcoffeetour - from Melbourne so we drink flat whites."
 images:
   - /assets/images/posts/202401/470141387_18483351196001623_3755210576510641888_n_17953168844723890.jpg
   - /assets/images/posts/202401/470214066_18483351238001623_5444681649767848600_n_18038496931725346.jpg

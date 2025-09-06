@@ -12,7 +12,52 @@
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+    
+    <!-- Comprehensive Favicon Support -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
+    <link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAaVBMVEUAAAA/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8AAAA/Pz////9GRkZdXV1KSkru7u7BwcHk5OTX19c+Pj5CQkIAAAC1t7eUAAAAG3RSTlMAEiIzRFVmd4iZqqszzO7v8PHx8vLz8/P09PVWPlvvAAAA7ElEQVQ4y42T2w6CMAyFW8clOIYOBFFB8P1f0bY4QSH+f2mS5iTnS9YSAHgDgM8A8B8AL/8B4OUfAK7/APjHBzAGgNH/AK3/ALT+A7D9B2D7D8DqPwCr/wCs/gOw+g/A6j8Aq/8ArP4DsPoPwOo/AKv/AKz+A7D6D8DqPwCr/wCs/gOw+g/A6j8Aq/8ArP4DsPoPwOo/AKv/AKz+A7D6D8DqPwCr/wCs/gOw+g/A6j8Aq/8ArP4DsPoPwOo/AKv/AKz+A7D6D8DqPwCr/wCs/gOw+g/A6j8Aq/8ArP4DsPoPwOo/AKv/AKz+A7D6DwAA/xMIbgKZ7CQAAAAASUVORK5CYII=">
+    <link rel="icon" type="image/png" sizes="16x16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAXVBMVEUAAAA/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8AAAA/Pz////9GRkZdXV1KSkru7u6UAAAAGnRSTlMAESIzRFVmd4iZqjMz7u/w8fHy8vPz9PT1dkSJ+AAAAG5JREFUGNNjYGBkYmZhZWPn4OTi5uHlY2BgEBQSFhEVE5eQlJKWkZVjYGBQUFRSVlFVU9fQ1NLWYWA=">
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAA9zQYyAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABZdJREFUeNrs3T1v01AUgOHrJKHQSgykSAwsLCxMTKyMDCwsjIwsLCxMLIyMLCwsjIwsLCxMLCwsLCxMLCwsLCxMLCwsLCxMLCwsLEws7A/gHut+2E5s137vSK8Uk9o5z3Pu/bBtAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
+    <link rel="apple-touch-icon" sizes="152x152" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJgAAACYCAMAAAFcfksLAAAAYFBMVEUAAAA/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8AAAA/Pz////9GRkZdXV1KSkru7u7BwcHk5OTX19ewpFjlAAAAG3RSTlMAEiIzRFVmd4iZqqszzO7v8PHx8vLz8/P09PVWPlvvAAAAwklEQVR42u3TsQ0AIAwDQfwH/EfG">
+    <link rel="apple-touch-icon" sizes="120x120" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAB4CAMAAAAOusbgAAAAaVBMVEUAAAA/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8AAAA/Pz////9GRkZdXV1KSkru7u7BwcHk5OTX19ewpFjlAAAAG3RSTlMAEiIzRFVmd4iZqqszzO7v8PHx8vLz8/P09PVWPlvvAAAAnklEQVRo3u3UsQ0AIAwEQfwH/EfG">
+    <link rel="apple-touch-icon" sizes="76x76" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEwAAABMCAMAAAAoJq3TAAAAaVBMVEUAAAA/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8AAAA/Pz////9GRkZdXV1KSkru7u7BwcHk5OTX19ewpFjlAAAAG3RSTlMAEiIzRFVmd4iZqqszzO7v8PHx8vLz8/P09PVWPlvvAAAAhklEQVRYw+3UsQ0AIAwEQfwH/EfG">
+    <link rel="apple-touch-icon" sizes="60x60" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAdgAAAHYBTnsmCAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAARTSURBVHic7ZrLaxRBEMaftzcmJkZBjOKr">
+    
+    <!-- Android Chrome -->
+    <link rel="icon" type="image/png" sizes="192x192" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAMAAABlApw1AAAAaVBMVEUAAAA/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8AAAA/Pz////9GRkZdXV1KSkru7u7BwcHk5OTX19ewpFjlAAAAG3RSTlMAEiIzRFVmd4iZqqszzO7v8PHx8vLz8/P09PVWPlvvAAABPklEQVR42u3UsQ0AIAwEQfwH/EfG">
+    <link rel="icon" type="image/png" sizes="96x96" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAADVRocKAAAAaVBMVEUAAAA/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8AAAA/Pz////9GRkZdXV1KSkru7u7BwcHk5OTX19ewpFjlAAAAG3RSTlMAEiIzRFVmd4iZqqszzO7v8PHx8vLz8/P09PVWPlvvAAAAsklEQVRo3u3UsQ0AIAwEQfwH/EfG">
+    
+    <!-- Microsoft Tiles -->
+    <meta name="msapplication-TileColor" content="#1a1a1a">
+    <meta name="msapplication-TileImage" content="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJAAAACQCAMAAADQmBKKAAAAaVBMVEUAAAA/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8AAAA/Pz////9GRkZdXV1KSkru7u7BwcHk5OTX19ewpFjlAAAAG3RSTlMAEiIzRFVmd4iZqqszzO7v8PHx8vLz8/P09PVWPlvvAAABHklEQVR42u3UsQ0AIAwEQfwH/EfG">
+    <meta name="theme-color" content="#1a1a1a">
+    
+    <!-- Social Media Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="{{ site.title }}">
+    <meta property="og:title" content="{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}">
+    <meta property="og:description" content="{{ page.description | default: page.notes | default: site.description | strip_html | normalize_whitespace | truncate: 300 }}">
+    <meta property="og:url" content="{{ site.url }}{{ page.url | default: '/' }}">
+    <meta property="og:image" content="{% if page.images and page.images.size > 0 %}{{ site.url }}{{ page.images[0] }}{% else %}{{ site.url }}/assets/images/coffee-tour-og.jpg{% endif %}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@{{ site.instagram_username }}">
+    <meta name="twitter:creator" content="@{{ site.instagram_username }}">
+    <meta name="twitter:title" content="{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}">
+    <meta name="twitter:description" content="{{ page.description | default: page.notes | default: site.description | strip_html | normalize_whitespace | truncate: 200 }}">
+    <meta name="twitter:image" content="{% if page.images and page.images.size > 0 %}{{ site.url }}{{ page.images[0] }}{% else %}{{ site.url }}/assets/images/coffee-tour-twitter.jpg{% endif %}">
+    
+    <!-- Additional Meta Tags -->
+    <meta name="author" content="{{ site.author }}">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    <link rel="canonical" href="{{ site.url }}{{ page.url | default: '/' }}">
     
     {% seo %}
 </head>

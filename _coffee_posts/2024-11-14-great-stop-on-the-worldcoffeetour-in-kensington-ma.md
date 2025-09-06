@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Great stop on the #worldcoffeetour in Kensington Market, YYZ continues to be amazing.
+title: "Great stop on the #worldcoffeetour in Kensington Market, YYZ continues to be amazing."
 date: "2024-11-14"
 city: Toronto
 country: Canada
@@ -9,7 +9,7 @@ latitude: 43.6544546
 longitude: -79.4018767
 cafe_name: Great stop
 rating: 6
-notes: Great stop on the #worldcoffeetour in Kensington Market, YYZ continues to be amazing.
+notes: "Great stop on the #worldcoffeetour in Kensington Market, YYZ continues to be amazing."
 images:
   - /assets/images/posts/202411/466828829_18477917515001623_7609018574565622836_n_17846119977334634.jpg
   - /assets/images/posts/202411/466525250_18477917524001623_8337052691611178070_n_18118505878407994.jpg

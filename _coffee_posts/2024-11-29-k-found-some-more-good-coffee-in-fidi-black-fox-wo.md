@@ -1,6 +1,6 @@
 ---
 layout: post
-title: K found some more good coffee in FIDI, black fox. #worldcoffeetour
+title: "K found some more good coffee in FIDI, black fox. #worldcoffeetour"
 date: "2024-11-29"
 city: New York
 country: United States
@@ -9,7 +9,7 @@ latitude: 40.7054219
 longitude: -73.9323788
 cafe_name: some more good coffee
 rating: 4
-notes: K found some more good coffee in FIDI, black fox. #worldcoffeetour
+notes: "K found some more good coffee in FIDI, black fox. #worldcoffeetour"
 images:
   - /assets/images/posts/202411/468690951_18480813265001623_8674416350760197745_n_18016525133638226.jpg
   - /assets/images/posts/202411/468601335_18480813244001623_989941944725038024_n_18155765323327239.jpg

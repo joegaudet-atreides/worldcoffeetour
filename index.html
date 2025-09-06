@@ -536,7 +536,7 @@ function updateMapAnimation() {
     const targetHeight = targetWidth * (9 / 16); // 16:9 aspect ratio
     const siteHeader = document.querySelector('.site-header');
     const headerHeight = siteHeader ? siteHeader.offsetHeight : 0;
-    const targetTop = headerHeight + 60; // More top margin for better visual balance
+    const targetTop = headerHeight + 20; // More top margin for better visual balance
     const targetLeft = viewportWidth - targetWidth - 32;
     
     if (progress > 0.2) {  // Only start animation when there's meaningful scroll

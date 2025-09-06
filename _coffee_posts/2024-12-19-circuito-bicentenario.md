@@ -9,7 +9,7 @@ latitude: 19.4188633
 longitude: -99.1779091
 cafe_name: La Romana in Roma Norte - funky like cafe
 rating: 5
-notes: La Romana in Roma Norte - funky like cafe I found while @tinaaluu recovers from last nice #worldcoffeetour
+notes: "La Romana in Roma Norte - funky like cafe I found while @tinaaluu recovers from last nice #worldcoffeetour"
 images:
   - /assets/images/posts/202412/470912050_18484676158001623_5735907665425265596_n_18324351490092828.jpg
   - /assets/images/posts/202412/470912028_18484676173001623_7550787257529163035_n_18029278220616816.jpg
