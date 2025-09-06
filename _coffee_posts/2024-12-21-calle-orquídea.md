@@ -9,7 +9,7 @@ latitude: 19.2611115
 longitude: -99.0036244
 cafe_name: Coffee Stop - 2024-12-21
 rating: 4
-notes: "I donât know how I will go back to non boulevard it's just better, quick lil stop for an americano on my walk today. #worldcoffeetour"
+notes: "I don't know how I will go back to non boulevard it's just better, quick lil stop for an americano on my walk today. #worldcoffeetour"
 images:
   - /assets/images/posts/202412/471466261_18485117554001623_4398007199594558069_n_17878631421210340.jpg
   - /assets/images/posts/202412/470918613_18485117563001623_8875269736358466603_n_17934462590844870.jpg

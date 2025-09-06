@@ -9,7 +9,7 @@ latitude: 43.6228894
 longitude: -79.5195451
 cafe_name: Buno Giorno Caffe & Panini
 rating: 5
-notes: "Second last day in TO before I head to NYC, took a beautiful stroll through High park (check out this gorgeous tree I foundâ¦.) and yet another cheeky stop on the #worldcoffeetour Buno on Queen west, cute blue motif, great espresso."
+notes: "Second last day in TO before I head to NYC, took a beautiful stroll through High park (check out this gorgeous tree I found'¦.) and yet another cheeky stop on the #worldcoffeetour Buno on Queen west, cute blue motif, great espresso."
 images:
   - /assets/images/posts/202411/467196970_18478422901001623_6167377988117530394_n_18061189105830809.jpg
   - /assets/images/posts/202411/467203708_18478422934001623_2705705966324839568_n_18466051666028926.jpg

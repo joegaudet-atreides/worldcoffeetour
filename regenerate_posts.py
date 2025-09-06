@@ -28,6 +28,18 @@ def yaml_safe_string(text):
     text = text.replace('\u2013', '-').replace('\u2014', '--')  # En/em dashes
     text = text.replace('\u2026', '...')  # Ellipsis
     
+    # Additional character replacements for problematic Unicode
+    text = text.replace('â', "'")  # Curly apostrophe variants
+    text = text.replace('â', '"').replace('â', '"')  # Curly quotes
+    text = text.replace('â', '--')  # Em dash
+    text = text.replace('â¦', '...')  # Ellipsis variant
+    text = text.replace('Ã±', 'ñ')  # Fix double-encoded characters
+    text = text.replace('Ã¡', 'á').replace('Ã©', 'é').replace('Ã­', 'í').replace('Ã³', 'ó').replace('Ãº', 'ú')
+    
+    # Remove any remaining control characters
+    import unicodedata
+    text = ''.join(c for c in text if unicodedata.category(c)[0] != 'C' or c in '\n\t\r')
+    
     # Characters that require quoting in YAML
     needs_quoting = any([
         text.startswith(('%', '@', '`', '|', '>', '#', '-', '?', ':', '[', '{', ']', '}', ',', '&', '*', '!', '\'', '"')),

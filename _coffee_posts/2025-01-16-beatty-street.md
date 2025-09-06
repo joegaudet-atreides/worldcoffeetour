@@ -9,7 +9,7 @@ latitude: 49.278885
 longitude: -123.1120399
 cafe_name: Rsupeene
 rating: 5
-notes: "Fun lil coffee and lunch date with @rsupeene at Annabelleâs coffee and pastries, delicious coffee and treats. #worldcoffeetour"
+notes: "Fun lil coffee and lunch date with @rsupeene at Annabelle's coffee and pastries, delicious coffee and treats. #worldcoffeetour"
 images:
   - /assets/images/posts/202501/473983700_18490173592001623_242090858721471095_n_18057771388797790.jpg
   - /assets/images/posts/202501/473684335_18490173604001623_6927798226586432576_n_18067723630650528.jpg

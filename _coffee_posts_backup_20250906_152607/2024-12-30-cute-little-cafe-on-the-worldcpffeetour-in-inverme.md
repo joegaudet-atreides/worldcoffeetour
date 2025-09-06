@@ -1,0 +1,22 @@
+---
+layout: post
+title: Cute little cafe on the #worldcpffeetour in Invermere, stolen church.
+date: "2024-12-30"
+city: Invermere
+country: Canada
+continent: North America
+latitude: 50.5048349
+longitude: -116.027624
+cafe_name: Worldcpffeetour
+rating: 4
+notes: Cute little cafe on the #worldcpffeetour in Invermere, stolen church.
+images:
+  - /assets/images/posts/202412/471946158_18486787945001623_3247564082619842664_n_18295307674236162.jpg
+  - /assets/images/posts/202412/472049588_18486787963001623_6369026887228579145_n_17990815481752698.jpg
+  - /assets/images/posts/202412/471918736_18486787978001623_8169159723906472384_n_17907102752980704.jpg
+  - /assets/images/posts/202412/471683872_18486787990001623_118724684942518693_n_18474762058031461.jpg
+  - /assets/images/posts/202412/471993908_18486787999001623_8718625289531762874_n_18062919172884806.jpg
+  - /assets/images/posts/202412/472026828_18486788011001623_7222483194602410251_n_18116575804419573.jpg
+instagram_url: "https://www.instagram.com/p/CbmCskR1MpB/"
+published: 1
+---

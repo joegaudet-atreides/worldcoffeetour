@@ -9,7 +9,7 @@ latitude: 35.664594
 longitude: 139.6997717
 cafe_name: Last coffee
 rating: 3
-notes: "Last coffee post from Tokyo, amazing French press before I hop on the ð to Osaka #worldcoffeetour"
+notes: "Last coffee post from Tokyo, amazing French press before I hop on the ð to Osaka #worldcoffeetour"
 images:
   - /assets/images/posts/202401/470195232_18483347128001623_2137201268248935298_n_18042570202613512.jpg
   - /assets/images/posts/202401/470143681_18483347047001623_5099564076567969021_n_17987210360552435.jpg

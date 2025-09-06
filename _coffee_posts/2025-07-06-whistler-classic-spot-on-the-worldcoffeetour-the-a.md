@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Whistler classic spot on the #worldcoffeetour the Alpine cafe, great break and friendly vibes, theyâve added heaps of capacity since I was last here."
+title: "Whistler classic spot on the #worldcoffeetour the Alpine cafe, great break and friendly vibes, they've added heaps of capacity since I was last here."
 date: "2025-07-06"
 city: Whistler
 country: Canada
@@ -9,7 +9,7 @@ latitude: 50.1487015
 longitude: -122.9625653
 cafe_name: Whistler classic spot
 rating: 3
-notes: "Whistler classic spot on the #worldcoffeetour the Alpine cafe, great break and friendly vibes, theyâve added heaps of capacity since I was last here."
+notes: "Whistler classic spot on the #worldcoffeetour the Alpine cafe, great break and friendly vibes, they've added heaps of capacity since I was last here."
 images:
   - /assets/images/posts/202507/516756489_18522719491001623_8225538257689411533_n_17936077098059882.jpg
   - /assets/images/posts/202507/516535513_18522719545001623_567418782527272014_n_18166243084315396.jpg

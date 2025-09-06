@@ -9,7 +9,7 @@ latitude: 35.0095976
 longitude: 135.7601051
 cafe_name: Cafe Kitsune
 rating: 5
-notes: "Todayâs entrance in the #worldcoffeetour Kyoto edition, beautiful cafe on a park."
+notes: "Today's entrance in the #worldcoffeetour Kyoto edition, beautiful cafe on a park."
 images:
   - /assets/images/posts/202401/470205606_18483349288001623_4089000897094843936_n_17941670507780271.jpg
   - /assets/images/posts/202401/470135869_18483349234001623_7802320540802465101_n_18008368361272782.jpg
