@@ -8,8 +8,9 @@ continent: South America
 latitude: -33.43710799999999
 longitude: -70.6412738
 cafe_name: Hotel Coffee - 8320115 Santiago
+rating: 4
 notes: "@tinaaluu now firmly arrived we started off the day with a bit of light work (I supervised Claude through some tricky state machine work) now off to wander with a coffee in hand from this great spot near our hotel #worldcoffeetour"
-images: 
+images:
   - /assets/images/posts/202508/536615345_18530599183001623_8429327065390579700_n_18087212968830019.jpg
   - /assets/images/posts/202508/536997957_18530599207001623_7258189134768141179_n_17978469566885128.jpg
   - /assets/images/posts/202508/536396824_18530599216001623_5959582297014396053_n_18153801361391499.jpg

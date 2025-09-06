@@ -4,7 +4,62 @@ title: World Coffee Tour Map
 ---
 
 
+{% comment %} Split posts into published and unpublished - moved up for latest post {% endcomment %}
+{% assign published_posts = site.coffee_posts | where_exp: "post", "post.published != false" %}
+
 <div id="map" class="main-map"></div>
+
+{% comment %} Get the latest published post {% endcomment %}
+{% assign latest_post = published_posts | sort: 'date' | last %}
+
+{% if latest_post %}
+<div class="latest-stop-section">
+    <div class="latest-stop-container">
+        <div class="latest-stop-header">
+            <h2>Latest Stop</h2>
+            <span class="latest-stop-date">{{ latest_post.date | date: "%B %d, %Y" }}</span>
+        </div>
+        
+        <a href="{{ latest_post.url | relative_url }}" class="latest-stop-card">
+            {% if latest_post.images and latest_post.images.size > 0 %}
+            <div class="latest-stop-image">
+                <img src="{{ latest_post.images[0] | relative_url }}" alt="{{ latest_post.title }}" loading="lazy">
+            </div>
+            {% elsif latest_post.image_url %}
+            <div class="latest-stop-image">
+                <img src="{{ latest_post.image_url }}" alt="{{ latest_post.title }}" loading="lazy">
+            </div>
+            {% endif %}
+            
+            <div class="latest-stop-content">
+                <h3 class="latest-stop-title">
+                    {% if latest_post.cafe_name %}{{ latest_post.cafe_name }}{% else %}{{ latest_post.title }}{% endif %}
+                </h3>
+                
+                <div class="latest-stop-location">
+                    <span class="location-icon">📍</span>
+                    {{ latest_post.city }}, {{ latest_post.country }}
+                </div>
+                
+                {% if latest_post.rating %}
+                <div class="latest-stop-rating">
+                    {% for i in (1..5) %}
+                        {% if i <= latest_post.rating %}☕{% endif %}
+                    {% endfor %}
+                    {% if latest_post.rating > 5 %}+{% endif %}
+                </div>
+                {% endif %}
+                
+                {% if latest_post.notes %}
+                <p class="latest-stop-description">{{ latest_post.notes | truncatewords: 30 }}</p>
+                {% endif %}
+                
+                <span class="latest-stop-cta">View Full Post →</span>
+            </div>
+        </a>
+    </div>
+</div>
+{% endif %}
 
 <div class="filter-controls">
     <button class="filter-btn active" data-continent="all">All Continents</button>
@@ -15,9 +70,6 @@ title: World Coffee Tour Map
     <button class="filter-btn" data-continent="africa">Africa</button>
     <button class="filter-btn" data-continent="oceania">Oceania</button>
 </div>
-
-{% comment %} Split posts into published and unpublished {% endcomment %}
-{% assign published_posts = site.coffee_posts | where_exp: "post", "post.published != false" %}
 {% assign unpublished_posts = site.coffee_posts | where: 'published', false %}
 {% comment %} Group by continent and move Unknown/empty to end {% endcomment %}
 {% assign posts_by_continent_raw = published_posts | group_by: 'continent' | sort: 'name' %}
@@ -105,6 +157,33 @@ title: World Coffee Tour Map
             
             </section>
             {% endfor %}
+
+            <!-- Empty sections for future continents -->
+            <section class="continent-section" id="oceania" data-continent="oceania">
+                <h1 class="continent-title">
+                    <a href="#oceania" class="section-link">Oceania</a>
+                </h1>
+                <div class="coming-soon">
+                    <div class="coming-soon-content">
+                        <span class="coming-soon-emoji">✈️</span>
+                        <h2>Coming Soon</h2>
+                        <p>Coffee adventures awaiting in the Pacific!</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="continent-section" id="africa" data-continent="africa">
+                <h1 class="continent-title">
+                    <a href="#africa" class="section-link">Africa</a>
+                </h1>
+                <div class="coming-soon">
+                    <div class="coming-soon-content">
+                        <span class="coming-soon-emoji">✈️</span>
+                        <h2>Coming Soon</h2>
+                        <p>Exploring the birthplace of coffee!</p>
+                    </div>
+                </div>
+            </section>
     </div>
 </div>
 
@@ -154,7 +233,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (window.mainMap) {
             mainMap = window.mainMap;
             console.log('mainMap connected:', !!mainMap);
-            setupFilterButtons();
+            // Filter buttons are already set up below - no need for setupFilterButtons
         } else {
             setTimeout(initMainMap, 50);
         }
@@ -335,32 +414,83 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Filter functionality
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const continent = this.dataset.continent;
-            
-            // Update active button
-            filterBtns.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            
-            
-            // Show/hide continents
+    // Filter functionality using query string approach for better reliability
+    function applyFilter(continent) {
+        console.log('Applying filter:', continent, 'on', isMobileDevice() ? 'mobile' : 'desktop');
+        
+        // Update active button
+        filterBtns.forEach(b => b.classList.remove('active'));
+        const activeBtn = document.querySelector(`[data-continent="${continent}"]`);
+        if (activeBtn) activeBtn.classList.add('active');
+        
+        // Show/hide continents
+        continentSections.forEach(section => {
             if (continent === 'all') {
-                continentSections.forEach(section => {
-                    section.style.display = 'block';
-                });
+                section.style.display = 'block';
             } else {
-                continentSections.forEach(section => {
-                    if (section.dataset.continent === continent) {
-                        section.style.display = 'block';
-                    } else {
-                        section.style.display = 'none';
-                    }
-                });
+                const sectionContinent = section.dataset.continent;
+                section.style.display = sectionContinent === continent ? 'block' : 'none';
             }
         });
+        
+        // Update URL without page reload
+        const url = new URL(window.location);
+        if (continent === 'all') {
+            url.searchParams.delete('filter');
+        } else {
+            url.searchParams.set('filter', continent);
+        }
+        window.history.replaceState({}, '', url);
+        
+        // Zoom map to filtered area after a short delay
+        setTimeout(() => {
+            if (continent === 'all') {
+                // Show all pins
+                zoomToAllPins();
+            } else {
+                // Zoom to specific continent
+                zoomToRegion(continent);
+            }
+        }, 100);
+    }
+    
+    // Check URL for initial filter state
+    function initializeFromURL() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const filterParam = urlParams.get('filter');
+        if (filterParam && filterParam !== 'all') {
+            applyFilter(filterParam);
+        } else {
+            applyFilter('all');
+        }
+    }
+    
+    // Add event listeners to filter buttons
+    filterBtns.forEach(btn => {
+        const continent = btn.dataset.continent;
+        
+        // Handle both click and touch with unified approach
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            applyFilter(continent);
+        });
+        
+        // Touch feedback for mobile
+        btn.addEventListener('touchstart', function(e) {
+            this.style.transform = 'scale(0.98)';
+        }, { passive: true });
+        
+        btn.addEventListener('touchend', function(e) {
+            this.style.transform = '';
+        }, { passive: true });
+        
+        btn.addEventListener('touchcancel', function(e) {
+            this.style.transform = '';
+        }, { passive: true });
     });
+    
+    // Initialize filter state from URL
+    initializeFromURL();
     
 });
 
@@ -414,7 +544,9 @@ function updateMapAnimation() {
         if (!isSticky) {
             isSticky = true;
             mapContainer.classList.add('animating');
-            // Content wrapper is now always 65% width
+            // Content wrapper becomes sidebar width
+            const contentWrapper = document.querySelector('.content-wrapper');
+            if (contentWrapper) contentWrapper.classList.add('with-sidebar');
             
             // Create placeholder
             if (!document.getElementById('map-placeholder')) {
@@ -454,7 +586,7 @@ function updateMapAnimation() {
         const currentWidth = mapOriginalRect.width + (targetWidth - mapOriginalRect.width) * progress;
         const currentHeight = mapOriginalRect.height + (targetHeight - mapOriginalRect.height) * progress;
         
-        // Apply transform
+        // Apply transform based on scroll progress
         mapContainer.style.top = `${currentTop}px`;
         mapContainer.style.left = `${currentLeft}px`;
         mapContainer.style.width = `${currentWidth}px`;
@@ -480,7 +612,9 @@ function updateMapAnimation() {
         if (isSticky) {
             isSticky = false;
             mapContainer.classList.remove('animating');
-            // Content wrapper is always 65% width
+            // Content wrapper returns to full width
+            const contentWrapper = document.querySelector('.content-wrapper');
+            if (contentWrapper) contentWrapper.classList.remove('with-sidebar');
             
             // Remove placeholder
             const placeholder = document.getElementById('map-placeholder');
@@ -906,42 +1040,7 @@ function zoomToCity(cityName) {
     }
 }
 
-// Filter button functionality
-function setupFilterButtons() {
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const continentSections = document.querySelectorAll('.continent-section');
-    
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const targetContinent = this.dataset.continent;
-            
-            // Update active button
-            filterBtns.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            
-            // Show/hide sections
-            continentSections.forEach(section => {
-                if (targetContinent === 'all') {
-                    section.style.display = 'block';
-                } else {
-                    const sectionContinent = section.dataset.continent;
-                    section.style.display = sectionContinent === targetContinent ? 'block' : 'none';
-                }
-            });
-            
-            // Zoom map to filtered area
-            setTimeout(() => {
-                if (targetContinent === 'all') {
-                    // Show all pins
-                    zoomToAllPins();
-                } else {
-                    // Zoom to specific continent
-                    zoomToRegion(targetContinent);
-                }
-            }, 100);
-        });
-    });
-}
+// Filter functionality is now integrated into the main initialization above
 
 function zoomToAllPins() {
     if (!mainMap) return;
@@ -990,6 +1089,238 @@ window.addEventListener('load', function() {
 .posts-content {
     width: 100%;
 }
+
+/* Map Styles */
+.main-map {
+    width: 100%;
+    height: 500px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 3rem 0;
+    position: relative;
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+
+.main-map.animating {
+    position: fixed;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                border-radius 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Latest Stop Section */
+.latest-stop-section {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.latest-stop-container {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.latest-stop-container:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.latest-stop-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+    background: linear-gradient(135deg, var(--accent-color) 0%, #B8956B 100%);
+    color: white;
+}
+
+.latest-stop-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.latest-stop-date {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    font-weight: 300;
+}
+
+.latest-stop-card {
+    display: flex;
+    gap: 2rem;
+    padding: 2rem;
+    text-decoration: none;
+    color: inherit;
+    transition: background-color 0.2s ease;
+}
+
+.latest-stop-card:hover {
+    background: rgba(212, 165, 116, 0.05);
+}
+
+.latest-stop-image {
+    flex: 0 0 200px;
+    height: 150px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--accent-color);
+}
+
+.latest-stop-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.latest-stop-card:hover .latest-stop-image img {
+    transform: scale(1.05);
+}
+
+.latest-stop-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.latest-stop-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--accent-color);
+    line-height: 1.2;
+}
+
+.latest-stop-location {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+.location-icon {
+    font-size: 0.9rem;
+}
+
+.latest-stop-rating {
+    font-size: 1.1rem;
+    color: var(--accent-color);
+    line-height: 1;
+}
+
+.latest-stop-description {
+    flex: 1;
+    margin: 0;
+    color: var(--text-light);
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+.latest-stop-cta {
+    font-weight: 600;
+    color: var(--accent-color);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 0.5rem;
+    transition: transform 0.2s ease;
+}
+
+.latest-stop-card:hover .latest-stop-cta {
+    transform: translateX(4px);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .latest-stop-section {
+        margin: 1rem auto;
+        padding: 0 0.5rem;
+    }
+    
+    .latest-stop-header {
+        padding: 1rem 1.5rem 0.75rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .latest-stop-header h2 {
+        font-size: 1.3rem;
+    }
+    
+    .latest-stop-date {
+        font-size: 0.85rem;
+    }
+    
+    .latest-stop-card {
+        flex-direction: column;
+        gap: 1.5rem;
+        padding: 1.5rem;
+    }
+    
+    .latest-stop-image {
+        flex: none;
+        width: 100%;
+        height: 200px;
+    }
+    
+    .latest-stop-title {
+        font-size: 1.3rem;
+    }
+}
+
+/* Content layout for desktop - default 65% width to leave room for map */
+.content-wrapper {
+    width: 100%;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.posts-content {
+    width: 100%;
+}
+
+/* Desktop layout and map animation */
+@media (min-width: 1024px) {
+    .content-wrapper {
+        width: 65%;
+        margin: 0 auto 0 0; /* Left align the content */
+        transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* Make latest stop and filters also 65% width to match content */
+    .latest-stop-section {
+        max-width: 65%;
+        margin: 2rem auto 2rem 0; /* Left align with content */
+    }
+    
+    .filter-controls {
+        max-width: 65%;
+        margin: 0 auto 2rem 0; /* Left align with content */
+    }
+    
+    .with-sidebar .latest-stop-section {
+        margin-right: 2rem;
+    }
+    
+    .with-sidebar .filter-controls {
+        margin-right: 2rem;
+    }
+}
+
 
 @media (max-width: 768px) {
     .filter-controls {
@@ -1141,6 +1472,8 @@ window.addEventListener('load', function() {
     gap: 1rem;
     margin: 3rem 0;
     flex-wrap: wrap;
+    position: relative;
+    z-index: 100; /* Ensure buttons are clickable above other content */
 }
 
 .filter-btn {
@@ -1250,6 +1583,64 @@ window.addEventListener('load', function() {
     .coffee-card {
         border-radius: 8px !important;
         margin: 1em !important;
+    }
+}
+
+/* Coming Soon Sections */
+.coming-soon {
+    padding: 4rem 2rem;
+    text-align: center;
+    background: linear-gradient(135deg, rgba(212, 165, 116, 0.05) 0%, rgba(212, 165, 116, 0.1) 100%);
+    border-radius: 12px;
+    margin: 2rem 0;
+    border: 2px dashed rgba(212, 165, 116, 0.2);
+}
+
+.coming-soon-content {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.coming-soon-emoji {
+    font-size: 4rem;
+    display: block;
+    margin-bottom: 1rem;
+    animation: float 3s ease-in-out infinite;
+}
+
+.coming-soon h2 {
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    font-weight: 300;
+}
+
+.coming-soon p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    font-style: italic;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@media (max-width: 768px) {
+    .coming-soon {
+        padding: 3rem 1.5rem;
+    }
+    
+    .coming-soon-emoji {
+        font-size: 3rem;
+    }
+    
+    .coming-soon h2 {
+        font-size: 1.5rem;
+    }
+    
+    .coming-soon p {
+        font-size: 1rem;
     }
 }
 

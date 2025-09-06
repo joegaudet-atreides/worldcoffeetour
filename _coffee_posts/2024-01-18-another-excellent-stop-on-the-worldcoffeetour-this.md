@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Another excellent stop on the #worldcoffeetour this super cool spot boasts freshly roasted beans and wine by the glass, and delicious donuts."
+title: Another excellent stop on the #worldcoffeetour this super cool spot boasts freshly roasted beans and wine by the glass, and delicious donuts.
 date: "2024-01-18"
 city: Kita Ward
 country: Japan
@@ -8,8 +8,9 @@ continent: Asia
 latitude: 34.6934048
 longitude: 135.4955867
 cafe_name: Another excellent stop
-notes: "Another excellent stop on the #worldcoffeetour this super cool spot boasts freshly roasted beans and wine by the glass, and delicious donuts."
-images: 
+rating: 6
+notes: Another excellent stop on the #worldcoffeetour this super cool spot boasts freshly roasted beans and wine by the glass, and delicious donuts.
+images:
   - /assets/images/posts/202401/470214717_18483347281001623_623481080638328196_n_18292888390198309.jpg
   - /assets/images/posts/202401/470142254_18483347308001623_7853787566305168553_n_17982010181474626.jpg
   - /assets/images/posts/202401/470141182_18483347473001623_2959244066901995541_n_18012015554499177.jpg

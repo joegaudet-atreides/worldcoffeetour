@@ -112,6 +112,102 @@
             gap: 1rem;
         }
 
+        /* Grouping styles */
+        .continent-group {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .continent-header {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #D4A574;
+            margin-bottom: 1rem;
+            padding: 1rem 1.5rem;
+            border-bottom: 3px solid #D4A574;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: sticky;
+            top: 0;
+            background: linear-gradient(to bottom, #0a0a0a 0%, #0a0a0a 90%, rgba(10, 10, 10, 0.95) 100%);
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .continent-header::before {
+            content: "🌍";
+            font-size: 1.5rem;
+        }
+
+        .country-group {
+            margin-bottom: 1.5rem;
+            margin-left: 1rem;
+            position: relative;
+        }
+
+        .country-header {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #C0C0C0;
+            margin-bottom: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-bottom: 2px solid #4a4a4a;
+            background: linear-gradient(to bottom, #1a1a1a 0%, #1a1a1a 90%, rgba(26, 26, 26, 0.95) 100%);
+            position: sticky;
+            top: 60px;
+            z-index: 90;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .country-header::before {
+            content: "🏛️";
+            font-size: 1.1rem;
+        }
+
+        .city-group {
+            margin-bottom: 1rem;
+            margin-left: 1rem;
+            position: relative;
+        }
+
+        .city-header {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #9A9A9A;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #252525;
+            position: sticky;
+            top: 120px;
+            z-index: 80;
+            border-left: 3px solid #D4A574;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .city-header::before {
+            content: "📍";
+            font-size: 0.9rem;
+        }
+
+        .city-posts {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1rem;
+            margin-left: 1rem;
+            padding-top: 0.5rem;
+        }
+
         .post-card {
             background: #1a1a1a;
             border-radius: 8px;
@@ -173,6 +269,56 @@
         .post-actions {
             padding: 1rem;
             padding-top: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .inline-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .rating-label {
+            color: #a0a0a0;
+            font-size: 0.9rem;
+            margin-right: 0.25rem;
+        }
+
+        .rating-star {
+            background: none;
+            border: 2px solid #444;
+            color: #666;
+            font-size: 1.1rem;
+            padding: 4px 6px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            line-height: 1;
+        }
+
+        .rating-star:hover {
+            border-color: #d4a574;
+            color: #d4a574;
+            background: rgba(212, 165, 116, 0.1);
+        }
+
+        .rating-star.active {
+            border-color: #d4a574;
+            color: #d4a574;
+            background: rgba(212, 165, 116, 0.2);
+        }
+
+        .current-rating {
+            color: #d4a574;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-left: 0.25rem;
+        }
+
+        .action-buttons {
             display: flex;
             gap: 0.5rem;
             flex-wrap: wrap;
@@ -358,6 +504,58 @@
             border-radius: 8px;
             overflow: hidden;
             border: 1px solid #2a2a2a;
+            position: relative;
+            cursor: move;
+            transition: all 0.3s ease;
+        }
+
+        .image-tile.dragging {
+            opacity: 0.5;
+            transform: scale(0.95);
+        }
+
+        .image-tile.drag-over {
+            border-color: #d4a574;
+            box-shadow: 0 0 10px rgba(212, 165, 116, 0.3);
+        }
+
+        .drag-handle {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #d4a574;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            line-height: 1;
+            cursor: move;
+            z-index: 10;
+            user-select: none;
+            opacity: 0.8;
+            transition: opacity 0.2s ease;
+        }
+
+        .image-tile:hover .drag-handle {
+            opacity: 1;
+        }
+
+        .image-position-indicator {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #ffffff;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            line-height: 1;
+            z-index: 10;
+            user-select: none;
+            min-width: 20px;
+            text-align: center;
         }
 
         .image-tile img {
@@ -445,6 +643,16 @@
             content: "🔍";
             margin-right: 0.5rem;
         }
+        
+        .search-error {
+            padding: 1rem;
+            text-align: center;
+            color: #f44336;
+            font-size: 0.9rem;
+            background: rgba(244, 67, 54, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(244, 67, 54, 0.2);
+        }
 
         .suggestion-category {
             background: #1a1a1a;
@@ -487,6 +695,13 @@
             margin-bottom: 0.25rem;
         }
 
+        .suggestion-address {
+            font-size: 0.8rem;
+            color: #d4a574;
+            margin-bottom: 0.35rem;
+            line-height: 1.3;
+            font-style: italic;
+        }
         .suggestion-details {
             font-size: 0.8rem;
             color: #a0a0a0;
@@ -534,6 +749,30 @@
 
         #location-search {
             padding-right: 2.5rem;
+        }
+        .geocode-preview-container {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
+        }
+        .geocode-info {
+            margin-bottom: 1rem;
+        }
+        .geocode-info h4 {
+            color: #d4a574;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+        .geocode-info p {
+            color: #a0a0a0;
+            font-size: 0.85rem;
+            margin-bottom: 0.25rem;
+        }
+        #geocode-coords {
+            font-family: monospace;
+            color: #666;
         }
 
         .search-status {
@@ -621,44 +860,176 @@
                 flex-direction: column;
             }
             
-            /* Only apply mobile map positioning when modal is open and screen is small */
+            /* Modal content styling for mobile */
             .modal[style*="block"] .modal-content {
                 max-height: calc(100vh - 2rem);
                 overflow-y: auto;
-                padding-bottom: 350px; /* Space for the anchored map */
             }
             
-            .modal[style*="block"] #edit-map {
-                position: fixed !important;
-                bottom: 0 !important;
-                left: 0 !important;
-                right: 0 !important;
-                width: 100% !important;
-                height: 300px !important;
-                z-index: 1001 !important; /* Above modal */
-                border-radius: 0 !important;
-                border: none !important;
-                box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5) !important;
+        }
+        
+        /* Site Header Toolbar Styles */
+        .site-header {
+            position: sticky;
+            top: 0;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .site-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--primary-color);
+            transition: color 0.3s ease;
+        }
+
+        .site-title:hover {
+            color: var(--accent-color);
+        }
+
+        .coffee-icon {
+            font-size: 1.5rem;
+            filter: drop-shadow(0 2px 4px rgba(212, 165, 116, 0.3));
+        }
+
+        .title-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.current {
+            color: var(--accent-color);
+            background: rgba(212, 165, 116, 0.1);
+        }
+
+        .instagram-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .burger-menu {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100vh;
+            background: var(--bg-color);
+            transition: left 0.3s ease;
+            z-index: 1001;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .mobile-nav.open {
+            left: 0;
+        }
+
+        .close-btn {
+            align-self: flex-end;
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .mobile-nav a {
+            text-decoration: none;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            font-weight: 500;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+            transition: color 0.2s ease;
+        }
+
+        .mobile-nav a:hover,
+        .mobile-nav a.current {
+            color: var(--accent-color);
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 1rem;
             }
             
-            /* Hide the map help text on mobile since map is anchored */
-            .modal[style*="block"] .map-help-text {
+            .nav-links {
                 display: none;
             }
             
-            /* Add a visual indicator that the map is at the bottom */
-            .modal[style*="block"] .form-group:has(#edit-map)::after {
-                content: "📍 Location map is anchored at the bottom of the screen";
+            .burger-menu {
                 display: block;
-                padding: 1rem;
-                background: #d4a574;
-                color: #000;
-                border-radius: 8px;
-                text-align: center;
-                font-size: 0.9rem;
-                font-weight: 500;
-                margin-top: 1rem;
             }
+            
+            .main-title {
+                font-size: 1rem;
+            }
+        }
+
+        /* Adjust container for toolbar */
+        .container {
+            margin-top: 2rem;
+        }
+
+        /* Mobile scroll disable */
+        .mobile-scroll-disabled {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
         }
     </style>
     
@@ -682,6 +1053,39 @@
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAU-6iLL4pyuj5wA6SwgYa5wPlPMR6jkxk&libraries=places&callback=initGoogleMaps&loading=async"></script>
 </head>
 <body>
+    <header class="site-header">
+        <nav class="nav-container">
+            <a href="/" class="site-title">
+                <span class="coffee-icon">☕</span>
+                <div class="title-content no-breadcrumb">
+                    <h1 class="main-title">World Coffee Tour</h1>
+                </div>
+            </a>
+            <div class="nav-links">
+                <a href="/">The Tour</a>
+                <a href="/admin.html" class="current">Admin</a>
+                <a href="/about">About</a>
+                <a href="https://instagram.com/joegaudet" target="_blank" rel="noopener">
+                    <svg class="instagram-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                    </svg>
+                </a>
+            </div>
+            <button class="burger-menu" id="burger-menu">☰</button>
+        </nav>
+        
+        <!-- Mobile Navigation -->
+        <nav class="mobile-nav" id="mobile-nav">
+            <button class="close-btn" id="close-mobile-nav">×</button>
+            <a href="/">The Tour</a>
+            <a href="/admin.html" class="current">Admin</a>
+            <a href="/about">About</a>
+            <a href="https://instagram.com/joegaudet" target="_blank" rel="noopener">Instagram</a>
+        </nav>
+    </header>
+
     <div class="container">
         <div class="header">
             <h1>☕ Coffee Posts Admin</h1>
@@ -698,12 +1102,12 @@
                 <div>Published</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number" id="unpublished-posts">-</div>
-                <div>Unpublished</div>
-            </div>
-            <div class="stat-card">
                 <div class="stat-number" id="unrated-posts">-</div>
                 <div>Unrated</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="needs-polish-posts">-</div>
+                <div>Needs Polish</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number" id="problematic-posts">-</div>
@@ -718,8 +1122,8 @@
 
         <div class="tabs">
             <button class="tab active" onclick="switchTab('published')">Published</button>
-            <button class="tab" onclick="switchTab('unpublished')">Unpublished</button>
             <button class="tab" onclick="switchTab('unrated')">Unrated</button>
+            <button class="tab" onclick="switchTab('needs-polish')">Needs Polish</button>
             <button class="tab" onclick="switchTab('problematic')">Problematic</button>
         </div>
 
@@ -727,12 +1131,13 @@
             <div class="posts-grid" id="published-posts-grid"></div>
         </div>
 
-        <div class="tab-content" id="unpublished-content">
-            <div class="posts-grid" id="unpublished-posts-grid"></div>
-        </div>
 
         <div class="tab-content" id="unrated-content">
             <div class="posts-grid" id="unrated-posts-grid"></div>
+        </div>
+
+        <div class="tab-content" id="needs-polish-content">
+            <div class="posts-grid" id="needs-polish-posts-grid"></div>
         </div>
 
         <div class="tab-content" id="problematic-content">
@@ -764,6 +1169,12 @@
                 </div>
                 
                 <div class="form-group">
+                    <label>Images</label>
+                    <div class="images-list" id="images-list"></div>
+                    <button type="button" onclick="addImageField()">Add Image</button>
+                </div>
+                
+                <div class="form-group">
                     <label for="date">Date</label>
                     <input type="date" id="date" required>
                 </div>
@@ -776,9 +1187,17 @@
                 <div class="form-group">
                     <label for="location-search">Location Search</label>
                     <div class="location-search-container">
-                        <input type="text" id="location-search" placeholder="Type city, country, or address...">
+                        <input type="text" id="location-search" placeholder="Type city, country, address, or paste Google Maps URL...">
                         <div class="search-status" id="search-status"></div>
                         <div id="location-suggestions" class="location-suggestions"></div>
+                    </div>
+                    <div id="geocode-preview-container" class="geocode-preview-container" style="display: none;">
+                        <div class="geocode-info">
+                            <h4 id="geocode-location-name">Selected Location</h4>
+                            <p id="geocode-address">Address will appear here</p>
+                            <p id="geocode-coords">Coordinates: --</p>
+                        </div>
+                        <div id="geocode-preview-map" style="height: 200px; border: 1px solid #2a2a2a; border-radius: 8px; background: #1a1a1a;"></div>
                     </div>
                 </div>
                 
@@ -815,15 +1234,6 @@
                     <input type="number" id="longitude" step="any">
                 </div>
                 
-                <!-- Map to show the location -->
-                <div class="form-group">
-                    <label>Location on Map</label>
-                    <div id="edit-map" style="height: 300px; border: 1px solid #2a2a2a; border-radius: 8px; background: #1a1a1a;"></div>
-                    <p class="map-help-text" style="font-size: 0.8rem; color: #a0a0a0; margin-top: 0.5rem;">
-                        Click on the map to set location, or enter coordinates above to see the location.
-                    </p>
-                </div>
-                
                 <div class="form-group">
                     <label for="rating">Rating</label>
                     <select id="rating">
@@ -837,13 +1247,6 @@
                     </select>
                 </div>
                 
-                
-                
-                <div class="form-group">
-                    <label>Images</label>
-                    <div class="images-list" id="images-list"></div>
-                    <button type="button" onclick="addImageField()">Add Image</button>
-                </div>
                 
                 <div style="display: flex; gap: 1rem; margin-top: 2rem;">
                     <button type="submit" class="btn btn-primary">Save Changes</button>
@@ -866,8 +1269,8 @@
         const API_BASE = 'http://localhost:8081/api';
         let allPosts = [];
         let currentPost = null;
-        let editMap = null;
-        let editMapMarker = null;
+        let previewMap = null;
+        let previewMapMarker = null;
 
         // Check if post is problematic (missing required data)
         function isProblematic(post) {
@@ -876,6 +1279,28 @@
                    !post.country || post.country === 'Unknown' ||
                    !post.latitude || !post.longitude ||
                    !post.continent;
+        }
+        
+        function needsPolish(post) {
+            // Posts that have basic info but could use some polish
+            if (isProblematic(post) || (!post.rating || post.rating === '' || post.rating == 0)) {
+                return false; // Already covered by other categories
+            }
+            
+            // Posts that need polish have rating and basic location but are missing refinements
+            const hasShortNotes = !post.notes || post.notes.length < 50;
+            const hasNoCoordinates = !post.latitude || !post.longitude;
+            const hasNoInstagramUrl = !post.instagram_url || post.instagram_url === '';
+            const hasGenericCafeName = post.cafe_name && (
+                post.cafe_name.toLowerCase().includes('coffee') ||
+                post.cafe_name.toLowerCase().includes('cafe') ||
+                post.cafe_name.toLowerCase().includes('starbucks') ||
+                post.cafe_name.toLowerCase() === 'unknown'
+            );
+            
+            // A post needs polish if it has 2 or more of these issues
+            const issues = [hasShortNotes, hasNoCoordinates, hasNoInstagramUrl, hasGenericCafeName].filter(Boolean).length;
+            return issues >= 2;
         }
 
         // Advanced location search with OpenStreetMap Nominatim
@@ -903,7 +1328,16 @@
                     return;
                 }
                 
-                // Show searching indicator
+                // Check if input is a Google Maps/Places URL
+                if (isGoogleMapsUrl(query)) {
+                    showSearching();
+                    searchTimeout = setTimeout(async () => {
+                        await handleGoogleMapsUrl(query);
+                    }, 100); // Faster for URL parsing
+                    return;
+                }
+                
+                // Show searching indicator for regular search
                 showSearching();
                 
                 searchTimeout = setTimeout(async () => {
@@ -922,9 +1356,429 @@
             // Clear search on escape
             searchInput.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') {
-                    hideSuggestions();
+                    // Check if image modal is open first - don't interfere with it
+                    const imageModal = document.getElementById('image-modal');
+                    if (imageModal && imageModal.style.display === 'block') {
+                        return; // Let the global handler deal with the image modal
+                    }
+                    
+                    // Check if suggestions are actually visible before handling
+                    const suggestionsDiv = document.getElementById('location-suggestions');
+                    if (suggestionsDiv && suggestionsDiv.style.display !== 'none' && 
+                        suggestionsDiv.innerHTML.trim() !== '') {
+                        e.stopPropagation();
+                        hideSuggestions();
+                    }
                 }
             });
+        }
+        
+        function isGoogleMapsUrl(input) {
+            // Check for various Google Maps URL formats
+            const googleMapsPatterns = [
+                /maps\.google\./,                    // maps.google.com
+                /google\.[a-z]+\/maps/,              // google.com/maps
+                /goo\.gl\/maps/,                     // goo.gl/maps shortlinks
+                /maps\.app\.goo\.gl/,                // New Google Maps app links
+                /plus\.codes/,                       // Plus codes
+                /@-?\d+\.\d+,-?\d+\.\d+/,           // Coordinates pattern
+                /\/place\/[^\/]+\//,                 // Place URLs
+                /\/search\/[^\/]+\//,                // Search URLs
+                /maps\.google\.[a-z]+.*\/place\//,   // International Google Maps place URLs
+                /www\.google\.[a-z]+\/maps\/place\//,// Full place URLs
+                /data=![0-9a-z!]+/i,                 // Data parameter format
+                /1s0x[0-9a-f]+:[0-9a-fx]+/i         // Place ID in hex format
+            ];
+            
+            return googleMapsPatterns.some(pattern => pattern.test(input));
+        }
+        
+        function decodeHexPlaceId(hexPlaceId) {
+            try {
+                // Google's hex place IDs like "0x60188d1dd146c245:0x53e0643b30af938a" 
+                // or "0x0:0x2d8135d837707e22" (single coordinate encoding)
+                const parts = hexPlaceId.split(':');
+                if (parts.length === 2) {
+                    const hex1 = parts[0];
+                    const hex2 = parts[1];
+                    
+                    console.log('Decoding place ID:', hexPlaceId);
+                    console.log('Hex parts:', hex1, hex2);
+                    
+                    // Handle special case where one part is 0x0
+                    if (hex1 === '0x0' && hex2 !== '0x0') {
+                        // Single coordinate encoding - only second part contains data
+                        const int2 = hexToSignedInt64(hex2);
+                        if (int2 !== null) {
+                            // For single coordinate encoding, try different algorithms
+                            console.log('Single coordinate encoding detected, int value:', int2);
+                            
+                            // This is a common pattern for specific place IDs
+                            // The exact algorithm is proprietary, but we can try known patterns
+                            return tryDecodeFromSingleHex(int2, hex2);
+                        }
+                    } else if (hex2 === '0x0' && hex1 !== '0x0') {
+                        // Single coordinate encoding - only first part contains data
+                        const int1 = hexToSignedInt64(hex1);
+                        if (int1 !== null) {
+                            console.log('Single coordinate encoding detected, int value:', int1);
+                            return tryDecodeFromSingleHex(int1, hex1);
+                        }
+                    } else {
+                        // Dual coordinate encoding
+                        const int1 = hexToSignedInt64(hex1);
+                        const int2 = hexToSignedInt64(hex2);
+                        
+                        if (int1 !== null && int2 !== null) {
+                            return tryDecodeDualCoordinates(int1, int2);
+                        }
+                    }
+                    
+                    console.log('Could not decode coordinates from place ID:', hexPlaceId);
+                    return null;
+                }
+                return null;
+            } catch (error) {
+                console.error('Error decoding hex place ID:', error);
+                return null;
+            }
+        }
+        
+        function tryDecodeDualCoordinates(int1, int2) {
+            // Google uses a specific encoding for coordinates
+            // The exact formula is proprietary, but we can approximate
+            
+            // Method 1: Try treating as direct coordinate encoding
+            let lat = int2 / 1e7;
+            let lng = int1 / 1e7;
+            
+            if (Math.abs(lat) <= 90 && Math.abs(lng) <= 180) {
+                console.log(`Decoded coordinates (dual method 1): ${lat}, ${lng}`);
+                return { lat: lat, lng: lng };
+            }
+            
+            // Method 2: Try different scaling factor
+            lat = int2 / 1e6;
+            lng = int1 / 1e6;
+            
+            if (Math.abs(lat) <= 90 && Math.abs(lng) <= 180) {
+                console.log(`Decoded coordinates (dual method 2): ${lat}, ${lng}`);
+                return { lat: lat, lng: lng };
+            }
+            
+            // Method 3: Try with offset and different scaling
+            const GOOGLE_OFFSET = 0x100000000;
+            lat = (int2 - GOOGLE_OFFSET) / 1e7;
+            lng = (int1 - GOOGLE_OFFSET) / 1e7;
+            
+            if (Math.abs(lat) <= 90 && Math.abs(lng) <= 180) {
+                console.log(`Decoded coordinates (dual method 3): ${lat}, ${lng}`);
+                return { lat: lat, lng: lng };
+            }
+            
+            return null;
+        }
+        
+        function tryDecodeFromSingleHex(intValue, hexValue) {
+            // For place IDs like 0x0:0x2d8135d837707e22
+            // The single hex value contains encoded lat/lng information
+            
+            console.log('Attempting single hex decode for:', hexValue, 'int:', intValue);
+            
+            // Method 1: Try to extract lat/lng from the 64-bit integer
+            // Some place IDs encode both coordinates in a single 64-bit value
+            const high32 = Math.floor(intValue / 0x100000000);
+            const low32 = intValue % 0x100000000;
+            
+            let lat = high32 / 1e7;
+            let lng = low32 / 1e7;
+            
+            if (Math.abs(lat) <= 90 && Math.abs(lng) <= 180) {
+                console.log(`Decoded coordinates (single method 1): ${lat}, ${lng}`);
+                return { lat: lat, lng: lng };
+            }
+            
+            // Method 2: Try different bit splitting
+            const upper = (intValue >> 32) & 0xFFFFFFFF;
+            const lower = intValue & 0xFFFFFFFF;
+            
+            lat = upper / 1e7;
+            lng = lower / 1e7;
+            
+            if (Math.abs(lat) <= 90 && Math.abs(lng) <= 180) {
+                console.log(`Decoded coordinates (single method 2): ${lat}, ${lng}`);
+                return { lat: lat, lng: lng };
+            }
+            
+            // Method 3: Try with different scaling and signed conversion
+            lat = ((intValue >> 32) | 0) / 1e7; // Force signed 32-bit
+            lng = ((intValue & 0xFFFFFFFF) | 0) / 1e7; // Force signed 32-bit
+            
+            if (Math.abs(lat) <= 90 && Math.abs(lng) <= 180) {
+                console.log(`Decoded coordinates (single method 3): ${lat}, ${lng}`);
+                return { lat: lat, lng: lng };
+            }
+            
+            console.log('Could not decode single hex coordinate');
+            return null;
+        }
+        
+        function hexToSignedInt64(hexString) {
+            try {
+                // Remove 0x prefix if present
+                const hex = hexString.replace('0x', '');
+                
+                // Convert to BigInt for 64-bit precision
+                const bigInt = BigInt('0x' + hex);
+                
+                // Convert to signed 64-bit integer
+                const maxInt64 = BigInt('0x7FFFFFFFFFFFFFFF');
+                const minInt64 = BigInt('-0x8000000000000000');
+                
+                if (bigInt > maxInt64) {
+                    // Handle unsigned to signed conversion
+                    return Number(bigInt - BigInt('0x10000000000000000'));
+                } else {
+                    return Number(bigInt);
+                }
+            } catch (error) {
+                console.error('Error converting hex to signed int64:', error);
+                return null;
+            }
+        }
+        
+        function extractLocationFromGoogleUrl(url) {
+            const locationInfo = {
+                name: null,
+                address: null,
+                coordinates: null,
+                placeId: null
+            };
+            
+            try {
+                // Extract coordinates from URL (most reliable)
+                // Handle @lat,lng,zoom format (more common)
+                let coordMatch = url.match(/@(-?\d+\.\d+),(-?\d+\.\d+),\d+/);
+                if (coordMatch) {
+                    locationInfo.coordinates = {
+                        lat: parseFloat(coordMatch[1]),
+                        lng: parseFloat(coordMatch[2])
+                    };
+                } else {
+                    // Handle @lat,lng format (without zoom)
+                    coordMatch = url.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
+                    if (coordMatch) {
+                        locationInfo.coordinates = {
+                            lat: parseFloat(coordMatch[1]),
+                            lng: parseFloat(coordMatch[2])
+                        };
+                    }
+                }
+                
+                // Extract place name from various URL formats
+                let nameMatch = null;
+                
+                // Format: /place/Name+Here/ or /place/Name%20Here/ or /place/Name/
+                nameMatch = url.match(/\/place\/([^\/\?&@]+)/);
+                if (nameMatch) {
+                    let placeName = decodeURIComponent(nameMatch[1]).replace(/\+/g, ' ');
+                    // Clean up common artifacts
+                    placeName = placeName.replace(/\s+/g, ' ').trim();
+                    locationInfo.name = placeName;
+                    console.log('Extracted place name:', placeName);
+                }
+                
+                // Format: /search/Name+Here/
+                if (!locationInfo.name) {
+                    nameMatch = url.match(/\/search\/([^\/\?&@]+)/);
+                    if (nameMatch) {
+                        locationInfo.name = decodeURIComponent(nameMatch[1]).replace(/\+/g, ' ');
+                    }
+                }
+                
+                // Format: search query parameter
+                if (!locationInfo.name) {
+                    try {
+                        const urlObj = new URL(url);
+                        const query = urlObj.searchParams.get('q') || urlObj.searchParams.get('query');
+                        if (query) {
+                            locationInfo.name = decodeURIComponent(query);
+                        }
+                    } catch (urlError) {
+                        // URL might be malformed, continue with other extraction methods
+                    }
+                }
+                
+                // Format: data parameter (some Google Maps URLs use this)
+                if (!locationInfo.name) {
+                    const dataMatch = url.match(/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/);
+                    if (dataMatch && !locationInfo.coordinates) {
+                        locationInfo.coordinates = {
+                            lat: parseFloat(dataMatch[1]),
+                            lng: parseFloat(dataMatch[2])
+                        };
+                    }
+                }
+                
+                // Extract place ID from various formats
+                let placeIdMatch = url.match(/place_id:([a-zA-Z0-9_-]+)/);
+                if (placeIdMatch) {
+                    locationInfo.placeId = placeIdMatch[1];
+                } else {
+                    // Try to extract from hex format like 1s0x60188d1dd146c245:0x53e0643b30af938a
+                    placeIdMatch = url.match(/1s(0x[0-9a-f]+:[0-9a-fx]+)/i);
+                    if (placeIdMatch) {
+                        locationInfo.placeId = placeIdMatch[1];
+                        
+                        // Try to decode hex place ID to coordinates
+                        const coords = decodeHexPlaceId(placeIdMatch[1]);
+                        if (coords) {
+                            locationInfo.coordinates = coords;
+                            console.log('Decoded coordinates from place ID:', coords);
+                        }
+                    }
+                }
+                
+                return locationInfo;
+                
+            } catch (error) {
+                console.error('Error parsing Google Maps URL:', error);
+                return locationInfo;
+            }
+        }
+        
+        async function handleGoogleMapsUrl(url) {
+            try {
+                const locationInfo = extractLocationFromGoogleUrl(url);
+                console.log('Extracted location info:', locationInfo);
+                
+                // Always prioritize coordinates if we have them (from @lat,lng or decoded place ID)
+                if (locationInfo.coordinates) {
+                    console.log('Using coordinates directly from URL:', locationInfo.coordinates);
+                    // Use reverse geocoding to get detailed address information
+                    await reverseGeocode(locationInfo.coordinates.lat, locationInfo.coordinates.lng, locationInfo.name);
+                    return; // Stop here - don't fall back to search
+                }
+                
+                // If no coordinates but we have a clear business name, use that
+                if (locationInfo.name) {
+                    console.log('No coordinates found, using business name for search:', locationInfo.name);
+                    await performLocationSearch(locationInfo.name);
+                    return;
+                }
+                
+                // Last resort: extract business name from URL and search
+                throw new Error('Could not extract coordinates or clear business name from the Google Maps URL');
+                
+            } catch (error) {
+                console.error('Error handling Google Maps URL:', error);
+                showError('Could not extract location information from this Google Maps URL. Please try copying the business name directly.');
+            }
+        }
+        
+        async function searchByPlaceInfo(locationInfo, originalUrl) {
+            try {
+                // If we can't extract clear information, try to extract business name from URL path
+                let searchTerm = null;
+                
+                // Try to extract from the place path
+                const pathMatch = originalUrl.match(/\/place\/([^\/\?&]+)/);
+                if (pathMatch) {
+                    let fullName = decodeURIComponent(pathMatch[1]).replace(/\+/g, ' ');
+                    console.log('Full extracted name:', fullName);
+                    
+                    // If it looks like "Business+location+type", try just the first part
+                    if (fullName.includes(' ')) {
+                        const parts = fullName.split(' ');
+                        // Try the first word first (likely the business name)
+                        searchTerm = parts[0];
+                        console.log('Trying first part of name:', searchTerm);
+                    } else {
+                        searchTerm = fullName;
+                    }
+                }
+                
+                if (searchTerm) {
+                    console.log('Searching for business name:', searchTerm);
+                    await performLocationSearch(searchTerm);
+                } else {
+                    throw new Error('Could not extract searchable information from the URL');
+                }
+                
+            } catch (error) {
+                console.error('Error searching by place info:', error);
+                showError('Could not extract location information from this Google Maps URL format. Please try copying the business name directly.');
+            }
+        }
+        
+        async function reverseGeocode(lat, lng, placeName = null) {
+            try {
+                // Use Nominatim for reverse geocoding
+                const response = await fetch(
+                    `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&addressdetails=1&accept-language=en`,
+                    { 
+                        signal: currentSearchController?.signal,
+                        headers: {
+                            'User-Agent': 'WorldCoffeeTour-Admin/1.0'
+                        }
+                    }
+                );
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data && data.lat && data.lon) {
+                    // Create a result object similar to regular search results
+                    const result = {
+                        lat: parseFloat(data.lat),
+                        lon: parseFloat(data.lon),
+                        display_name: data.display_name || `${lat.toFixed(4)}, ${lng.toFixed(4)}`,
+                        address: data.address || {},
+                        boundingbox: data.boundingbox
+                    };
+                    
+                    // Use the provided place name if available, otherwise use the geocoded name
+                    const displayName = placeName || result.display_name;
+                    console.log('Reverse geocode result:', {
+                        providedName: placeName,
+                        geocodedName: result.display_name,
+                        finalName: displayName,
+                        coordinates: `${lat}, ${lng}`
+                    });
+                    
+                    // Update the search input to show the place name
+                    document.getElementById('location-search').value = displayName;
+                    
+                    // Fill the form with location data
+                    fillLocationFromNominatim(result);
+                    
+                    // Show preview
+                    showGeocodePreview(result, displayName);
+                    
+                    // Clear suggestions
+                    hideSuggestions();
+                    
+                    // Show success message
+                    const searchStatus = document.getElementById('search-status');
+                    searchStatus.textContent = '✓ Location found from Google Maps URL';
+                    searchStatus.className = 'search-status success';
+                    
+                } else {
+                    throw new Error('Invalid response from geocoder');
+                }
+                
+            } catch (error) {
+                console.error('Reverse geocoding failed:', error);
+                // Fallback to regular search if we have a place name
+                if (placeName) {
+                    await performLocationSearch(placeName);
+                } else {
+                    showError('Could not find location information for the provided coordinates.');
+                }
+            }
         }
         
         function showSearching() {
@@ -936,6 +1790,17 @@
             
             suggestionsDiv.innerHTML = '<div class="search-indicator">🔍 Searching locations...</div>';
             suggestionsDiv.className = 'location-suggestions searching';
+        }
+        
+        function showError(message) {
+            const suggestionsDiv = document.getElementById('location-suggestions');
+            const searchStatus = document.getElementById('search-status');
+            
+            searchStatus.textContent = '✗ Error';
+            searchStatus.className = 'search-status error';
+            
+            suggestionsDiv.innerHTML = `<div class="search-error">⚠️ ${message}</div>`;
+            suggestionsDiv.className = 'location-suggestions error';
         }
         
         function hideSuggestions() {
@@ -1298,9 +2163,13 @@
                 suggestion.classList.add('cafe-suggestion');
             }
             
+            // Create full address for display
+            const fullAddress = result.display_name || [businessName, city, state, country].filter(x => x).join(', ');
+            
             suggestion.innerHTML = `
                 <div class="suggestion-content">
                     <div class="suggestion-name">${displayName}</div>
+                    <div class="suggestion-address">${fullAddress}</div>
                     <div class="suggestion-details">
                         ${businessType ? `<span class="business-type">${businessType}</span>` : ''}
                         <span class="location-info">${[city, state, country].filter(x => x).join(', ')}</span>
@@ -1315,6 +2184,7 @@
             suggestion.addEventListener('click', () => {
                 document.getElementById('location-search').value = businessName;
                 fillLocationFromNominatim(result);
+                showGeocodePreview(result, businessName);
                 hideSuggestions();
             });
             
@@ -1527,9 +2397,61 @@
             `;
             suggestionsDiv.style.display = 'block';
         }
+        
+        function showGeocodePreview(result, businessName) {
+            const previewContainer = document.getElementById('geocode-preview-container');
+            const locationName = document.getElementById('geocode-location-name');
+            const address = document.getElementById('geocode-address');
+            const coords = document.getElementById('geocode-coords');
+            const mapContainer = document.getElementById('geocode-preview-map');
+            
+            const lat = parseFloat(result.lat);
+            const lng = parseFloat(result.lon);
+            const displayName = result.display_name || businessName;
+            
+            // Update info
+            locationName.textContent = businessName || 'Selected Location';
+            address.textContent = displayName;
+            coords.textContent = `Coordinates: ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+            
+            // Show container
+            previewContainer.style.display = 'block';
+            
+            // Initialize or update map
+            setTimeout(() => {
+                if (!previewMap) {
+                    previewMap = L.map('geocode-preview-map').setView([lat, lng], 15);
+                    
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '© OpenStreetMap contributors'
+                    }).addTo(previewMap);
+                    
+                    previewMapMarker = L.marker([lat, lng])
+                        .addTo(previewMap)
+                        .bindPopup(businessName || 'Selected Location');
+                } else {
+                    previewMap.setView([lat, lng], 15);
+                    previewMapMarker.setLatLng([lat, lng]);
+                    previewMapMarker.setPopupContent(businessName || 'Selected Location');
+                    previewMap.invalidateSize();
+                }
+            }, 100);
+        }
+        
+        function hideGeocodePreview() {
+            const previewContainer = document.getElementById('geocode-preview-container');
+            previewContainer.style.display = 'none';
+            
+            if (previewMap) {
+                previewMap.remove();
+                previewMap = null;
+                previewMapMarker = null;
+            }
+        }
 
         // Load initial data
         document.addEventListener('DOMContentLoaded', function() {
+            initializeFromQueryString(); // Set up correct tab from URL
             loadPosts(); // loadStats will be called after posts are loaded
             setupLocationSearch();
             
@@ -1539,15 +2461,25 @@
                     const modal = document.getElementById('edit-modal');
                     const imageModal = document.getElementById('image-modal');
                     
-                    // Close edit modal if it's open
+                    // Prioritize image modal - close it first if it's open
+                    if (imageModal && imageModal.style.display === 'block') {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        e.stopImmediatePropagation();
+                        closeImageModal();
+                        return;
+                    }
+                    
+                    // Close edit modal only if image modal is not open
                     if (modal && modal.style.display === 'block') {
                         closeModal();
                     }
-                    // Close image modal if it's open
-                    else if (imageModal && imageModal.style.display === 'block') {
-                        closeImageModal();
-                    }
                 }
+            }, true); // Use capture phase to run before other handlers
+            
+            // Handle browser back/forward buttons
+            window.addEventListener('popstate', function() {
+                initializeFromQueryString();
             });
         });
 
@@ -1556,14 +2488,14 @@
             if (allPosts.length === 0) return;
             
             const problematicCount = allPosts.filter(post => post.published && isProblematic(post)).length;
-            const publishedCount = allPosts.filter(post => post.published && !isProblematic(post)).length;
-            const unpublishedCount = allPosts.filter(post => !post.published && !isProblematic(post)).length;
+            const publishedCount = allPosts.filter(post => post.published && !isProblematic(post) && post.rating && post.rating > 0 && !needsPolish(post)).length;
             const unratedCount = allPosts.filter(post => post.published && !isProblematic(post) && (!post.rating || post.rating === '' || post.rating == 0)).length;
+            const needsPolishCount = allPosts.filter(post => post.published && needsPolish(post)).length;
             
             document.getElementById('total-posts').textContent = allPosts.length;
             document.getElementById('published-posts').textContent = publishedCount;
-            document.getElementById('unpublished-posts').textContent = unpublishedCount;
             document.getElementById('unrated-posts').textContent = unratedCount;
+            document.getElementById('needs-polish-posts').textContent = needsPolishCount;
             document.getElementById('problematic-posts').textContent = problematicCount;
         }
 
@@ -1582,35 +2514,134 @@
 
         function renderPosts() {
             const publishedGrid = document.getElementById('published-posts-grid');
-            const unpublishedGrid = document.getElementById('unpublished-posts-grid');
             const unratedGrid = document.getElementById('unrated-posts-grid');
+            const needsPolishGrid = document.getElementById('needs-polish-posts-grid');
             const problematicGrid = document.getElementById('problematic-posts-grid');
             
             publishedGrid.innerHTML = '';
-            unpublishedGrid.innerHTML = '';
             unratedGrid.innerHTML = '';
+            needsPolishGrid.innerHTML = '';
             problematicGrid.innerHTML = '';
 
             const problematicPosts = allPosts.filter(post => post.published && isProblematic(post));
-            const publishedPosts = allPosts.filter(post => post.published && !isProblematic(post));
-            const unpublishedPosts = allPosts.filter(post => !post.published && !isProblematic(post));
+            const publishedPosts = allPosts.filter(post => post.published && !isProblematic(post) && post.rating && post.rating > 0 && !needsPolish(post));
             const unratedPosts = allPosts.filter(post => post.published && !isProblematic(post) && (!post.rating || post.rating === '' || post.rating == 0));
+            const needsPolishPosts = allPosts.filter(post => post.published && needsPolish(post));
 
-            publishedPosts.forEach(post => {
-                publishedGrid.appendChild(createPostCard(post));
+            // Group posts by continent, country, city
+            renderGroupedPosts(publishedGrid, publishedPosts);
+            renderGroupedPosts(unratedGrid, unratedPosts);
+            renderGroupedPosts(needsPolishGrid, needsPolishPosts);
+            renderGroupedPosts(problematicGrid, problematicPosts);
+        }
+        
+        function renderGroupedPosts(container, posts) {
+            // Group posts by continent -> country -> city
+            const grouped = {};
+            
+            posts.forEach(post => {
+                const continent = getContinent(post.country) || 'Unknown';
+                const country = post.country || 'Unknown';
+                const city = post.city || 'Unknown';
+                
+                if (!grouped[continent]) grouped[continent] = {};
+                if (!grouped[continent][country]) grouped[continent][country] = {};
+                if (!grouped[continent][country][city]) grouped[continent][country][city] = [];
+                
+                grouped[continent][country][city].push(post);
             });
-
-            unpublishedPosts.forEach(post => {
-                unpublishedGrid.appendChild(createPostCard(post));
+            
+            // Sort continents, countries, and cities
+            const sortedContinents = Object.keys(grouped).sort();
+            
+            sortedContinents.forEach(continent => {
+                // Create continent section
+                const continentDiv = document.createElement('div');
+                continentDiv.className = 'continent-group';
+                continentDiv.innerHTML = `<h3 class="continent-header">${continent}</h3>`;
+                
+                const sortedCountries = Object.keys(grouped[continent]).sort();
+                
+                sortedCountries.forEach(country => {
+                    // Create country section
+                    const countryDiv = document.createElement('div');
+                    countryDiv.className = 'country-group';
+                    countryDiv.innerHTML = `<h4 class="country-header">${country}</h4>`;
+                    
+                    const sortedCities = Object.keys(grouped[continent][country]).sort();
+                    
+                    sortedCities.forEach(city => {
+                        // Create city section
+                        const cityDiv = document.createElement('div');
+                        cityDiv.className = 'city-group';
+                        cityDiv.innerHTML = `<h5 class="city-header">📍 ${city}</h5>`;
+                        
+                        const cityPosts = grouped[continent][country][city];
+                        const postsGrid = document.createElement('div');
+                        postsGrid.className = 'posts-grid';
+                        
+                        // Sort posts by date (newest first)
+                        cityPosts.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+                        
+                        cityPosts.forEach(post => {
+                            postsGrid.appendChild(createPostCard(post));
+                        });
+                        
+                        cityDiv.appendChild(postsGrid);
+                        countryDiv.appendChild(cityDiv);
+                    });
+                    
+                    continentDiv.appendChild(countryDiv);
+                });
+                
+                container.appendChild(continentDiv);
             });
-
-            unratedPosts.forEach(post => {
-                unratedGrid.appendChild(createPostCard(post));
-            });
-
-            problematicPosts.forEach(post => {
-                problematicGrid.appendChild(createPostCard(post));
-            });
+        }
+        
+        function getContinent(country) {
+            // Map countries to continents
+            const continentMap = {
+                'Canada': 'North America',
+                'United States': 'North America',
+                'Mexico': 'North America',
+                'Chile': 'South America',
+                'Argentina': 'South America',
+                'Brazil': 'South America',
+                'Peru': 'South America',
+                'Colombia': 'South America',
+                'United Kingdom': 'Europe',
+                'Ireland': 'Europe',
+                'France': 'Europe',
+                'Germany': 'Europe',
+                'Italy': 'Europe',
+                'Spain': 'Europe',
+                'Portugal': 'Europe',
+                'Netherlands': 'Europe',
+                'Belgium': 'Europe',
+                'Switzerland': 'Europe',
+                'Austria': 'Europe',
+                'Sweden': 'Europe',
+                'Norway': 'Europe',
+                'Denmark': 'Europe',
+                'Finland': 'Europe',
+                'Japan': 'Asia',
+                'China': 'Asia',
+                'South Korea': 'Asia',
+                'Thailand': 'Asia',
+                'Vietnam': 'Asia',
+                'Singapore': 'Asia',
+                'Malaysia': 'Asia',
+                'Indonesia': 'Asia',
+                'Philippines': 'Asia',
+                'India': 'Asia',
+                'Australia': 'Oceania',
+                'New Zealand': 'Oceania',
+                'South Africa': 'Africa',
+                'Kenya': 'Africa',
+                'Ethiopia': 'Africa',
+                'Morocco': 'Africa'
+            };
+            return continentMap[country];
         }
 
         function createPostCard(post) {
@@ -1638,25 +2669,68 @@
                     ${post.notes ? `<div class="post-description">${post.notes}</div>` : ''}
                 </div>
                 <div class="post-actions">
-                    <button class="btn btn-primary" onclick="editPost(${post.id})">Edit</button>
-                    <button class="btn ${post.published ? 'btn-secondary' : 'btn-primary'}" onclick="togglePublish(${post.id}, ${post.published})">
-                        ${post.published ? 'Unpublish' : 'Publish'}
-                    </button>
+                    <div class="inline-rating" data-post-id="${post.id}">
+                        <span class="rating-label">Rate:</span>
+                        ${[1,2,3,4,5,6].map(star => `
+                            <button class="rating-star ${post.rating >= star ? 'active' : ''}" 
+                                    data-rating="${star}" 
+                                    onclick="updatePostRating(${post.id}, ${star})"
+                                    title="${star === 6 ? '5+ cups' : star + ' cup' + (star > 1 ? 's' : '')}">
+                                ☕
+                            </button>
+                        `).join('')}
+                        ${post.rating ? `<span class="current-rating">${post.rating === 6 ? '5+' : post.rating}</span>` : ''}
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="editPost(${post.id})">Edit</button>
+                        <button class="btn ${post.published ? 'btn-secondary' : 'btn-primary'}" onclick="togglePublish(${post.id}, ${post.published})">
+                            ${post.published ? 'Unpublish' : 'Publish'}
+                        </button>
+                    </div>
                 </div>
             `;
 
             return card;
         }
 
-        function switchTab(tab) {
+        function switchTab(tab, updateUrl = true) {
             // Update tab buttons
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            const tabIndex = tab === 'published' ? 1 : tab === 'unpublished' ? 2 : tab === 'unrated' ? 3 : 4;
+            const tabIndex = tab === 'published' ? 1 : tab === 'unrated' ? 2 : tab === 'needs-polish' ? 3 : 4;
             document.querySelector(`.tab:nth-child(${tabIndex})`).classList.add('active');
 
             // Update tab content
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.getElementById(`${tab}-content`).classList.add('active');
+            
+            // Update URL query string
+            if (updateUrl) {
+                updateQueryString('tab', tab);
+            }
+        }
+        
+        function updateQueryString(key, value) {
+            const url = new URL(window.location);
+            if (value && value !== 'published') { // Don't add query for default tab
+                url.searchParams.set(key, value);
+            } else {
+                url.searchParams.delete(key);
+            }
+            window.history.pushState({}, '', url);
+        }
+        
+        function getQueryParam(key, defaultValue) {
+            const url = new URL(window.location);
+            return url.searchParams.get(key) || defaultValue;
+        }
+        
+        function initializeFromQueryString() {
+            const tab = getQueryParam('tab', 'published');
+            const validTabs = ['published', 'unrated', 'needs-polish', 'problematic'];
+            
+            if (validTabs.includes(tab)) {
+                switchTab(tab, false); // Don't update URL when initializing
+            }
         }
 
         async function editPost(id) {
@@ -1680,10 +2754,6 @@
                 renderImagesList(currentPost.images || []);
                 document.getElementById('edit-modal').style.display = 'block';
                 
-                // Initialize map after modal is shown
-                setTimeout(() => {
-                    initEditMap();
-                }, 100);
             } catch (error) {
                 console.error('Error loading post:', error);
                 alert('Error loading post');
@@ -1694,109 +2764,8 @@
         function closeModal() {
             document.getElementById('edit-modal').style.display = 'none';
             clearLocationSearch();
-            
-            // Clean up map
-            if (editMap) {
-                editMap.remove();
-                editMap = null;
-                editMapMarker = null;
-            }
         }
         
-        function initEditMap() {
-            // Remove existing map if it exists
-            if (editMap) {
-                editMap.remove();
-            }
-            
-            // Get current coordinates
-            const lat = parseFloat(document.getElementById('latitude').value) || 0;
-            const lng = parseFloat(document.getElementById('longitude').value) || 0;
-            
-            // Set default center (world center if no coordinates)
-            const mapCenter = (lat && lng) ? [lat, lng] : [20, 0];
-            const mapZoom = (lat && lng) ? 13 : 2;
-            
-            // Detect mobile
-            const isMobile = window.innerWidth <= 768;
-            
-            // Initialize map
-            editMap = L.map('edit-map', {
-                center: mapCenter,
-                zoom: mapZoom,
-                zoomControl: true
-            });
-            
-            // Add tile layer with dark theme
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors',
-                maxZoom: 19
-            }).addTo(editMap);
-            
-            // Add marker if coordinates exist
-            if (lat && lng) {
-                editMapMarker = L.marker([lat, lng])
-                    .addTo(editMap)
-                    .bindPopup(`${currentPost?.cafe_name || 'Location'}<br>Lat: ${lat.toFixed(4)}, Lng: ${lng.toFixed(4)}`)
-                    .openPopup();
-            }
-            
-            // Allow clicking on map to set location
-            editMap.on('click', function(e) {
-                const newLat = e.latlng.lat;
-                const newLng = e.latlng.lng;
-                
-                // Update form fields
-                document.getElementById('latitude').value = newLat.toFixed(6);
-                document.getElementById('longitude').value = newLng.toFixed(6);
-                
-                // Remove existing marker
-                if (editMapMarker) {
-                    editMap.removeLayer(editMapMarker);
-                }
-                
-                // Add new marker
-                editMapMarker = L.marker([newLat, newLng])
-                    .addTo(editMap)
-                    .bindPopup(`New Location<br>Lat: ${newLat.toFixed(4)}, Lng: ${newLng.toFixed(4)}`)
-                    .openPopup();
-            });
-            
-            // Listen for coordinate input changes
-            const latInput = document.getElementById('latitude');
-            const lngInput = document.getElementById('longitude');
-            
-            function updateMapFromInputs() {
-                const newLat = parseFloat(latInput.value);
-                const newLng = parseFloat(lngInput.value);
-                
-                if (newLat && newLng && !isNaN(newLat) && !isNaN(newLng)) {
-                    // Update map center
-                    editMap.setView([newLat, newLng], 13);
-                    
-                    // Remove existing marker
-                    if (editMapMarker) {
-                        editMap.removeLayer(editMapMarker);
-                    }
-                    
-                    // Add new marker
-                    editMapMarker = L.marker([newLat, newLng])
-                        .addTo(editMap)
-                        .bindPopup(`${currentPost?.cafe_name || 'Location'}<br>Lat: ${newLat.toFixed(4)}, Lng: ${newLng.toFixed(4)}`)
-                        .openPopup();
-                }
-            }
-            
-            latInput.addEventListener('change', updateMapFromInputs);
-            lngInput.addEventListener('change', updateMapFromInputs);
-            
-            // On mobile, invalidate size after a short delay to ensure proper rendering
-            if (isMobile) {
-                setTimeout(() => {
-                    editMap.invalidateSize();
-                }, 200);
-            }
-        }
         
         function clearLocationSearch() {
             // Clear the search input
@@ -1805,8 +2774,9 @@
                 searchInput.value = '';
             }
             
-            // Hide suggestions
+            // Hide suggestions and preview
             hideSuggestions();
+            hideGeocodePreview();
             
             // Clear search status
             const searchStatus = document.getElementById('search-status');
@@ -1868,21 +2838,104 @@
             }
         }
 
+        async function updatePostRating(postId, rating) {
+            try {
+                // Get the current post data to preserve all fields
+                const post = allPosts.find(p => p.id === postId);
+                if (!post) {
+                    console.error('Post not found:', postId);
+                    return;
+                }
+                
+                const response = await fetch(`${API_BASE}/posts/${postId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        ...post, 
+                        rating: rating,
+                        published: post.published || false // Ensure published field is included
+                    })
+                });
+
+                if (response.ok) {
+                    // Update the rating in the local data
+                    const post = allPosts.find(p => p.id === postId);
+                    if (post) {
+                        post.rating = rating;
+                    }
+                    
+                    // Update the visual rating in the card
+                    const ratingContainer = document.querySelector(`[data-post-id="${postId}"]`);
+                    if (ratingContainer) {
+                        // Update active states
+                        ratingContainer.querySelectorAll('.rating-star').forEach((star, index) => {
+                            star.classList.toggle('active', rating >= (index + 1));
+                        });
+                        
+                        // Update current rating display
+                        let currentRatingSpan = ratingContainer.querySelector('.current-rating');
+                        if (!currentRatingSpan) {
+                            currentRatingSpan = document.createElement('span');
+                            currentRatingSpan.className = 'current-rating';
+                            ratingContainer.appendChild(currentRatingSpan);
+                        }
+                        currentRatingSpan.textContent = rating === 6 ? '5+' : rating;
+                    }
+                    
+                    // Update the post meta line in the card to show new rating
+                    const postCard = ratingContainer.closest('.post-card');
+                    const metaDiv = postCard.querySelector('.post-meta');
+                    if (metaDiv && post) {
+                        const location = [post.city, post.country].filter(x => x && x !== 'Unknown').join(', ') || 'Unknown location';
+                        const date = post.date ? new Date(post.date).toLocaleDateString() : 'No date';
+                        const geoposition = (post.latitude && post.longitude) ? `${parseFloat(post.latitude).toFixed(4)}, ${parseFloat(post.longitude).toFixed(4)}` : 'No coordinates';
+                        metaDiv.innerHTML = `${location} • ${date} • 🌍 ${geoposition}${post.rating ? ` • ${'☕'.repeat(Math.min(post.rating, 5))}${post.rating === 6 ? '+' : ''}` : ''}`;
+                    }
+                    
+                    // Re-render posts to move between sections and update stats
+                    renderPosts();
+                    loadStats();
+                    
+                    console.log(`Updated rating for post ${postId} to ${rating}`);
+                } else {
+                    alert('Error updating post rating');
+                }
+            } catch (error) {
+                console.error('Error updating post rating:', error);
+                alert('Error updating post rating');
+            }
+        }
+
         function renderImagesList(images) {
             const container = document.getElementById('images-list');
             container.innerHTML = '';
             
-            // Add existing images as tiles
+            // Add existing images as tiles with drag-and-drop
             images.forEach((image, index) => {
                 const tile = document.createElement('div');
                 tile.className = 'image-tile';
+                tile.draggable = images.length > 1; // Only draggable if multiple images
+                tile.dataset.index = index;
+                
+                // Add drag handle (only show if there are multiple images)
                 tile.innerHTML = `
+                    ${images.length > 1 ? `<div class="drag-handle" title="Drag to reorder">⋮⋮</div>` : ''}
+                    <div class="image-position-indicator">${index + 1}</div>
                     <img src="${image.startsWith('/') ? '.' + image : image}" onerror="this.style.display='none'" alt="Image ${index + 1}" onclick="openImageModal('${image.startsWith('/') ? '.' + image : image}')">
                     <div class="image-tile-controls">
                         <input type="text" value="${image}" onchange="updateImage(${index}, this.value)" placeholder="Image URL">
                         <button type="button" class="remove-btn" onclick="removeImage(${index})">Remove</button>
                     </div>
                 `;
+                
+                // Add drag event listeners
+                tile.addEventListener('dragstart', handleDragStart);
+                tile.addEventListener('dragover', handleDragOver);
+                tile.addEventListener('drop', handleDrop);
+                tile.addEventListener('dragend', handleDragEnd);
+                tile.addEventListener('dragenter', handleDragEnter);
+                tile.addEventListener('dragleave', handleDragLeave);
+                
                 container.appendChild(tile);
             });
             
@@ -1892,6 +2945,64 @@
             addBtn.innerHTML = '+ Add Image';
             addBtn.onclick = addImageField;
             container.appendChild(addBtn);
+        }
+
+        // Drag and drop functionality
+        let draggedElement = null;
+        let draggedIndex = null;
+
+        function handleDragStart(e) {
+            draggedElement = this;
+            draggedIndex = parseInt(this.dataset.index);
+            this.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', this.outerHTML);
+        }
+
+        function handleDragOver(e) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+            e.dataTransfer.dropEffect = 'move';
+            return false;
+        }
+
+        function handleDragEnter(e) {
+            this.classList.add('drag-over');
+        }
+
+        function handleDragLeave(e) {
+            this.classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
+
+            if (draggedElement !== this) {
+                const dropIndex = parseInt(this.dataset.index);
+                const images = getCurrentImages();
+                
+                // Move the image in the array
+                const draggedImage = images[draggedIndex];
+                images.splice(draggedIndex, 1);
+                images.splice(dropIndex, 0, draggedImage);
+                
+                // Re-render the images list
+                renderImagesList(images);
+            }
+
+            return false;
+        }
+
+        function handleDragEnd(e) {
+            // Clean up
+            document.querySelectorAll('.image-tile').forEach(tile => {
+                tile.classList.remove('dragging', 'drag-over');
+            });
+            draggedElement = null;
+            draggedIndex = null;
         }
 
         function addImageField() {
@@ -2046,6 +3157,54 @@
                 card.style.display = text.includes(query) ? 'grid' : 'none';
             });
         });
+    </script>
+    
+    <script>
+    // Mobile menu functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const burgerMenu = document.getElementById('burger-menu');
+        const mobileNav = document.getElementById('mobile-nav');
+        const closeMobileNav = document.getElementById('close-mobile-nav');
+        const body = document.body;
+        
+        let scrollPosition = 0;
+        
+        if (burgerMenu && mobileNav) {
+            burgerMenu.addEventListener('click', function() {
+                scrollPosition = window.pageYOffset;
+                mobileNav.classList.add('open');
+                body.classList.add('mobile-scroll-disabled');
+                body.style.top = `-${scrollPosition}px`;
+            });
+            
+            if (closeMobileNav) {
+                closeMobileNav.addEventListener('click', function() {
+                    mobileNav.classList.remove('open');
+                    body.classList.remove('mobile-scroll-disabled');
+                    body.style.top = '';
+                    window.scrollTo(0, scrollPosition);
+                });
+            }
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!mobileNav.contains(e.target) && !burgerMenu.contains(e.target) && mobileNav.classList.contains('open')) {
+                    mobileNav.classList.remove('open');
+                    body.classList.remove('mobile-scroll-disabled');
+                    body.style.top = '';
+                    window.scrollTo(0, scrollPosition);
+                }
+            });
+            
+            // Close menu when clicking a nav link
+            mobileNav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileNav.classList.remove('open');
+                    body.classList.remove('mobile-scroll-disabled');
+                });
+            });
+        }
+    });
     </script>
 </body>
 </html>

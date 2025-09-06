@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Great lil surprise cafe on the YYC #worldcoffeetour @iloveyoucoffeeshop friendly folks, great coffee, and vinyl."
+title: Great lil surprise cafe on the YYC #worldcoffeetour @iloveyoucoffeeshop friendly folks, great coffee, and vinyl.
 date: "2025-07-18"
 city: Calgary
 country: Canada
@@ -8,8 +8,9 @@ continent: North America
 latitude: 51.0399777
 longitude: -114.0712532
 cafe_name: Iloveyoucoffeeshop
-notes: "Great lil surprise cafe on the YYC #worldcoffeetour @iloveyoucoffeeshop friendly folks, great coffee, and vinyl."
-images: 
+rating: 5
+notes: Great lil surprise cafe on the YYC #worldcoffeetour @iloveyoucoffeeshop friendly folks, great coffee, and vinyl.
+images:
   - /assets/images/posts/202507/521409069_18524925811001623_8338956731726746412_n_17898439845254612.jpg
   - /assets/images/posts/202507/520535167_18524926006001623_1401579601599488193_n_18095747965616525.jpg
   - /assets/images/posts/202507/521141522_18524925991001623_7787158084730764519_n_18071759048284188.jpg

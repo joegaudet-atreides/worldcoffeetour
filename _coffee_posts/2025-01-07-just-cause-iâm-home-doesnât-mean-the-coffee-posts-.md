@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Just cause I--m home doesn--t mean the coffee posts will stop, incredible pour over and sweet treats at @fifebakery in mount pleasant. #worldcoffeetour"
+title: "Just cause Iâm home doesnât mean the coffee posts will stop, incredible pour over and sweet treats at @fifebakery in mount pleasant. #worldcoffeetour"
 date: "2025-01-07"
 city: Vancouver
 country: Canada
@@ -8,8 +8,9 @@ continent: North America
 latitude: 49.2681492
 longitude: -123.103239
 cafe_name: Fifebakery
-notes: "Just cause I--m home doesn--t mean the coffee posts will stop, incredible pour over and sweet treats at @fifebakery in mount pleasant. #worldcoffeetour"
-images: 
+rating: 6
+notes: "Just cause Iâm home doesnât mean the coffee posts will stop, incredible pour over and sweet treats at @fifebakery in mount pleasant. #worldcoffeetour"
+images:
   - /assets/images/posts/202501/473035143_18488539756001623_5904283115140631792_n_18044187770021675.jpg
   - /assets/images/posts/202501/472085491_18488539768001623_5186243116126657421_n_18150783160353662.jpg
   - /assets/images/posts/202501/472992327_18488539777001623_3779936345129877282_n_18044828792217209.jpg
