@@ -7,6 +7,9 @@ baseurl: ""
 url: "https://worldcoffeetour.joegaudet.com"
 instagram_username: joegaudet
 
+# Google Analytics
+google_analytics: G-92R6GHM89Z
+
 # Build settings
 markdown: kramdown
 plugins:
